@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby '3.3.5'
+ruby "3.3.5"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.0.0"
@@ -17,7 +17,7 @@ gem "turbo-rails"
 gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
-# Styling
+# Styling: rubocop -a
 gem "rubocop"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
@@ -57,21 +57,21 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
-  gem 'pg'
-  gem 'rails_12factor'
+  gem "pg"
+  gem "rails_12factor"
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-  gem 'byebug'
-  gem 'launchy'
-  gem 'rspec', '~>3.5'
-  gem 'rspec-rails'
-  gem 'guard-rspec'
-  gem 'rspec-expectations'
-  gem 'cucumber-rails'
-  gem 'database_cleaner'
-  gem 'simplecov', '~> 0.22.0'
+  gem "byebug"
+  gem "launchy"
+  gem "rspec", "~>3.5"
+  gem "rspec-rails"
+  gem "guard-rspec"
+  gem "rspec-expectations"
+  gem "cucumber-rails", :require => false
+  gem "database_cleaner"
+  gem "simplecov", "~> 0.22.0"
 end
