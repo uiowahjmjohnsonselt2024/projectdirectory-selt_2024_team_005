@@ -52,6 +52,7 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+  gem "rspec-rails"
 end
 
 group :development do
@@ -68,10 +69,9 @@ group :test do
   gem "byebug"
   gem "launchy"
   gem "rspec", "~>3.5"
-  gem "rspec-rails"
   gem "guard-rspec"
   gem "rspec-expectations"
-  gem "cucumber-rails", :require => false
+  gem "cucumber-rails", require: false
   gem "database_cleaner"
   gem "simplecov", "~> 0.22.0"
 end
