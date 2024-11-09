@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "users/new"
+  get "users/create"
   get "characters/index"
   get "characters/show"
   get "characters/new"
