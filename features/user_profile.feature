@@ -4,7 +4,7 @@ Feature: Check balance in profile
   So I know how much money I have
 
   Scenario: User checks their balance
-    Given I am logged in as a user
+    Given I have an account
     And I have a balance of $100
     When I go to my profile page
     Then I should see my current balance
