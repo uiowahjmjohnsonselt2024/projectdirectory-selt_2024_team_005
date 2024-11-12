@@ -1,2 +1,0 @@
-class Grid < ApplicationRecord
-end
