@@ -7,7 +7,7 @@ class CreateUsers < ActiveRecord::Migration[7.2]
       t.timestamps
     end
     create_table :characters do |t|
-      t.belongs_to :users, null: false, foreign_key: true
+      t.belongs_to :user, null: false, foreign_key: true
       t.string :character_name, null: false, primary_key: true
       t.string :username, null: false
       t.integer :health, null: false
