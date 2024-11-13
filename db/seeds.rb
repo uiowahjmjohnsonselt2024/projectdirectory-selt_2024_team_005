@@ -18,3 +18,9 @@
 @character = Character.create!(username: @user.username, character_name: 'Hawkeye',
                                shard_balance: 0, health: 100, experience: 0, level: 1,
                                grid_id: @grid.grid_id, cell_id: @cell.cell_id, inv_id: @inventory.inv_id)
+
+@inventory2 = Inventory.create!(inv_id: 2, items: [ @item1, @item2 ])
+@user2 = User.create!(username: 'abcd2', email: 'student2@uiowa.edu', password_digest: '54321')
+@character2 = Character.create!(username: @user2.username, character_name: 'Hawkeye2',
+                               shard_balance: 0, health: 100, experience: 0, level: 1,
+                               grid_id: @grid.grid_id, cell_id: @cell.cell_id, inv_id: @inventory.inv_id)

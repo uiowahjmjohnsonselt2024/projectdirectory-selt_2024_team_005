@@ -48,3 +48,13 @@ Then(/^my current balance should have 10 shards$/) do
   visit user_path(@user.username)
   expect(page).to have_content('Current balance: 10 shards')
 end
+
+When(/^I delete my account$/) do
+  click_button('Delete account')
+  # page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoAlertOpenError
+  # expect(page).to have_content('Your account has been successfully deleted.')
+end
+
+Then(/^my account should be deleted$/) do
+  expect(page).to have_content('Your account has been successfully deleted.')
+end
