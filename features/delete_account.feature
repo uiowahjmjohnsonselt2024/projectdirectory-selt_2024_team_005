@@ -1,11 +1,11 @@
-Feature: Check balance in profile
+Feature: Delete account in profile
   As a current user
-  I want to be able to check the balance in my profile
-  So I know how much money I have
+  I want to be able to delete my account
+  So that I remove myself from the game.
 
-  Scenario: User checks their balance
+  Scenario: User deletes their account
     Given I have an account
-    And I have a balance of $100
-    When I go to my profile page
-    Then I should see my current balance
+    And I go to my profile page
+    And I delete my account
+    Then my account should be deleted
 
