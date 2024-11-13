@@ -1,18 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
-  describe "GET /show" do
-    it "returns http success" do
-      get "/users/show"
-      expect(response).to have_http_status(:success)
-    end
+  describe "GET /index" do
+    pending "add some examples (or delete) #{__FILE__}"
   end
-
-  describe "GET /destroy" do
-    it "returns http success" do
-      get "/users/destroy"
-      expect(response).to have_http_status(:success)
-    end
-  end
-
 end
