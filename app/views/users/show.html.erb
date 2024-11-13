@@ -1,16 +1,6 @@
 <h1>Hello <%= @user.username %>!</h1>
 <p>Current balance: <%= @character.shard_balance %> shards</p>
 
-<h3>Buy more shards?</h3>
-<%= form_with url: buy_shards_path, method: :post do |f| %>
-  <%= f.radio_button :shards, 5 %> 5 shards <br>
-  <%= f.radio_button :shards, 10 %> 10 shards <br>
-  <%= f.radio_button :shards, 15 %> 15 shards <br>
-  <%= f.radio_button :shards, 20 %> 20 shards <br>
-
-  <p>Price: [currency]</p>
-
-  <%= f.submit 'Confirm' %>
-<% end %>
+<%= link_to 'Buy more shards', buy_shards_user_path(@user.username), class: 'btn btn-primary' %>
 
 <%= button_to 'Delete account', user_path(@user), method: :delete, data: { confirm: 'Are you sure you want to delete your account?' } %>

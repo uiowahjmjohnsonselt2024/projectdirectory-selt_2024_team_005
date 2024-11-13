@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
-  # get "users/show"
-  resources :users, param: :username, only: [ :show ]
-  get "users/destroy"
+  resources :users, param: :username, only: [ :show, :destroy ] do
+    member do
+      get "buy_shards"
+      post "process_payment"
+    end
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
