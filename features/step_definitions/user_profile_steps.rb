@@ -28,3 +28,23 @@ Then(/^I should see my current balance$/) do
   @character = Character.find_by(username: @user.username)
   expect(page).to have_content("Current balance: #{@character.shard_balance} shards")
 end
+
+When(/^I buy 10 shards with a credit card$/) do
+  visit buy_shards_user_path(@user.username)
+
+  # Select 10 shards radio button
+  choose('shards_10')
+
+  # Fill in credit card information (basic placeholders)
+  fill_in 'cc_number', with: '1234567812345678'
+  fill_in 'cc_expiration', with: '12/25'
+  fill_in 'cc_cvv', with: '123'
+
+  # Click on the pay button
+  click_button 'Pay'
+end
+
+Then(/^my current balance should have 10 shards$/) do
+  visit user_path(@user.username)
+  expect(page).to have_content('Current balance: 10 shards')
+end
