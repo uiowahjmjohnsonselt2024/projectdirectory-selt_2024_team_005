@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # get "users/show"
-  resources :users, param: :username, only: [:show]
+  resources :users, param: :username, only: [ :show ]
   get "users/destroy"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
