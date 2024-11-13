@@ -1,6 +1,8 @@
 require 'rails_helper'
 RSpec.describe UsersController, type: :controller do
   let(:user) { User.create!(username: 'awesomehawkeye', email: 'awesome@uiowa.edu', password_digest: '12345') }
+  let(:grid) { Grid.create!(id: 1, name: 'Test Grid') }
+  let(:inventory) { Inventory.create!(inv_id: 1) }
   let(:cell) { Cell.create!(id: 1, grid_id: 1, cell_loc: '1A', mons_prob: 0.3, disaster_prob: 0.3, weather: 'Sunny', terrain: 'desert', has_store: true) }
   let(:character) { Character.create!(username: user.username, character_name: 'Hawkeye', shard_balance: 0,
                                       health: 100, experience: 0, level: 1, grid_id: 1, cell_id: 1, inv_id: 1) }
@@ -60,6 +62,12 @@ end
 
   describe 'POST #process_payment' do
     context 'with valid shard amount and credit card information' do
+      before do
+        grid
+        cell
+        inventory
+        character
+      end
       it 'updates the shard balance' do
         post :process_payment, params: {
           username: user.username,
