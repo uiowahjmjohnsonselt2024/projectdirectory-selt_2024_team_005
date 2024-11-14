@@ -200,12 +200,10 @@
         <option value="active_record:application_record" />
         <option value="active_record:multi_db" />
         <option value="application_record" />
-        <option value="authentication" />
         <option value="benchmark" />
         <option value="channel" />
         <option value="controller" />
         <option value="cucumber:install" />
-        <option value="erb:authentication" />
         <option value="generator" />
         <option value="helper" />
         <option value="integration_test" />
@@ -232,7 +230,6 @@
         <option value="rspec:view" />
         <option value="scaffold" />
         <option value="scaffold_controller" />
-        <option value="script" />
         <option value="solid_cable:install" />
         <option value="solid_cable:update" />
         <option value="solid_cache:install" />
@@ -240,7 +237,6 @@
         <option value="stimulus" />
         <option value="system_test" />
         <option value="task" />
-        <option value="test_unit:authentication" />
         <option value="test_unit:channel" />
         <option value="test_unit:controller" />
         <option value="test_unit:generator" />
@@ -261,12 +257,10 @@
         <option value="active_record:application_record" />
         <option value="active_record:multi_db" />
         <option value="application_record" />
-        <option value="authentication" />
         <option value="benchmark" />
         <option value="channel" />
         <option value="controller" />
         <option value="cucumber:install" />
-        <option value="erb:authentication" />
         <option value="generator" />
         <option value="helper" />
         <option value="integration_test" />
@@ -293,7 +287,6 @@
         <option value="rspec:view" />
         <option value="scaffold" />
         <option value="scaffold_controller" />
-        <option value="script" />
         <option value="solid_cable:install" />
         <option value="solid_cable:update" />
         <option value="solid_cache:install" />
@@ -301,7 +294,6 @@
         <option value="stimulus" />
         <option value="system_test" />
         <option value="task" />
-        <option value="test_unit:authentication" />
         <option value="test_unit:channel" />
         <option value="test_unit:controller" />
         <option value="test_unit:generator" />
