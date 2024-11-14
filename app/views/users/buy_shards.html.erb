@@ -1,0 +1,51 @@
+<h1>Buy Shards</h1>
+
+<%= form_with url: process_payment_user_path(@user.username), method: :post do |f| %>
+  <div>
+    <%= f.radio_button :shards, 5, id: 'shards_5' %>
+    <%= f.label :shards_5, '5 shards' %><br>
+
+    <%= f.radio_button :shards, 10, id: 'shards_10' %>
+    <%= f.label :shards_10, '10 shards' %><br>
+
+    <%= f.radio_button :shards, 15, id: 'shards_15' %>
+    <%= f.label :shards_15, '15 shards' %><br>
+
+    <%= f.radio_button :shards, 20, id: 'shards_20' %>
+    <%= f.label :shards_20, '20 shards' %><br>
+  </div>
+
+  <p>Price: $<span id="price">0.00</span></p>
+
+  <h3>Credit Card Information</h3>
+  <div>
+    <%= f.label :cc_number, "Credit Card Number" %><br>
+    <%= f.text_field :cc_number %><br>
+
+    <%= f.label :cc_expiration, "Expiration Date (MM/YY)" %><br>
+    <%= f.text_field :cc_expiration %><br>
+
+    <%= f.label :cc_cvv, "CVV" %><br>
+    <%= f.text_field :cc_cvv %><br>
+  </div>
+
+  <%= f.submit 'Pay' %>
+<% end %>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        function updatePrice() {
+            var selectedShard = document.querySelector('input[name="shards"]:checked');
+            var price = selectedShard ? parseInt(selectedShard.value) : 0;
+            document.getElementById('price').innerText = price.toFixed(2);
+        }
+
+        var radios = document.querySelectorAll('input[name="shards"]');
+        radios.forEach(function(radio) {
+            radio.addEventListener('change', updatePrice);
+        });
+
+        // Initialize the price display
+        updatePrice();
+    });
+</script>

@@ -73,5 +73,6 @@ group :test do
   gem "rspec-expectations"
   gem "cucumber-rails", "~> 3.0", require: false
   gem "database_cleaner"
+  gem "rails-controller-testing"
   gem "simplecov", "~> 0.22.0"
 end
