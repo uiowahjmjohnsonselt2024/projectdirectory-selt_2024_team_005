@@ -18,6 +18,9 @@ Rails.application.routes.draw do
 
   get "/favicon.ico", to: redirect("/path/to/default/favicon.ico")
 
+  get "password/reset", to: "password_resets#new"
+  post "password/reset", to: "password_resets#create"
+
   root "home#index"
 
   # Defines the root path route ("/")
