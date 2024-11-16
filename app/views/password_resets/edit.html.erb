@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <style>
+      body {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+          font-family: Arial, sans-serif;
+          background-color: #2e2e2e; /* Slightly dark background */
+          color: white; /* Make text white */
+      }
+      .form-container {
+          text-align: center;
+          background-color: #3a3a3a; /* Dark container background */
+          padding: 40px; /* Increase padding for more space */
+          border-radius: 10px;
+          box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+          color: white; /* Ensure text inside container is white */
+          width: 100%;
+          max-width: 400px; /* Set a max width for the container */
+      }
+      .form-container h1,
+      .form-container h2 {
+          margin-bottom: 20px; /* Increase space between header and form */
+          color: grey;
+      }
+      .form-field {
+          margin-bottom: 20px; /* Increase space between form fields */
+      }
+      .form-field label {
+          display: block;
+          margin-bottom: 5px;
+          color: white;
+      }
+      .form-field input {
+          width: 100%;
+          padding: 10px; /* Increase padding inside input fields */
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          background-color: #4b4b4b;
+          color: white;
+      }
+      .form-field input::placeholder {
+          color: #d3d3d3; /* Light grey placeholder */
+      }
+      .btn {
+          background-color: #5a5a5a;
+          color: white;
+          border: none;
+          padding: 12px 25px; /* Increase button padding */
+          border-radius: 5px;
+          cursor: pointer;
+          margin-bottom: 15px; /* Space between buttons */
+      }
+      .btn:hover {
+          background-color: #6a6a6a;
+      }
+      .btn-link {
+          display: inline-block;
+          margin-top: 10px; /* Space between login button and links */
+          color: white;
+      }
+      .btn-link:hover {
+          color: #bbb;
+      }
+  </style>
+</head>
+<body>
+<div class="form-container">
+  <h1>Shards of the Grid</h1>
+  <h2>Reset your password</h2>
+  <%= form_with model: @user, url: password_reset_edit_path(token: params[:token]) do |form| %>
+    <div class="form-field">
+      <%= form.label :password, "Password:" %>
+      <%= form.text_field :password, required: true %>
+    </div>
+    <div class="form-field">
+      <%= form.label :password_confirmation, "Confirm Password:" %>
+      <%= form.text_field :password_confirmation, required: true %>
+    </div>
+    <% flash.each do |type, msg| %>
+      <div>
+        <%= msg %>
+      </div>
+    <% end %>
+    <div>
+      <%= form.submit "Reset Password", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
+</body>
+</html>
