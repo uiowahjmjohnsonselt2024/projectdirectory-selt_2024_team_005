@@ -11,4 +11,20 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  # config/routes.rb
+  Rails.application.routes.draw do
+    resources :grids do
+      resources :cells, only: [] do
+        member do
+          post 'interact'
+        end
+      end
+    end
+    root 'grids#index'
+  end
+
+  resources :cells, only: [:show]
+
+
 end

@@ -2,6 +2,7 @@ class CellsController < ApplicationController
   before_action :set_cell, only: [:show, :update]
 
   def show
+    @cell = Cell.find(params[:id])
   end
 
   def update

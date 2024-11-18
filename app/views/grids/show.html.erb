@@ -1,0 +1,20 @@
+<h1>Grid <%= @grid.grid_id %></h1>
+
+<div class="grid-container">
+  <% @grid_matrix.each do |row| %>
+    <div class="grid-row">
+      <% row.each do |cell| %>
+        <% css_class = cell.cell_loc == 'R0C0' ? 'grid-cell safe-zone' : 'grid-cell' %>
+        <%= link_to cell.cell_loc, cell_path(cell), class: css_class %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+
+<div id="cell-details" class="cell-details">
+  <h2>Hey!</h2>
+  <div id="details-content">
+    Click the Cell to check details
+  </div>
+</div>

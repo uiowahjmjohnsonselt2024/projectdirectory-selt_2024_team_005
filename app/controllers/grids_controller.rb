@@ -1,36 +1,46 @@
 class GridsController < ApplicationController
-
-  # before_action :authenticate_user!  # Use Devise to ensure that Logged
+  def index
+    @grids = Grid.all
+  end
 
   def new
-
+    @grid = Grid.new
   end
 
   def create
-    @grid = Grid.create
-    @current_cell = @grid.cells.find_by(row: 0, col: 0)
+    @grid = Grid.new(grid_params)
+    if @grid.save
+      flash[:notice] = "Successfully generate a new grid!"
+      redirect_to @grid
+    else
+      flash[:notice] = "Unsuccessfully generate a new grid!"
+      render :new
+    end
+  end
+
+  def destroy
+    @grid = Grid.find_by(grid_id: params[:id])
+    flash[:notice] = "Wait for codes"
+    redirect_to grids_path
+  end
+
+  def edit
+    @grid = Grid.find_by(grid_id: params[:id])
+    flash[:alert] = "Wait for codes"
+    redirect_to grids_path
   end
 
   def show
-    @grid = Grid.find(params[:id])
-  end
-
-  def move
-    # Suppose that current_position is stored in session
-    current_position = session[:current_position] || { row: 0, col: 0 }
-    # Get direction from request
-    direction = params[:direction]
-
-    case direction
-    when 'left'
-      current_position[:col] -= 1 if current_position[:col] > 0
-    when 'right'
-      current_position[:col] += 1 if current_position[:col] < 5
+    @grid = Grid.find_by(grid_id: params[:id])
+    if @grid.nil?
+      flash[:error] = "Grid not found"
+      redirect_to grids_path
+    else
+      @cells = @grid.cells.order(:cell_id)
+      @grid_matrix = @cells.each_slice(6).to_a
     end
-
-    # Update session
-    session[:current_position] = current_position
-    redirect_to grid_path
   end
 
+  private
 end
+
