@@ -3,6 +3,9 @@ class CellsController < ApplicationController
 
   def show
     @cell = Cell.find(params[:id])
+    respond_to do |format|
+      format.json { render json: @cell }
+    end
   end
 
   def update

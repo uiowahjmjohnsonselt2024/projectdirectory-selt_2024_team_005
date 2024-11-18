@@ -1,20 +1,23 @@
-<h1>Grid <%= @grid.grid_id %></h1>
+<div data-controller="grid">
+  <div class="grid-container">
+    <% @grid_matrix.each do |row| %>
+      <div class="grid-row">
+        <% row.each do |cell| %>
+          <% css_class = cell.cell_loc == 'R0C0' ? 'grid-cell safe-zone' : 'grid-cell' %>
+          <div class="<%= css_class %>"
+               data-action="click->grid#showDetails"
+               data-cell-id="<%= cell.id %>">
+            <%= cell.cell_loc %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 
-<div class="grid-container">
-  <% @grid_matrix.each do |row| %>
-    <div class="grid-row">
-      <% row.each do |cell| %>
-        <% css_class = cell.cell_loc == 'R0C0' ? 'grid-cell safe-zone' : 'grid-cell' %>
-        <%= link_to cell.cell_loc, cell_path(cell), class: css_class %>
-      <% end %>
+  <div id="cell-details" data-grid-target="details">
+    <h2>Cell Details</h2>
+    <div>
+      Select a cell to see the details!
     </div>
-  <% end %>
-</div>
-
-
-<div id="cell-details" class="cell-details">
-  <h2>Hey!</h2>
-  <div id="details-content">
-    Click the Cell to check details
   </div>
 </div>

@@ -49,3 +49,11 @@
     font-weight: bold;
     border-radius: 50%; /* 使安全区看起来更突出 */
 }
+
+/* 在你的 CSS 文件中加入以下样式以实现颜色加深效果 */
+/* app/assets/stylesheets/application.css 或其他样式文件中 */
+
+.grid-cell.selected {
+    background-color: rgba(0, 0, 0, 0.1); /* 将颜色加深，具体颜色可以根据需求调整 */
+    border: 2px solid #000; /* 添加一个明显的边框，用户更容易看到选中状态 */
+}
