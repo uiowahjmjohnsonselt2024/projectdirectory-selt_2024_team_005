@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <style>
+      body {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+          font-family: Arial, sans-serif;
+          background-color: #2e2e2e; /* Slightly dark background */
+          color: white; /* Make text white */
+      }
+      .login-container {
+          text-align: center;
+          background-color: #3a3a3a; /* Dark container background */
+          padding: 30px;
+          border-radius: 10px;
+          box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+          color: white; /* Ensure text inside container is white */
+      }
+      .login-container h1,
+      .login-container h2 {
+          margin-bottom: 15px;
+          color: grey;
+      }
+      .form-field {
+          margin-bottom: 15px;
+      }
+      .form-field label {
+          display: block;
+          margin-bottom: 5px;
+          color: white;
+      }
+      .form-field input {
+          width: 100%;
+          padding: 8px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          background-color: #4b4b4b;
+          color: white;
+      }
+      .form-field input::placeholder {
+          color: #d3d3d3; /* Light grey placeholder */
+      }
+      .btn {
+          background-color: #5a5a5a;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 5px;
+          cursor: pointer;
+      }
+      .btn:hover {
+          background-color: #6a6a6a;
+      }
+  </style>
+</head>
+<body>
+<div class="login-container">
+  <h1>Shards of the Grid</h1>
+  <h2>Login</h2>
+  <%= form_with(url: login_path, method: "post") do |form| %>
+    <div class="form-field">
+      <%= form.label :username, "Username:" %>
+      <%= form.text_field :username, required: true %>
+    </div>
+    <div class="form-field">
+      <%= form.label :password, "Password:" %>
+      <%= form.password_field :password, required: true %>
+    </div>
+    <div>
+      <%= form.submit "Log In", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
+</body>
+</html>

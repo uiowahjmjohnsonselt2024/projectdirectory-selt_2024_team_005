@@ -9,6 +9,13 @@ Rails.application.routes.draw do
   get "user/new"
   get "users/create"
 
+  get "login/new"
+  get "login/create"
+  get "login/destroy"
+  get "login/new", to: "login#new"
+  post "login", to: "login#create"
+  delete "logout", to: "login#destroy"
+
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -23,7 +30,8 @@ Rails.application.routes.draw do
 
   get "/favicon.ico", to: redirect("/path/to/default/favicon.ico")
 
-  root "home#index"
+  #root "home#index"
+   root 'login#new'
 
   # Defines the root path route ("/")
   # root "posts#index"
