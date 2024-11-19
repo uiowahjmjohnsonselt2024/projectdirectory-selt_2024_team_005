@@ -12,9 +12,18 @@ Rails.application.routes.draw do
   get "login/new"
   get "login/create"
   get "login/destroy"
+
+  #Login Routes
   get "login/new", to: "login#new"
   post "login", to: "login#create"
   delete "logout", to: "login#destroy"
+
+  #Signup Routes
+  get "signup", to: "users#new"
+  post 'signup', to: 'users#create'
+
+  #Forgot Password Routes
+  get "forgot_password", to: "users#forgot_password"
 
 
 
