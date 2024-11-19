@@ -28,6 +28,10 @@
 <% end %>
 
 <script>
+    var exchangeRates = <%= @exchange_rates.to_json.html_safe %>;
+</script>
+
+<script>
     document.addEventListener("DOMContentLoaded", function() {
         var amountField = document.querySelector('#amount');
         var currencyField = document.querySelector('#currency');
