@@ -59,11 +59,3 @@ Then(/^my account should be deleted$/) do
   # expect(page).to have_current_path(root_path)
   expect(page).to have_content('Your account has been successfully deleted.')
 end
-
-Then(/^I click on 10 shards$/) do
-  find('#shards_10').click
-end
-
-Then(/^I should see payment amount updated to 10$/) do
-  expect(page).to have_selector('#price', text: '10.00')
-end
