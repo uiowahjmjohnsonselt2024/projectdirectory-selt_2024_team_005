@@ -66,6 +66,25 @@ class UsersController < ApplicationController
     end
   end
 
+
+  def new
+    @user = User.new
+  end
+
+  def create
+    @user = User.new(user_params)
+    if @user.save
+      redirect_to login_path, notice: 'Account successfully created! Please log in.'
+    else
+      render :new
+    end
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:username, :password, :password_confirmation)
+  end
   def destroy
     @user = User.find_by!(username: params[:username])
     @user.destroy
