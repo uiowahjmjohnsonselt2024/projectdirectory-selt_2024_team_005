@@ -19,6 +19,7 @@ gem "stimulus-rails"
 gem "jbuilder"
 # Styling: rubocop -a
 gem "rubocop"
+gem "open_exchange_rates"
 
 gem "stringio", "3.1.2"
 
