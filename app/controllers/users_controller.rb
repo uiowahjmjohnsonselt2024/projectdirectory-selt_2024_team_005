@@ -8,12 +8,13 @@ class UsersController < ApplicationController
     @currencies = %w[USD EUR GBP JPY AUD CAD CHF CNY SEK NZD]
     @user = User.find_by!(username: params[:username])
     @character = Character.find_by(username: params[:username])
+    @exchange_rates = @currencies.each_with_object({}) do |currency, rates|
+      rates[currency] = @user.get_exchange_rate(currency)
+    end
   end
 
   def process_payment
     @user = User.find_by!(username: params[:username])
-    # @shards = params[:shards].to_i
-
     @amount = params[:amount].to_f
     @currency = params[:currency]
     # Validate inputs
@@ -22,7 +23,7 @@ class UsersController < ApplicationController
       redirect_to buy_shards_user_path(@user.username) and return
     end
     # Currency exchange
-    exchange_rate = get_exchange_rate(@currency)
+    exchange_rate = @user.get_exchange_rate(@currency)
     amount_in_usd = @amount / exchange_rate
     shards_to_credit = amount_in_usd.floor
 
@@ -71,23 +72,6 @@ class UsersController < ApplicationController
       flash[:alert] = "Unable to update shard balance."
       redirect_to user_path(@user.username)
     end
-  end
-
-  def get_exchange_rate(currency)
-    # Simulate exchange rates for the purpose of this mock system
-    exchange_rates = {
-      'USD' => 1.0,
-      'EUR' => 0.85,
-      'GBP' => 0.75,
-      'JPY' => 110.0,
-      'AUD' => 1.35,
-      'CAD' => 1.25,
-      'CHF' => 0.90,
-      'CNY' => 6.5,
-      'SEK' => 8.5,
-      'NZD' => 1.4
-    }
-    exchange_rates[currency] || 1.0
   end
 
   def destroy

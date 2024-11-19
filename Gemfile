@@ -19,6 +19,7 @@ gem "stimulus-rails"
 gem "jbuilder"
 # Styling: rubocop -a
 gem "rubocop"
+gem "open_exchange_rates"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"

@@ -1,5 +1,5 @@
 <h1>Buy Shards</h1>
-<h4>Shards are 1:1 backed by US Dollar. </h4>
+<h3>Shards are 1:1 backed by US Dollar. </h3>
 
 <%= form_with url: process_payment_user_path(@user.username), method: :post, local: true do |f| %>
   <div>
@@ -28,6 +28,10 @@
 <% end %>
 
 <script>
+    var exchangeRates = <%= @exchange_rates.to_json.html_safe %>;
+</script>
+
+<script>
     document.addEventListener("DOMContentLoaded", function() {
         var amountField = document.querySelector('#amount');
         var currencyField = document.querySelector('#currency');
@@ -38,22 +42,9 @@
             var currency = currencyField.value;
 
             if (currency) {
-                // Simulate exchange rates (should match those in the controller)
-                var exchangeRates = {
-                    'USD': 1.0,
-                    'EUR': 0.85,
-                    'GBP': 0.75,
-                    'JPY': 110.0,
-                    'AUD': 1.35,
-                    'CAD': 1.25,
-                    'CHF': 0.90,
-                    'CNY': 6.5,
-                    'SEK': 8.5,
-                    'NZD': 1.4
-                };
                 var rate = exchangeRates[currency] || 1.0;
                 var amountInUSD = amount / rate;
-                var estimatedShards = Math.floor(amountInUSD); // Round to 2 decimal places
+                var estimatedShards = Math.floor(amountInUSD); // Round down to nearest integer
                 shardsDisplay.innerText = estimatedShards;
             } else {
                 shardsDisplay.innerText = '0';
