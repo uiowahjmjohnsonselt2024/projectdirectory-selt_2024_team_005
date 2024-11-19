@@ -15,6 +15,7 @@ class UsersController < ApplicationController
 
   def process_payment
     @user = User.find_by!(username: params[:username])
+
     @amount = params[:amount].to_f
     @currency = params[:currency]
     # Validate inputs
