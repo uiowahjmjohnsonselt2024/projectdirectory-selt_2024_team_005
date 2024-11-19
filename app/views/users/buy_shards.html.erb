@@ -1,21 +1,16 @@
 <h1>Buy Shards</h1>
+<h4>Shards are 1:1 backed by US Dollar. </h4>
 
-<%= form_with url: process_payment_user_path(@user.username), method: :post do |f| %>
+<%= form_with url: process_payment_user_path(@user.username), method: :post, local: true do |f| %>
   <div>
-    <%= f.radio_button :shards, 5, id: 'shards_5' %>
-    <%= f.label :shards_5, '5 shards' %><br>
+    <%= f.label :amount, "Enter Amount" %><br>
+    <%= f.number_field :amount, step: 0.01, min: 0 %><br><br>
 
-    <%= f.radio_button :shards, 10, id: 'shards_10' %>
-    <%= f.label :shards_10, '10 shards' %><br>
-
-    <%= f.radio_button :shards, 15, id: 'shards_15' %>
-    <%= f.label :shards_15, '15 shards' %><br>
-
-    <%= f.radio_button :shards, 20, id: 'shards_20' %>
-    <%= f.label :shards_20, '20 shards' %><br>
+    <%= f.label :currency, "Select Currency" %><br>
+    <%= f.select :currency, @currencies, include_blank: 'Select Currency' %><br><br>
   </div>
 
-  <p>Price: $<span id="price">0.00</span></p>
+  <p>Estimated Shards: <span id="shards">0</span></p>
 
   <h3>Credit Card Information</h3>
   <div>
@@ -34,18 +29,38 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        function updatePrice() {
-            var selectedShard = document.querySelector('input[name="shards"]:checked');
-            var price = selectedShard ? parseInt(selectedShard.value) : 0;
-            document.getElementById('price').innerText = price.toFixed(2);
+        var amountField = document.querySelector('#amount');
+        var currencyField = document.querySelector('#currency');
+        var shardsDisplay = document.getElementById('shards');
+
+        function updateShards() {
+            var amount = parseFloat(amountField.value) || 0;
+            var currency = currencyField.value;
+
+            if (currency) {
+                // Simulate exchange rates (should match those in the controller)
+                var exchangeRates = {
+                    'USD': 1.0,
+                    'EUR': 0.85,
+                    'GBP': 0.75,
+                    'JPY': 110.0,
+                    'AUD': 1.35,
+                    'CAD': 1.25,
+                    'CHF': 0.90,
+                    'CNY': 6.5,
+                    'SEK': 8.5,
+                    'NZD': 1.4
+                };
+                var rate = exchangeRates[currency] || 1.0;
+                var amountInUSD = amount / rate;
+                var estimatedShards = Math.floor(amountInUSD); // Round to 2 decimal places
+                shardsDisplay.innerText = estimatedShards;
+            } else {
+                shardsDisplay.innerText = '0';
+            }
         }
 
-        var radios = document.querySelectorAll('input[name="shards"]');
-        radios.forEach(function(radio) {
-            radio.addEventListener('change', updatePrice);
-        });
-
-        // Initialize the price display
-        updatePrice();
+        amountField.addEventListener('input', updateShards);
+        currencyField.addEventListener('change', updateShards);
     });
 </script>
