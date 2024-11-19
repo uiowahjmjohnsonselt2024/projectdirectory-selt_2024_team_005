@@ -1,5 +1,5 @@
 <h1>Buy Shards</h1>
-<h3>Shards are 1:1 backed by US Dollar. </h3>
+<h3>Shards are 1:1 backed by US Dollar. Exchange rate retrived from open exchange rates API. </h3>
 
 <%= form_with url: process_payment_user_path(@user.username), method: :post, local: true do |f| %>
   <div>
