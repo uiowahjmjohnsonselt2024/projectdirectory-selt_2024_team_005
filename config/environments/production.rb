@@ -104,7 +104,7 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   # Mailer configuration
-  config.action_mailer.default_url_options = { host: "glacial-depths-34001-7e65498b3833.herokuapp.com"}
+  config.action_mailer.default_url_options = { host: "glacial-depths-34001-7e65498b3833.herokuapp.com", protocol: "https" }
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
