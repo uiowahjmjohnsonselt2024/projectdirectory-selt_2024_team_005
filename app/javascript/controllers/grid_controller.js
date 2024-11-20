@@ -9,16 +9,16 @@ export default class extends Controller {
     }
 
     showDetails(event) {
-        // 获取被点击的 cell 元素
+        // Get the cell element that is clicked
         const cell = event.currentTarget;
         const cellId = cell.getAttribute("data-cell-id");
         console.log(`Cell ${cellId} clicked`);
 
-        // 使用 AJAX 请求获取单元格的详细信息
+        // Use AJAX requests to fetch cell details
         fetch(`/cells/${cellId}`)
             .then(response => response.json())
             .then(data => {
-                // 更新页面右侧的详细信息部分
+                // Update the details section on the page
                 this.detailsTarget.innerHTML = `
           <p><strong>Cell Location:</strong> ${data.cell_loc}</p>
           <p><strong>Monster Probability:</strong> ${data.mons_prob}</p>
@@ -28,20 +28,20 @@ export default class extends Controller {
           <p><strong>Has Store:</strong> ${data.has_store ? 'Yes' : 'No'}</p>
         `;
 
-                // 调用方法来高亮选中的 cell
+                // Call the "highlightSelectedCell" method to highlight the selected cell
                 this.highlightSelectedCell(cell);
             })
             .catch(error => console.error('Error fetching cell details:', error));
     }
 
     highlightSelectedCell(selectedCell) {
-        // 移除之前被选中单元格的样式
+        // Remove the style of the previously selected cell
         const previouslySelected = document.querySelector(".grid-cell.selected");
         if (previouslySelected) {
             previouslySelected.classList.remove("selected");
         }
 
-        // 给当前选中的单元格添加样式
+        // Add a style to the currently selected cell
         selectedCell.classList.add("selected");
     }
 }
