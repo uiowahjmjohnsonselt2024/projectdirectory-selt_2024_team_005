@@ -23,7 +23,10 @@ Rails.application.routes.draw do
   post 'signup', to: 'users#create'
 
   #Forgot Password Routes
-  get "forgot_password", to: "users#forgot_password"
+  get "forgot-password", to: "password_resets#new"
+  post "forgot-password", to: "password_resets#create"
+  get "forgot-password/edit", to: "password_resets#edit"
+  patch "forgot-password/edit", to: "password_resets#update"
 
 
 
@@ -38,11 +41,6 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   get "/favicon.ico", to: redirect("/path/to/default/favicon.ico")
-
-  get "password/reset", to: "password_resets#new"
-  post "password/reset", to: "password_resets#create"
-  get "password/reset/edit", to: "password_resets#edit"
-  patch "password/reset/edit", to: "password_resets#update"
 
   #root "home#index"
    root 'login#new'

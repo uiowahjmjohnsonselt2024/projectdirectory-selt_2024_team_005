@@ -15,7 +15,7 @@ class PasswordResetsController < ApplicationController
       redirect_to root_path, notice: "Email sent. Please check your email."
     else
       flash[:alert] = "Invalid email."
-      redirect_to password_reset_path
+      redirect_to forgot_password_path
     end
   end
 
