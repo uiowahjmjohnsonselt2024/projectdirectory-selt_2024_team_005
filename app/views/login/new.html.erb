@@ -84,6 +84,12 @@
       <%= form.password_field :password, required: true %>
     </div>
 
+    <% flash.each do |type, msg| %>
+      <div>
+        <%= msg %>
+      </div>
+    <% end %>
+
     <div>
       <%= form.submit "Log In", class: "btn btn-primary" %>
     </div>
