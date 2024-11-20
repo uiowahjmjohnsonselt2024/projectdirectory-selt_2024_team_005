@@ -6,6 +6,27 @@ Rails.application.routes.draw do
     end
   end
 
+  get "user/new"
+  get "users/create"
+
+  get "login/new"
+  get "login/create"
+  get "login/destroy"
+
+  #Login Routes
+  get "login/new", to: "login#new"
+  post "login", to: "login#create"
+  delete "logout", to: "login#destroy"
+
+  #Signup Routes
+  get "signup", to: "users#new"
+  post 'signup', to: 'users#create'
+
+  #Forgot Password Routes
+  get "forgot_password", to: "users#forgot_password"
+
+
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -23,7 +44,8 @@ Rails.application.routes.draw do
   get "password/reset/edit", to: "password_resets#edit"
   patch "password/reset/edit", to: "password_resets#update"
 
-  root "home#index"
+  #root "home#index"
+   root 'login#new'
 
   # Defines the root path route ("/")
   # root "posts#index"
