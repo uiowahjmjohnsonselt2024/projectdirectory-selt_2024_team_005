@@ -73,17 +73,25 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if @user.save
-      redirect_to login_path, notice: 'Account successfully created! Please log in.'
+
+    # Check if the username or email already exists
+    if User.exists?(username: @user.username) || User.exists?(email: @user.email)
+
+      render :new  # Render the new user form again without saving the user
+      flash.now[:notice] = "Email/Username is already taken"
+    elsif @user.save
+      flash.now[:notice] = "Account successfully created! Please log in."
+      redirect_to login_path  # Redirect to the login page after successful account creation
     else
-      render :new
+      flash.now[:notice] = ""
+      render :new  # Render the new user form again with error messages
     end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:username, :password, :password_confirmation)
+    params.require(:user).permit(:email, :username, :password, :password_confirmation)
   end
   def destroy
     @user = User.find_by!(username: params[:username])
