@@ -1,4 +1,4 @@
-require 'open_exchange_rates'
+require "open_exchange_rates"
 class User < ApplicationRecord
   has_one :character, foreign_key: "username", primary_key: "username",  dependent: :destroy
   OpenExchangeRates.configure do |config|
