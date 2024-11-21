@@ -5,5 +5,4 @@ class LoginController < ApplicationController
   end
   def destroy
   end
-
 end
