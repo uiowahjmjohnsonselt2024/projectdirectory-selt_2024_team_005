@@ -17,7 +17,27 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body >
+  <% unless controller_name == 'sessions' && action_name == 'new' %>
+    <header>
+      <h1 class="main_header">Group 5 Game</h1>
+    </header>
+  <% end %>
+  <% flash.each do |key, message| %>
+    <div class="alert alert-<%= key %>"><%= message %></div>
+  <% end %>
+  <% unless controller_name == 'sessions' && action_name == 'new' %>
+    <nav class="navbar">
+      <ul class="nav-links">
+        <li><%= link_to 'Profile', user_path('abcd') %></li>
+        <li> Store</li>
+        <li> Grid </li>
+        <li> Logout </li>
+        <!--        <li><%#= link_to 'About', about_path %></li>-->
+        <!--        <li><%#= link_to 'Logout', logout_path %></li>-->
+      </ul>
+    </nav>
+  <% end %>
     <%= yield %>
   </body>
 </html>
