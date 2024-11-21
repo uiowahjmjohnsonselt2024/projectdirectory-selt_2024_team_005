@@ -2,5 +2,6 @@
 <p>Current balance: <%= @character.shard_balance %> shards</p>
 
 <%= link_to 'Buy more shards', buy_shards_user_path(@user.username), class: 'btn btn-primary' %>
-
+<br>
+<%= link_to 'Shop in the Store',store_path(@user.username), class: 'btn btn-primary' %>
 <%= button_to 'Delete account', user_path(@user.username), method: :delete %>

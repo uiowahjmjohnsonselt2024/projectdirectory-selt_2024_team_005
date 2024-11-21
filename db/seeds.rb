@@ -16,11 +16,11 @@
 
 @inventory = Inventory.find_or_create_by!(inv_id: 1, items: [ @item1, @item2 ])
 @character = Character.find_or_create_by!(username: @user.username, character_name: 'Hawkeye',
-                               shard_balance: 0, health: 100, experience: 0, level: 1,
+                               shard_balance: 2, health: 100, experience: 0, level: 1,
                                grid_id: @grid.grid_id, cell_id: @cell.cell_id, inv_id: @inventory.inv_id)
 
 @inventory2 = Inventory.find_or_create_by!(inv_id: 2, items: [ @item1, @item2 ])
 @user2 = User.find_or_create_by!(username: 'abcd2', email: 'student2@uiowa.edu', password_digest: '54321')
 @character2 = Character.find_or_create_by!(username: @user2.username, character_name: 'Hawkeye2',
-                               shard_balance: 0, health: 100, experience: 0, level: 1,
+                               shard_balance: 1, health: 100, experience: 0, level: 1,
                                grid_id: @grid.grid_id, cell_id: @cell.cell_id, inv_id: @inventory.inv_id)
