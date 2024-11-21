@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   # Signup Routes
   get "signup", to: "users#new"
-  post 'signup', to: 'users#create'
+  post "signup", to: "users#create"
 
   # Forgot Password Routes
   get "forgot_password", to: "users#forgot_password"
@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   get "home", to: "home#index"
 
   # Root path (home page)
-  root 'sessions#new'  # You can adjust this to the actual home page path
+  root "sessions#new"  # You can adjust this to the actual home page path
 
 
 
@@ -38,7 +38,7 @@ Rails.application.routes.draw do
 
   get "/favicon.ico", to: redirect("/path/to/default/favicon.ico")
 
-  #root "home#index"
+  # root "home#index"
 
   # Defines the root path route ("/")
   # root "posts#index"

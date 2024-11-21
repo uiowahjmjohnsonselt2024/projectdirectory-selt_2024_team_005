@@ -25,6 +25,6 @@ class SessionsController < ApplicationController
   # Handle the logout process
   def destroy
     session[:user_id] = nil
-    redirect_to login_path, notice: 'You have been logged out.'
+    redirect_to login_path, notice: "You have been logged out."
   end
 end
