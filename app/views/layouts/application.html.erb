@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title ><%= content_for(:title) || "Shards Of The Grid With Saas Principles" %></title>
+    <title><%= content_for(:title) || "Shards Of The Grid With Saas Principles" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
@@ -17,29 +17,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body >
-  <% unless controller_name == 'sessions' && action_name == 'new' %>
-    <header>
-      <h1 class="main_header">Group 5 Game</h1>
-    </header>
-  <% end %>
-    <% flash.each do |key, message| %>
-      <div class="alert alert-<%= key %>"><%= message %></div>
-    <% end %>
-
-    <% unless controller_name == 'sessions' && action_name == 'new' %>
-    <nav class="navbar">
-      <ul class="nav-links">
-        <li><%= link_to 'Profile', user_path('abcd') %></li>
-        <li> Store</li>
-        <li> Grid </li>
-        <li> Logout </li>
-<!--        <li><%#= link_to 'About', about_path %></li>-->
-<!--        <li><%#= link_to 'Logout', logout_path %></li>-->
-      </ul>
-    </nav>
-  <% end %>
-
+  <body>
     <%= yield %>
   </body>
 </html>
