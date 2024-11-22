@@ -24,7 +24,7 @@ end
                                grid_id: @grid.grid_id, cell_id: @cell.cell_id, inv_id: @inventory.inv_id)
 
 @inventory2 = Inventory.find_or_create_by!(inv_id: 2, items: [ @item1, @item2 ])
-@user = User.find_or_create_by!(username: 'abcd2', email: 'student2@uiowa.edu') do |user|
+@user2 = User.find_or_create_by!(username: 'abcd2', email: 'student2@uiowa.edu') do |user|
   user.password = '54321'
   user.password_confirmation = '54321'
 end
