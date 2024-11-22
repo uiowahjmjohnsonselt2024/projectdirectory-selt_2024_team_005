@@ -29,24 +29,27 @@ Then(/^I should see my current balance$/) do
   expect(page).to have_content("Current balance: #{@character.shard_balance} shards")
 end
 
-When(/^I buy 10 shards with a credit card$/) do
-  visit buy_shards_user_path(@user.username)
-
-  # Select 10 shards radio button
-  choose('shards_10')
-
-  # Fill in credit card information (basic placeholders)
-  fill_in 'cc_number', with: '1234567812345678'
-  fill_in 'cc_expiration', with: '12/25'
-  fill_in 'cc_cvv', with: '123'
-
-  # Click on the pay button
+When(/^I buy (-?\d+) (USD|EUR) worth of shards with a credit card$/) do |amount, currency|
+  click_link 'Buy more shards'
+  fill_in 'Enter Amount', with: amount
+  select currency, from: 'Select Currency'
+  fill_in 'Credit Card Number', with: '1234567812345678'
+  fill_in 'Expiration Date (MM/YY)', with: '12/25'
+  fill_in 'CVV', with: '123'
   click_button 'Pay'
 end
 
-Then(/^my current balance should have 10 shards$/) do
-  visit user_path(@user.username)
-  expect(page).to have_content('Current balance: 10 shards')
+Then(/^my current balance should have (\d+) shards$/) do |expected_shards|
+  expect(page).to have_content("Current balance: #{expected_shards} shards")
+end
+
+Then(/^my current balance should have at least (\d+) shards$/) do |expected_shards|
+  displayed_shards = find('p', text: /Current balance:/).text.match(/(\d+) shards/)[1].to_i
+  expect(displayed_shards).to be >= expected_shards.to_i
+end
+
+Then(/^I should see an error message$/) do
+  expect(page).to have_content("Please enter a valid amount.")
 end
 
 When(/^I delete my account$/) do
@@ -56,6 +59,14 @@ When(/^I delete my account$/) do
 end
 
 Then(/^my account should be deleted$/) do
-  expect(page).to have_current_path(root_path)
-  # expect(page).to have_content('Your account has been successfully deleted.')
+  # expect(page).to have_current_path(root_path)
+  expect(page).to have_content('Your account has been successfully deleted.')
+end
+
+Then(/^I click on 10 shards$/) do
+  find('#shards_10').click
+end
+
+Then(/^I should see payment amount updated to 10$/) do
+  expect(page).to have_selector('#price', text: '10.00')
 end
