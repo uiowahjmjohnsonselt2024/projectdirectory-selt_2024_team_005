@@ -18,12 +18,16 @@
   </head>
 
   <body >
-  <% unless controller_name == 'sessions' && action_name == 'new' %>
+  <% unless (controller_name == 'sessions' && action_name == 'new') ||
+    (controller_name == 'password_resets' && (action_name == 'new' || action_name == 'create' || action_name == 'edit') ||
+    (controller_name == 'users' && (action_name == 'create' || action_name == 'new' || action_name == 'edit')) ) %>
     <header>
       <h1 class="main_header">Group 5 Game</h1>
     </header>
   <% end %>
-  <% unless controller_name == 'sessions' && action_name == 'new' %>
+  <% unless (controller_name == 'sessions' && action_name == 'new') ||
+    (controller_name == 'password_resets' && (action_name == 'new' || action_name == 'create' || action_name == 'edit') ||
+      (controller_name == 'users' && (action_name == 'create' || action_name == 'new' || action_name == 'edit'))) %>
     <nav class="navbar">
       <ul class="nav-links">
         <li><%= link_to 'Profile', user_path('abcd') %></li>
@@ -33,16 +37,6 @@
       </ul>
     </nav>
   <% end %>
-
-  <%# if flash.any? %>
-<!--    <div class="flash-messages">-->
-      <%# flash.each do |key, message| %>
-<!--        <div class="flash-message alert alert-<%#= key %>">-->
-<!--          <p><%#= message %></p>-->
-<!--        </div>-->
-      <%# end %>
-<!--    </div>-->
-  <%# end %>
 
   <% if flash[:alert] %>
     <div ><%= flash[:alert] %></div>

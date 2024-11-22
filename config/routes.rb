@@ -11,7 +11,10 @@ Rails.application.routes.draw do
   post "signup", to: "users#create"
 
   # Forgot Password Routes
-  get "forgot_password", to: "users#forgot_password"
+  get "forgot-password", to: "password_resets#new"
+  post "forgot-password", to: "password_resets#create"
+  get "forgot-password/edit", to: "password_resets#edit"
+  patch "forgot-password/edit", to: "password_resets#update"
 
   # Sessions Routes (login/logout)
   get "login", to: "sessions#new"       # Show login form

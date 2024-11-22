@@ -56,6 +56,9 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
   gem "rspec-rails"
+
+  # Setting environment variables
+  gem "dotenv-rails"
 end
 
 group :development do
@@ -64,9 +67,9 @@ group :development do
   gem "pg"
   gem "rails_12factor"
 end
-# group :production do
-#   gem "pg"
-# end
+group :production do
+  gem "pg"
+end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
