@@ -23,9 +23,6 @@
       <h1 class="main_header">Group 5 Game</h1>
     </header>
   <% end %>
-  <% flash.each do |key, message| %>
-    <div class="alert alert-<%= key %>"><%= message %></div>
-  <% end %>
   <% unless controller_name == 'sessions' && action_name == 'new' %>
     <nav class="navbar">
       <ul class="nav-links">
@@ -33,11 +30,27 @@
         <li> Store</li>
         <li> Grid </li>
         <li> Logout </li>
-        <!--        <li><%#= link_to 'About', about_path %></li>-->
-        <!--        <li><%#= link_to 'Logout', logout_path %></li>-->
       </ul>
     </nav>
   <% end %>
-    <%= yield %>
+
+  <%# if flash.any? %>
+<!--    <div class="flash-messages">-->
+      <%# flash.each do |key, message| %>
+<!--        <div class="flash-message alert alert-<%#= key %>">-->
+<!--          <p><%#= message %></p>-->
+<!--        </div>-->
+      <%# end %>
+<!--    </div>-->
+  <%# end %>
+
+  <% if flash[:alert] %>
+    <div ><%= flash[:alert] %></div>
+  <%end %>
+  <% if flash[:notice] %>
+    <div ><%= flash[:notice] %></div>
+  <% end %>
+
+  <%= yield %>
   </body>
 </html>
