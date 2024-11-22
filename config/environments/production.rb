@@ -103,7 +103,7 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  # Mailer configuration
+  # Mailer configuration. CHANGE URL TO YOUR HEROKU APP URL
   config.action_mailer.default_url_options = { host: "glacial-depths-34001-7e65498b3833.herokuapp.com", protocol: "https" }
 
   config.action_mailer.delivery_method = :smtp
