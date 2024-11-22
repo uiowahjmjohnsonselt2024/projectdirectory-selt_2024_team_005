@@ -4,7 +4,7 @@ class PasswordResetsController < ApplicationController
   end
 
   def create
-    if params[:email].present? and params[:email] =~ URI::MailTo::EMAIL_REGEXP
+    if params[:email].present? and params[:email] =~ /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
       @user = User.find_by(email: params[:email])
 
       if @user.present?
@@ -22,14 +22,12 @@ class PasswordResetsController < ApplicationController
   def edit
     @user = User.find_signed!(params[:token], purpose: "password_reset")
   rescue ActiveSupport::MessageVerifier::InvalidSignature
-    # Change redirect path to login once login page has been completed
     redirect_to root_path, alert: "Your token has expired. Please try again."
   end
 
   def update
     @user = User.find_signed!(params[:token], purpose: "password_reset")
     if @user.update(password_params)
-      # Change redirect path to login once login page has been completed
       redirect_to root_path, notice: "Your password was reset successfully. Please sign in again."
     else
       # BUG: this flash message doesn't show
