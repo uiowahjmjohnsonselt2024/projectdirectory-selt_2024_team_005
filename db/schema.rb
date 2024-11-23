@@ -41,6 +41,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_025800) do
   end
 
   create_table "grids", primary_key: "grid_id", id: :serial, force: :cascade do |t|
+    t.integer "size", null: false
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

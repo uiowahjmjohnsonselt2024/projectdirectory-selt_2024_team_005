@@ -39,6 +39,7 @@ class Grid < ApplicationRecord
 
   def expand_grid
     old_size = self.size - 1 # 7-1
+    cells_in_grid = []
     # Generate new cells for the new row
     # .. inclusive-inclusive
     (0..old_size).each do |col|

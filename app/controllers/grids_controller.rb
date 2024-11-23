@@ -37,9 +37,30 @@ class GridsController < ApplicationController
       redirect_to grids_path
     else
       @cells = @grid.cells.order(:cell_id)
-      @grid_matrix = @cells.each_slice(6).to_a
+      @grid_matrix = @cells.each_slice(@grid.size).to_a
     end
   end
 
+  def expand
+    @grid = Grid.find_by(grid_id: params[:id])
+    if @grid.nil?
+      flash[:error] = "Grid not found"
+      redirect_to grids_path
+    else
+      @grid.size += 1
+      if @grid.save
+        @grid.expand_grid
+        flash[:notice] = "Grid expanded successfully"
+      else
+        flash[:error] = "Failed to expand grid"
+      end
+      redirect_to grids_path
+    end
+  end
+
+
   private
+  def grid_params
+    params.require(:grid).permit(:grid_id, :size, :name)
+  end
 end

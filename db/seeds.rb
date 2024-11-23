@@ -24,7 +24,7 @@ end
 # Tips: We can't directly specify the cell_id as @cell.cell_id, cause cells are generated after creating grid
 # For now just set it as 1000 for simple, this should be modified as we need store characters last location
 @character = Character.find_or_create_by!(username: @user.username, character_name: 'Hawkeye',
-                               shard_balance: 0, health: 100, experience: 0, level: 1,
+                               shard_balance: 100000000, health: 100, experience: 0, level: 1,
                                grid_id: @grid.grid_id, cell_id:  @first_cell.cell_id, inv_id: @inventory.inv_id)
 
 @inventory2 = Inventory.find_or_create_by!(inv_id: 2, items: [ @item1, @item2 ])
