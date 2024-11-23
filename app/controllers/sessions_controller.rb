@@ -12,13 +12,13 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:password])
       # Set up session
       session[:user_id] = @user.id  # Save user ID in session to keep user logged in
-      flash[:notice] = "Successfully logged in!"
+      flash.now[:notice] = "Successfully logged in!"
       redirect_to home_path  # Redirect to home page
     elsif !(@user && @user.authenticate(params[:password]))
       flash.now[:alert] = "Invalid username or password"
       render :new  # Render the login form again
     else
-      flash[:notice] = "Unexpected error occurred"
+      flash.now[:notice] = ""
     end
   end
 
