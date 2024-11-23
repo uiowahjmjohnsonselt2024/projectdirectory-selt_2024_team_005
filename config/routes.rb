@@ -27,7 +27,15 @@ Rails.application.routes.draw do
   # Root path (home page)
   root "sessions#new"  # You can adjust this to the actual home page path
 
-
+  # Grid and Cell routes
+  resources :grids do
+    resources :cells, only: [] do
+      member do
+        post "interact"
+      end
+    end
+  end
+  resources :cells, only: [ :show ]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

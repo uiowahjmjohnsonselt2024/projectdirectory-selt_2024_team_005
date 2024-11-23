@@ -1,0 +1,10 @@
+<h1>Cell Details</h1>
+
+<p><strong>Cell Location:</strong> <%= @cell.cell_loc %></p>
+<p><strong>Monster Probability:</strong> <%= @cell.mons_prob %></p>
+<p><strong>Disaster Probability:</strong> <%= @cell.disaster_prob %></p>
+<p><strong>Weather:</strong> <%= @cell.weather %></p>
+<p><strong>Terrain:</strong> <%= @cell.terrain %></p>
+<p><strong>Has Store:</strong> <%= @cell.has_store ? 'Yes' : 'No' %></p>
+
+<%= link_to 'Back to Grid', grid_path(@cell.grid_id) %>
