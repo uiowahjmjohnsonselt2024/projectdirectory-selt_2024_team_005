@@ -54,7 +54,7 @@ class GridsController < ApplicationController
       else
         flash[:error] = "Failed to expand grid"
       end
-      redirect_to grids_path
+      redirect_to @grid
     end
   end
 
