@@ -12,7 +12,7 @@
   user.password = '54321'
   user.password_confirmation = '54321'
 end
-@grid = Grid.find_or_create_by!(grid_id: 1, name: 'earth')
+@grid = Grid.find_or_create_by!(grid_id: 1, size: 6, name: 'earth')
 # Tips: No need to instantiate a cell, since grid will generate cells after creating automatically!
 # @cell = Cell.find_or_create_by!(cell_id: 1, cell_loc: '1A', mons_prob: 0.3, disaster_prob: 0.3, weather: 'Sunny',
 #                                 terrain: 'desert', has_store: true, grid_id: @grid.grid_id)
