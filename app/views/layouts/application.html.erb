@@ -31,8 +31,8 @@
       (controller_name == 'users' && (action_name == 'create' || action_name == 'new' || action_name == 'edit'))) %>
     <nav class="navbar">
       <ul class="nav-links">
-        <li><%= link_to 'Profile', user_path('abcd') %></li>
-        <li><%= link_to 'Store', store_path('abcd') %></li>
+        <li><%= link_to 'Profile', user_path(current_user.username) %></li>
+        <li><%= link_to 'Store', store_path(current_user.username) %></li>
         <li><%= link_to 'Grid', grids_path %></li>
         <li> Logout </li>
       </ul>
