@@ -11,7 +11,10 @@ Rails.application.routes.draw do
   post "signup", to: "users#create"
 
   # Forgot Password Routes
-  get "forgot_password", to: "users#forgot_password"
+  get "forgot-password", to: "password_resets#new"
+  post "forgot-password", to: "password_resets#create"
+  get "forgot-password/edit", to: "password_resets#edit"
+  patch "forgot-password/edit", to: "password_resets#update"
 
   # Sessions Routes (login/logout)
   get "login", to: "sessions#new"       # Show login form
@@ -33,6 +36,15 @@ Rails.application.routes.draw do
   resources :items, only: [ :show ] do
     post "buy", to: "store#buy_item", as: "buy_item"
   end
+  # Grid and Cell routes
+  resources :grids do
+    resources :cells, only: [] do
+      member do
+        post "interact"
+      end
+    end
+  end
+  resources :cells, only: [ :show ]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

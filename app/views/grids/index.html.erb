@@ -1,0 +1,67 @@
+<h1>All Map</h1>
+
+<% if flash[:notice] %>
+  <div class="flash-notice">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
+<% if flash[:alert] %>
+  <div class="flash-alert">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<!-- Create cannot work properly -->
+<%= link_to 'Create a new grid', new_grid_path, class: 'create-button' %>
+
+<table class="grids-table">
+  <thead>
+  <tr>
+    <th>Grid ID</th>
+    <th>Name</th>
+    <th>Operation</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @grids.each do |grid| %>
+    <tr>
+      <td><%= grid.grid_id %></td>
+      <td><%= grid.name %></td>
+      <td>
+        <%= link_to 'View', grid_path(grid) %> |
+        <%= link_to 'Edit', edit_grid_path(grid) %> |
+        <%= link_to 'Delete', grid_path(grid), method: :delete, data: { confirm: 'Are you sure you want to delete this grid?' } %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<!-- Add some stylesheet -->
+<!--<style>-->
+<!--    .grids-table {-->
+<!--        width: 100%;-->
+<!--        border-collapse: collapse;-->
+<!--    }-->
+
+<!--    .grids-table th, .grids-table td {-->
+<!--        border: 1px solid #ccc;-->
+<!--        padding: 8px;-->
+<!--        text-align: left;-->
+<!--    }-->
+
+<!--    .create-button {-->
+<!--        display: inline-block;-->
+<!--        margin-bottom: 20px;-->
+<!--        padding: 10px 15px;-->
+<!--        background-color: #007bff;-->
+<!--        color: white;-->
+<!--        text-decoration: none;-->
+<!--        border-radius: 4px;-->
+<!--    }-->
+
+<!--    .create-button:hover {-->
+<!--        background-color: #0056b3;-->
+<!--    }-->
+<!--</style>-->

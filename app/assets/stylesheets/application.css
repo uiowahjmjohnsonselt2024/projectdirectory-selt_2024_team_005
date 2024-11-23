@@ -1,3 +1,20 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+
+  *= require_self
+  *= require_tree .
+ */
+
 body {
     background-image: url('sotg.jpg');
     background-size: cover;
@@ -6,6 +23,76 @@ body {
     background-repeat: no-repeat;
     height: 100vh;
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: "Courier New", sans-serif;
     color: white;
+}
+.main_header {
+    background-color: white;
+    color: black;
+    text-align: center;
+    padding: 10px;
+    font-family: "papyrus", sans-serif;
+    display: block;
+}
+
+.navbar {
+    background-color: #333; /* Dark background */
+    padding: 10px;
+}
+
+.nav-links {
+    list-style-type: none; /* Remove default list styling */
+    display: flex; /* Use flexbox for horizontal alignment */
+    justify-content: center; /* Center the navbar items */
+    gap: 20px; /* Space between items */
+}
+
+.nav-links li {
+    display: inline; /* Inline display for each list item */
+}
+
+.nav-links li a {
+    color: white; /* White text color */
+    text-decoration: none; /* Remove underline */
+    font-size: 1.2rem; /* Increase font size */
+}
+
+.nav-links li a:hover {
+    text-decoration: underline; /* Underline on hover */
+    font-weight: bold; /* Make text bold on hover */
+}
+
+/* Optional: Style for active links */
+.nav-links li.active a {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.buy-shards {
+    display: inline-block; /* Makes the link behave like a block element */
+    padding: 10px 20px; /* Adds padding around the text */
+    background-color: #007bff; /* Bootstrap's primary color */
+    color: white; /* Text color */
+    text-decoration: none; /* Removes the default underline */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Adjust font size */
+    text-align: center; /* Centers the text inside the button */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+    margin-bottom: 10px;
+}
+
+/* Hover effect */
+.buy-shards:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    color: white; /* Keeps text color white on hover */
+}
+
+/* Active state (when the button is clicked) */
+.buy-shards:active {
+    background-color: #003366; /* Even darker blue on click */
+    color: white; /* Keeps text color white */
+}
+
+.profile {
+    margin: 10px;
 }

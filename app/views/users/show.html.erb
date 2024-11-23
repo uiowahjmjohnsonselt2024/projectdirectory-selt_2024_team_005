@@ -1,7 +1,8 @@
+<div class="profile">
 <h1>Hello <%= @user.username %>!</h1>
 <p>Current balance: <%= @character.shard_balance %> shards</p>
 
-<%= link_to 'Buy more shards', buy_shards_user_path(@user.username), class: 'btn btn-primary' %>
-<br>
-<%= link_to 'Shop in the Store',store_path(@user.username), class: 'btn btn-primary' %>
+<%= link_to 'Buy more shards', buy_shards_user_path(@user.username), class: 'buy-shards' %>
+
 <%= button_to 'Delete account', user_path(@user.username), method: :delete %>
+</div>

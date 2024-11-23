@@ -1,0 +1,57 @@
+.grids-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.grids-table th, .grids-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.create-button {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.create-button:hover {
+    background-color: #0056b3;
+}
+
+.grid-container {
+    display: flex;
+    flex-direction: column;
+    width: 300px;  /* grid width */
+    margin: 20px auto;
+}
+
+.grid-row {
+    display: flex;
+}
+
+.grid-cell {
+    width: 50px;  /* each cell width */
+    height: 50px; /* each cell height */
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.safe-zone {
+    background-color: #6BCB77; /* Mark initial safety zone */
+    font-weight: bold;
+    border-radius: 50%; /* Make the safe zone look more prominent */
+}
+
+/* This is for selected cell style */
+.grid-cell.selected {
+    background-color: rgba(0, 0, 0, 0.1); /* Deep color when the cell is selected */
+    border: 2px solid #000; /* Add an obvious border to make it easier for the user to see the selected status */
+}
