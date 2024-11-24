@@ -59,29 +59,34 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_025800) do
 
   create_table "items", primary_key: "item_id", id: :serial, force: :cascade do |t|
     t.string "name", null: false
-    t.string "category", null: false
     t.integer "cost", null: false
+
+    # Polymorphic fields to link to category-specific tables
+    t.integer "itemable_id", null: false  # Reference to the specific category table (weapons, armor, potions)
+    t.string "itemable_type", null: false # Name of the specific category (e.g., "Weapon", "Armor", "Potion")
+
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_items_on_item_id", unique: true
+    t.index ["itemable_type", "itemable_id"], name: "index_items_on_itemable_type_and_itemable_id"
   end
 
   create_table "weapons", primary_key: "weapon_id", id: :serial, force: :cascade do |t|
-    t.integer "item_id", null: false
-    t.integer "atk_stat", null: false
-    t.foreign_key "items", column: "item_id"
+    t.integer "atk_bonus", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "armor", primary_key: "armor_id", id: :serial, force: :cascade do |t|
-    t.integer "item_id", null: false
-    t.integer "def_stat", null: false
-    t.foreign_key "items", column: "item_id"
+  create_table "armors", primary_key: "armor_id", id: :serial, force: :cascade do |t|
+    t.integer "def_bonus", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "potions", primary_key: "potion_id", id: :serial, force: :cascade do |t|
-    t.integer "item_id", null: false
-    t.integer "hp_stat", null: false
-    t.foreign_key "items", column: "item_id"
+    t.integer "hp_regen", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", primary_key: "username", id: :string, force: :cascade do |t|

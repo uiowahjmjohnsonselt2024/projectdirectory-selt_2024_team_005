@@ -17,8 +17,8 @@ end
 # @cell = Cell.find_or_create_by!(cell_id: 1, cell_loc: '1A', mons_prob: 0.3, disaster_prob: 0.3, weather: 'Sunny',
 #                                 terrain: 'desert', has_store: true, grid_id: @grid.grid_id)
 @first_cell = @grid.cells.order(:cell_id).first
-@item1 = Item.find_or_create_by!(item_id: 1, name: 'thingy', category: 'sword', cost: 1)
-@item2 = Item.find_or_create_by!(item_id: 2, name: 'stuff', category: 'shield', cost: 1)
+@item1 = Item.find_or_create_by!(item_id: 1, name: 'wooden sword', category: 'weapon', cost: 1)
+@item2 = Item.find_or_create_by!(item_id: 2, name: 'leather armor', category: 'armor', cost: 1)
 
 @inventory = Inventory.find_or_create_by!(inv_id: 1, items: [ @item1, @item2 ])
 # Tips: We can't directly specify the cell_id as @cell.cell_id, cause cells are generated after creating grid
