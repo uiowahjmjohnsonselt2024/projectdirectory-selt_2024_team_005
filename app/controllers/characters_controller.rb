@@ -47,13 +47,17 @@ class CharactersController < ApplicationController
       render json: { status: "error", message: "User not found" }, status: :not_found and return
     end
 
-    @character = Character.find_by(username: @user.username)
-    if @character.nil? && action_name != 'create'
-      render json: { status: "error", message: "Character not found" }, status: :not_found
+    # no need to set_character if the user is going to create a new character
+    if action_name != 'new' && action_name != 'create'
+      @character = Character.find_by(username: @user.username)
+      if @character.nil?
+        render json: { status: "error", message: "Character not found" }, status: :not_found and return
+      end
     end
+
   end
 
   def character_params
-    params.require(:character).permit(:cell_id)
+    params.require(:character).permit(:cell_id, :character_name)
   end
 end
