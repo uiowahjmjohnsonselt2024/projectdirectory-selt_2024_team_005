@@ -43,9 +43,8 @@ class GridsController < ApplicationController
 
   def expand
     @grid = Grid.find_by(grid_id: params[:id])
-    puts "made it in expand"
     if @grid.nil?
-      puts "grid nil entered"
+      # puts "grid nil entered"
       flash[:error] = "Grid not found"
       redirect_to grids_path
     else
@@ -53,7 +52,7 @@ class GridsController < ApplicationController
       if @grid.save
         @grid.expand_grid
         flash[:notice] = "Grid expanded successfully"
-        puts "grid expanded succcessfully"
+        # puts "grid expanded succcessfully"
       else
         flash[:error] = "Failed to expand grid"
       end
