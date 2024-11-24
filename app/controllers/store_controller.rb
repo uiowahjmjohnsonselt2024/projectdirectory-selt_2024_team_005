@@ -3,6 +3,7 @@ class StoreController < ApplicationController
     @user = User.find_by!(username: params[:username])
     @character = Character.find_by(username: params[:username])
     @items = Item.all
+    @grid = Grid.find_by(grid_id: params[:id])
   end
   def buy_item
     @user = User.find_by!(username: params[:username])
