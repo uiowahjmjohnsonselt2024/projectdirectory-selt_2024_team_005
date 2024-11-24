@@ -29,10 +29,13 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_025800) do
 
   create_table "characters", primary_key: "character_name", id: :string, force: :cascade do |t|
     t.string "username", null: false
-    t.integer "health", null: false
-    t.integer "shard_balance", null: false
-    t.integer "experience", null: false
+    t.integer "current_hp", null: false
+    t.integer "max_hp", null: false
+    t.integer "current_exp", null: false
+    t.integer "exp_to_level", null: false
     t.integer "level", null: false
+    t.integer "weapon_id", null: false
+    t.integer "armor_id", null: false
     t.integer "grid_id", null: false
     t.integer "cell_id", null: false
     t.integer "inv_id", null: false
@@ -61,6 +64,24 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_025800) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_items_on_item_id", unique: true
+  end
+
+  create_table "weapons", primary_key: "weapon_id", id: :serial, force: :cascade do |t|
+    t.integer "item_id", null: false
+    t.integer "atk_stat", null: false
+    t.foreign_key "items", column: "item_id"
+  end
+
+  create_table "armor", primary_key: "armor_id", id: :serial, force: :cascade do |t|
+    t.integer "item_id", null: false
+    t.integer "def_stat", null: false
+    t.foreign_key "items", column: "item_id"
+  end
+
+  create_table "potions", primary_key: "potion_id", id: :serial, force: :cascade do |t|
+    t.integer "item_id", null: false
+    t.integer "hp_stat", null: false
+    t.foreign_key "items", column: "item_id"
   end
 
   create_table "users", primary_key: "username", id: :string, force: :cascade do |t|
