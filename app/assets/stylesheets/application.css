@@ -15,7 +15,7 @@
   *= require_tree .
  */
 
-body {
+.loginpages {
     background-image: url('sotg.jpg');
     background-size: cover;
     background-position: center center;

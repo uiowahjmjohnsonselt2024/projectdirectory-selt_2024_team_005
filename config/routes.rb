@@ -27,6 +27,15 @@ Rails.application.routes.draw do
   # Root path (home page)
   root "sessions#new"  # You can adjust this to the actual home page path
 
+  # Route for displaying all items in the store
+  get "/store/:username", to: "store#shards_store", as: "store"
+
+  # Route for purchasing an item
+  post "/items/:username/:id/buy", to: "store#buy_item", as: "buy_item"
+
+  resources :items, only: [ :show ] do
+    post "buy", to: "store#buy_item", as: "buy_item"
+  end
   # Grid and Cell routes
   resources :grids do
     member do
