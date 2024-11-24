@@ -29,6 +29,9 @@ Rails.application.routes.draw do
 
   # Grid and Cell routes
   resources :grids do
+    member do
+      patch :expand
+    end
     resources :cells, only: [] do
       member do
         post "interact"
