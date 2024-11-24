@@ -11,7 +11,8 @@ class SessionsController < ApplicationController
     # Check if user exists and password is correct
     if @user && @user.authenticate(params[:password])
       # Set up session
-      session[:user_id] = @user.id  # Save user ID in session to keep user logged in
+      # session[:user_id] = @user.id
+      session[:username] = @user.username     # Save username in session to keep user logged in
       flash[:notice] = "Successfully logged in!"
       redirect_to home_path  # Redirect to home page
     elsif !(@user && @user.authenticate(params[:password]))
@@ -24,7 +25,8 @@ class SessionsController < ApplicationController
 
   # Handle the logout process
   def destroy
-    session[:user_id] = nil
+    # session[:user_id] = nil
+    session[:username] = nil
     redirect_to login_path, notice: "You have been logged out."
   end
 end

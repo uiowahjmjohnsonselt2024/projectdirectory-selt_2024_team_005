@@ -1,4 +1,7 @@
 class GridsController < ApplicationController
+
+  before_action :set_user
+
   def index
     @grids = Grid.all
   end
@@ -38,8 +41,19 @@ class GridsController < ApplicationController
     else
       @cells = @grid.cells.order(:cell_id)
       @grid_matrix = @cells.each_slice(6).to_a
+      @characters = Character.where(grid_id: @grid.grid_id).index_by(&:cell_id)
     end
   end
 
   private
+
+  def set_user
+    @user = User.find_by(username: session[:username])
+    if @user.nil?
+      Rails.logger.info "No user found in session."
+    else
+      Rails.logger.info "User found: #{@user.username}"
+    end
+  end
+
 end

@@ -8,6 +8,12 @@
                data-action="click->grid#showDetails"
                data-cell-id="<%= cell.id %>">
             <%= cell.cell_loc %>
+            <% character = @characters[cell.id] %>
+            <% if character %>
+              <div class="character" data-character-id="<%= character.id %>" >
+                <%= character.character_name %>
+              </div>
+            <% end %>
           </div>
         <% end %>
       </div>
@@ -20,4 +26,5 @@
       Select a cell to see the details!
     </div>
   </div>
+
 </div>

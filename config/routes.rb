@@ -27,6 +27,10 @@ Rails.application.routes.draw do
   # Root path (home page)
   root "sessions#new"  # You can adjust this to the actual home page path
 
+  # Character create and update
+  post 'create_character', to: 'characters#create', as: 'create_character'
+  resources :characters, param: :username, only: [:new, :create, :update]
+
   # Grid and Cell routes
   resources :grids do
     resources :cells, only: [] do
