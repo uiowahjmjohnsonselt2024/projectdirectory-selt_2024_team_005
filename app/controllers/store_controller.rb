@@ -10,7 +10,7 @@ class StoreController < ApplicationController
     item = Item.find(params[:id])
 
     if @character.nil?
-      redirect_to store_path and return
+      redirect_to user_path(@user.username) and return
     end
 
     if @character.shard_balance.nil?

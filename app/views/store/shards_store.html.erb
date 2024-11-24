@@ -3,6 +3,7 @@
   For all your shards shopping needs!!
 </p>
 <div class="store-items">
+  <%= button_to 'Expand', expand_grid_path(@user.username, @grid), method: :patch, class: 'expand-button' %>
   <% @items.each do |item| %>
     <div class="item">
       <h2><%= item.name %></h2>
