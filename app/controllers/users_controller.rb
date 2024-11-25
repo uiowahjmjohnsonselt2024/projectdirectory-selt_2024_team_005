@@ -98,13 +98,14 @@ class UsersController < ApplicationController
       @character = Character.create!(
         character_name: @user.username,   # This should be able to modify
         username: @user.username,
-        health: 100,
-        shard_balance: 0,
-        experience: 0,
+        current_hp: character.max_hp,
+        current_exp: 0,
         level: 1,
         grid_id: 1,
         cell_id: Grid.find(1).cells.order(:cell_id).first.cell_id,
-        inv_id: @inventory.inv_id
+        inv_id: @inventory.inv_id,
+        weapon_id: Item.find_by!(itemable_type: 'Weapon', itemable_id: 1),
+        armor_id: Item.find_by!(itemable_type: 'Armor', itemable_id: 1)
       )
       flash.now[:notice] = "Account and a default character successfully created! Please log in."
       redirect_to login_path  # Redirect to the login page after successful account creation
