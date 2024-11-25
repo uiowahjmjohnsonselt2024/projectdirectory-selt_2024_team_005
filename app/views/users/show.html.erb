@@ -1,13 +1,9 @@
 <div class="profile">
 <h1>Hello <%= @user.username %>!</h1>
+<p>Current balance: <%= @character.shard_balance %> shards</p>
 
-  <% if @character.present? %>
-    <p>Current balance: <%= @character.shard_balance %> shards</p>
-    <%= link_to 'Buy more shards', buy_shards_user_path(@user.username), class: 'buy-shards' %>
-  <% else %>
-    <p>You don't have a character yet. Please create one!</p>
-    <%= link_to 'Create Character', new_character_path, class: 'create-character-button' %>
-  <% end %>
-
+<%= link_to 'Buy more shards', buy_shards_user_path(@user.username), class: 'buy-shards' %>
+  <br>
+  <%= link_to 'Shop in the Store',store_path(@user.username), class: 'buy-shards' %>
 <%= button_to 'Delete account', user_path(@user.username), method: :delete %>
 </div>

@@ -1,0 +1,21 @@
+<h1>Shards of the Grid Store</h1>
+<p>
+  For all your shards shopping needs!!
+</p>
+<div class="store-items">
+  <% if @grid %>
+    <%= button_to 'Expand', expand_grid_path(@grid), method: :patch, class: 'expand-button' %>
+  <% else %>
+    <p>No grid available to expand. Create one!</p>
+  <% end %>
+  <% @items.each do |item| %>
+    <div class="item">
+      <h2><%= item.name %></h2>
+      <p><%= item.category %></p>
+      <p>Price: $<%= item.cost %></p>
+      <%= form_with(url: buy_item_path(@user.username, item.id), method: :post, local: true) do |form| %>
+        <%= form.submit 'Buy Now', class: 'buy-button' %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
