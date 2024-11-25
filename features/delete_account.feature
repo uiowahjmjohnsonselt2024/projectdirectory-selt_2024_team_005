@@ -4,7 +4,7 @@ Feature: Delete account in profile
   So that I remove myself from the game.
 
   Scenario: User deletes their account
-    Given I have an account
+    Given I have an account and logged in
     And I go to my profile page
     And I delete my account
     Then my account should be deleted

@@ -30,7 +30,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_025800) do
   create_table "characters", primary_key: "character_name", id: :string, force: :cascade do |t|
     t.string "username", null: false
     t.integer "health", null: false
-    t.integer "shard_balance", null: false
     t.integer "experience", null: false
     t.integer "level", null: false
     t.integer "grid_id", null: false
@@ -66,6 +65,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_025800) do
   create_table "users", primary_key: "username", id: :string, force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
+    t.integer "shard_balance", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true

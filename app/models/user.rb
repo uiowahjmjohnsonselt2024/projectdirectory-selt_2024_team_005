@@ -2,6 +2,7 @@ require "open_exchange_rates"
 class User < ApplicationRecord
   has_secure_password
   has_one :character, foreign_key: "username", primary_key: "username",  dependent: :destroy
+  validates :shard_balance, presence: true, numericality: { greater_than_or_equal_to: 0 }
   OpenExchangeRates.configure do |config|
     config.app_id = "541c6dbbdf244c82bd71151575e47f27"
   end
