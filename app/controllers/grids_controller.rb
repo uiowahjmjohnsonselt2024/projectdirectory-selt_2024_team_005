@@ -39,9 +39,6 @@ class GridsController < ApplicationController
       redirect_to grids_path
     else
       @visibility = current_user.visibility_for(@grid)
-      puts "STUFF"
-      # @cells = @grid.cells.where("cell_loc LIKE ?", "R[0-#{@visibility - 1}]C[0-#{@visibility - 1}]")
-      # @cells = @grid.cells.order(:cell_id)
       numbers = (0...@visibility).to_a.map(&:to_s)
       numbers_pattern = numbers.join('|')
       pattern = "^R(#{numbers_pattern})C(#{numbers_pattern})$"
@@ -59,9 +56,15 @@ class GridsController < ApplicationController
     else
       current_visibility = current_user.visibility_for(@grid)
       if current_visibility < Grid::GRID_SIZE
-        new_visibility = current_visibility + 1
-        current_user.set_visibility_for(@grid, new_visibility)
-        flash[:notice] = "Grid expanded successfully"
+        if @user.shard_balance >= 10
+          @user.shard_balance -= 10
+          @user.save
+          new_visibility = current_visibility + 1
+          current_user.set_visibility_for(@grid, new_visibility)
+          flash[:notice] = "Grid expanded successfully"
+        else
+          flash[:alert] = "Not enough shards to expand the grid"
+        end
       else
         flash[:alert] = "Maximum grid size reached"
       end
@@ -85,6 +88,7 @@ class GridsController < ApplicationController
       Rails.logger.info "No user found in session."
     else
       Rails.logger.info "User found: #{@user.username}"
+      @character = Character.find_by(username: @user.username)
     end
   end
 end

@@ -17,7 +17,7 @@
   </div>
 
   <% if @visibility < Grid::GRID_SIZE %>
-    <%= button_to 'Expand', expand_grid_path(@grid), method: :patch, class: 'expand-button' %>
+    <%= button_to 'Expand (costs 10 shards)', expand_grid_path(@grid), method: :patch, class: 'expand-button' %>
   <% else %>
     <p>Maximum grid size reached.</p>
   <% end %>

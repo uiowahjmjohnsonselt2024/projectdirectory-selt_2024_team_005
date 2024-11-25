@@ -28,7 +28,7 @@ end
                                           cell_id:  @first_cell.cell_id, inv_id: @inventory.inv_id)
 
 @inventory2 = Inventory.find_or_create_by!(inv_id: 2, items: [ @item1, @item2 ])
-@user2 = User.find_or_create_by!(username: 'abcd2', email: 'student2@uiowa.edu', shard_balance: 100000) do |user|
+@user2 = User.find_or_create_by!(username: 'abcd2', email: 'student2@uiowa.edu', shard_balance: 20) do |user|
   user.password = '54321'
   user.password_confirmation = '54321'
 end
