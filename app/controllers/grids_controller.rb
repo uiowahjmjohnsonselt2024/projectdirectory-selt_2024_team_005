@@ -1,5 +1,4 @@
 class GridsController < ApplicationController
-
   before_action :set_user
 
   def index
@@ -41,7 +40,7 @@ class GridsController < ApplicationController
     else
       @cells = @grid.cells.order(:cell_id)
       @grid_matrix = @cells.each_slice(@grid.size).to_a
-      @characters = Character.where(grid_id: @grid.grid_id).index_by(&:cell_id)
+      @character = Character.find_by(username: @user.username)
     end
   end
 

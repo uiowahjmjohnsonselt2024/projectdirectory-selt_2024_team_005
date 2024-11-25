@@ -38,8 +38,8 @@ Rails.application.routes.draw do
   end
 
   # Character create and update
-  post 'create_character', to: 'characters#create', as: 'create_character'
-  resources :characters, param: :username, only: [:new, :create, :update]
+  post "create_character", to: "characters#create", as: "create_character"
+  resources :characters, param: :username, only: [ :new, :create, :update ]
 
   # Grid and Cell routes
   resources :grids do

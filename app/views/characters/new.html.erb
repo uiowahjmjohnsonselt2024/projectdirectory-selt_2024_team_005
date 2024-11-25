@@ -1,9 +1,0 @@
-<h1>Create Your Character</h1>
-
-<%= form_with model: @character, url: characters_path, method: :post, local: true do |f| %>
-  <div>
-    <%= f.label :character_name, "Character Name" %>
-    <%= f.text_field :character_name %>
-  </div>
-  <%= f.submit "Create Character" %>
-<% end %>

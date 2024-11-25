@@ -89,7 +89,24 @@ class UsersController < ApplicationController
       render :new  # Render the new user form again without saving the user
       flash.now[:notice] = "Email/Username is already taken"
     elsif @user.save
-      flash.now[:notice] = "Account successfully created! Please log in."
+      # Automatically create a character and a inventory for a new user
+      max_inv_id = Inventory.maximum(:inv_id) || 0
+      new_inv_id = max_inv_id + 1
+      # Create a new inventory with the new_inv_id
+      @inventory = Inventory.create!(inv_id: new_inv_id)
+      # Create a new character
+      @character = Character.create!(
+        character_name: @user.username,   # This should be able to modify
+        username: @user.username,
+        health: 100,
+        shard_balance: 0,
+        experience: 0,
+        level: 1,
+        grid_id: 1,
+        cell_id: Grid.find(1).cells.order(:cell_id).first.cell_id,
+        inv_id: @inventory.inv_id
+      )
+      flash.now[:notice] = "Account and a default character successfully created! Please log in."
       redirect_to login_path  # Redirect to the login page after successful account creation
     else
       flash.now[:notice] = ""
