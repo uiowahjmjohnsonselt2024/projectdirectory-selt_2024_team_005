@@ -4,7 +4,6 @@ class CreateCharacters < ActiveRecord::Migration[7.2]
           t.string :character_name, null: false, primary_key: true
           t.string :username, null: false
           t.integer :health, null: false
-          t.integer :shard_balance, null: false
           t.integer :experience, null: false
           t.integer :level, null: false
           t.integer :grid_id, null: false
