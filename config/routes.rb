@@ -41,11 +41,20 @@ Rails.application.routes.draw do
   post "create_character", to: "characters#create", as: "create_character"
   resources :characters, param: :username, only: [ :new, :create, :update ]
 
+  # Multiplayer World Routes
+  resources :worlds, only: [:index, :show] do
+    member do
+      post :join           # Join a multiplayer world
+      post :leave          # Leave a multiplayer world
+    end
+  end
+
   # Grid and Cell routes
   resources :grids do
     member do
       patch :expand
     end
+    # Nested routes for cells within a grid
     resources :cells, only: [] do
       member do
         post "interact"
