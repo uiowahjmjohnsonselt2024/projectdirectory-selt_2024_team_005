@@ -5,6 +5,7 @@ class Grid < ApplicationRecord
   has_many :cells, foreign_key: "grid_id", primary_key: "grid_id", dependent: :destroy
 
   after_create :generate_cells
+  GRID_SIZE = 12
 
   def generate_cells
     cells_in_grid = []
