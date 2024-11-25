@@ -11,20 +11,25 @@
 @user = User.find_or_create_by!(username: 'abcd', email: 'student@uiowa.edu') do |user|
   user.password = '54321'
   user.password_confirmation = '54321'
+  user.shard_balance = 100000000
 end
 @grid = Grid.find_or_create_by!(grid_id: 1, size: 6, name: 'earth')
 # Tips: No need to instantiate a cell, since grid will generate cells after creating automatically!
 # @cell = Cell.find_or_create_by!(cell_id: 1, cell_loc: '1A', mons_prob: 0.3, disaster_prob: 0.3, weather: 'Sunny',
 #                                 terrain: 'desert', has_store: true, grid_id: @grid.grid_id)
 @first_cell = @grid.cells.order(:cell_id).first
-@item1 = Item.find_or_create_by!(item_id: 1, name: 'wooden sword', category: 'weapon', cost: 1)
-@item2 = Item.find_or_create_by!(item_id: 2, name: 'leather armor', category: 'armor', cost: 1)
+@wooden_sword = Weapon.create(name: 'Wooden Sword', atk_bonus: 1)
+@leather_armor = Armor.create(name: 'Leather Armor', def_bonus: 1)
+@health_potion_xs = Potion.create(name: 'Health Potion XS', hp_regen: 10)
+@item1 = Item.find_or_create_by!(itemable: @wooden_sword, cost: 1)
+@item2 = Item.find_or_create_by!(itemable: @leather_armor, cost: 1)
+@item3 = Item.find_or_create_by!(itemable: @health_potion_xs, cost: 1)
 
-@inventory = Inventory.find_or_create_by!(inv_id: 1, items: [ @item1, @item2 ])
+@inventory = Inventory.find_or_create_by!(inv_id: 1, items: [ @item1, @item2, @item3 ])
 # Tips: We can't directly specify the cell_id as @cell.cell_id, cause cells are generated after creating grid
 # For now just set it as 1000 for simple, this should be modified as we need store characters last location
 @character = Character.find_or_create_by!(username: @user.username, character_name: 'Hawkeye',
-                               shard_balance: 100000000, health: 100, experience: 0, level: 1,
+                               health: 100, experience: 0, level: 1,
                                grid_id: @grid.grid_id, cell_id:  @first_cell.cell_id, inv_id: @inventory.inv_id)
 
 @inventory2 = Inventory.find_or_create_by!(inv_id: 2, items: [ @item1, @item2 ])
