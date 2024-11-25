@@ -9,9 +9,11 @@ class User < ApplicationRecord
 
   # Method to get visibility for a specific grid
   def visibility_for(grid)
-    # TODO
-    print("visibility for #{grid.name} is #{user_grid_visibilities.find_by(grid_id: grid.grid_id)&.visibility}")
-    user_grid_visibilities.find_by(grid_id: grid.grid_id).visibility || 0
+    ugv = user_grid_visibilities.find_or_create_by(grid_id: grid.grid_id) do |new_ugv|
+      new_ugv.visibility = 6  # Default visibility
+    end
+    puts ugv.visibility
+    ugv.visibility
   end
 
   # Method to set visibility for a specific grid
@@ -32,6 +34,7 @@ class User < ApplicationRecord
   private
 
   def initialize_grid_visibilities
+    # puts "Initializing grid visibilities for #{self.username}"
     Grid.find_each do |grid|
       user_grid_visibilities.create!(grid_id: grid.grid_id, visibility: 6)
     end

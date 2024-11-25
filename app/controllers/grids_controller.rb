@@ -39,10 +39,13 @@ class GridsController < ApplicationController
       redirect_to grids_path
     else
       @visibility = current_user.visibility_for(@grid)
-      @cells = @grid.cells.where("cell_loc LIKE ?", "R[0-#{@visibility - 1}]C[0-#{@visibility - 1}]")
-      @cells = @cells.order(:cell_id)
-      print(@cells)
-      print(@visibility)
+      puts "STUFF"
+      # @cells = @grid.cells.where("cell_loc LIKE ?", "R[0-#{@visibility - 1}]C[0-#{@visibility - 1}]")
+      # @cells = @grid.cells.order(:cell_id)
+      numbers = (0...@visibility).to_a.map(&:to_s)
+      numbers_pattern = numbers.join('|')
+      pattern = "^R(#{numbers_pattern})C(#{numbers_pattern})$"
+      @cells = @grid.cells.where("cell_loc ~ ?", pattern).order(:cell_id)
       @grid_matrix = @cells.each_slice(@visibility).to_a
       @character = Character.find_by(username: @user.username)
     end

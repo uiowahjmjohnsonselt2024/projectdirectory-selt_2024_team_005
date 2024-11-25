@@ -16,6 +16,12 @@
     <% end %>
   </div>
 
+  <% if @visibility < Grid::GRID_SIZE %>
+    <%= button_to 'Expand', expand_grid_path(@grid), method: :patch, class: 'expand-button' %>
+  <% else %>
+    <p>Maximum grid size reached.</p>
+  <% end %>
+
   <div id="cell-details" data-grid-target="details">
     <h2>Cell Details</h2>
     <div>
