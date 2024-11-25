@@ -25,13 +25,30 @@
 
 .grid-container {
     display: flex;
-    flex-direction: column;
-    width: 300px;  /* grid width */
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
     margin: 20px auto;
 }
 
+#character-stats {
+    width: 300px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    padding: 10px;
+}
+
 .grid-row {
-    display: flex;
+    display: contents;
 }
 
 .grid-cell {
@@ -54,4 +71,12 @@
 .grid-cell.selected {
     background-color: rgba(0, 0, 0, 0.1); /* Deep color when the cell is selected */
     border: 2px solid #000; /* Add an obvious border to make it easier for the user to see the selected status */
+}
+
+#cell-details {
+    width: 300px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
