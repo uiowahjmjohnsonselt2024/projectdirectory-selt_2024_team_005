@@ -58,7 +58,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_025800) do
   end
 
   create_table "items", primary_key: "item_id", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
     t.integer "cost", null: false
 
     # Polymorphic fields to link to category-specific tables
@@ -72,18 +71,21 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_025800) do
   end
 
   create_table "weapons", primary_key: "weapon_id", id: :serial, force: :cascade do |t|
+    t.string "name", null: false
     t.integer "atk_bonus", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "armors", primary_key: "armor_id", id: :serial, force: :cascade do |t|
+    t.string "name", null: false
     t.integer "def_bonus", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "potions", primary_key: "potion_id", id: :serial, force: :cascade do |t|
+    t.string "name", null: false
     t.integer "hp_regen", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
