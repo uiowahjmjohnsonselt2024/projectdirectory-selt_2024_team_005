@@ -40,7 +40,7 @@ class GridsController < ApplicationController
     else
       @visibility = current_user.visibility_for(@grid)
       numbers = (0...@visibility).to_a.map(&:to_s)
-      numbers_pattern = numbers.join('|')
+      numbers_pattern = numbers.join("|")
       pattern = "^R(#{numbers_pattern})C(#{numbers_pattern})$"
       @cells = @grid.cells.where("cell_loc ~ ?", pattern).order(:cell_id)
       @grid_matrix = @cells.each_slice(@visibility).to_a
