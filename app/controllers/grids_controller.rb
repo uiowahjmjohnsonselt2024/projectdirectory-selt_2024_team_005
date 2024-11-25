@@ -1,4 +1,6 @@
 class GridsController < ApplicationController
+  before_action :set_user
+
   def index
     @grids = Grid.all
   end
@@ -38,6 +40,7 @@ class GridsController < ApplicationController
     else
       @cells = @grid.cells.order(:cell_id)
       @grid_matrix = @cells.each_slice(@grid.size).to_a
+      @character = Character.find_by(username: @user.username)
     end
   end
 
@@ -64,5 +67,14 @@ class GridsController < ApplicationController
   private
   def grid_params
     params.require(:grid).permit(:grid_id, :size, :name)
+  end
+
+  def set_user
+    @user = User.find_by(username: session[:username])
+    if @user.nil?
+      Rails.logger.info "No user found in session."
+    else
+      Rails.logger.info "User found: #{@user.username}"
+    end
   end
 end

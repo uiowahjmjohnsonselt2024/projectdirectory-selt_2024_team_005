@@ -1,4 +1,9 @@
 class SessionsController < ApplicationController
+  # Show the login form
+  def new
+  end
+
+  # Handle the login process
   def create
     # Find the user by username
     @user = User.find_by(username: params[:username])
@@ -8,13 +13,16 @@ class SessionsController < ApplicationController
       # Set up session with username instead of id
       session[:username] = @user.username  # Save username in session
       flash[:notice] = "Successfully logged in!"
-      redirect_to home_path
-    else
+      redirect_to home_path  # Redirect to home page
+    elsif !(@user && @user.authenticate(params[:password]))
       flash.now[:alert] = "Invalid username or password"
-      render :new
+      render :new  # Render the login form again
+    else
+      flash[:notice] = "Unexpected error occurred"
     end
   end
 
+  # Handle the logout process
   def destroy
     session[:username] = nil  # Clear the username from session
     redirect_to login_path, notice: "You have been logged out."

@@ -47,4 +47,3 @@ end
   character.current_hp = character.max_hp
   character.current_exp = 0
 end
-

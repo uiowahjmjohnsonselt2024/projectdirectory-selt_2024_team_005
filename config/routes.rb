@@ -36,6 +36,11 @@ Rails.application.routes.draw do
   resources :items, only: [ :show ] do
     post "buy", to: "store#buy_item", as: "buy_item"
   end
+
+  # Character create and update
+  post "create_character", to: "characters#create", as: "create_character"
+  resources :characters, param: :username, only: [ :new, :create, :update ]
+
   # Grid and Cell routes
   resources :grids do
     member do
