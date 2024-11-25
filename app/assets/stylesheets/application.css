@@ -68,6 +68,20 @@
     text-decoration: underline;
 }
 
+.create-character-button {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.create-character-button:hover {
+    background-color: #0056b3;
+}
+
 .buy-shards {
     display: inline-block; /* Makes the link behave like a block element */
     padding: 10px 20px; /* Adds padding around the text */

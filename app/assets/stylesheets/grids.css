@@ -26,22 +26,41 @@
 .grid-container {
     display: flex;
     flex-direction: column;
-    width: 300px;  /* grid width */
+    width: 400px;  /* grid width */
     margin: 20px auto;
 }
-
 .grid-row {
     display: flex;
 }
-
 .grid-cell {
-    width: 50px;  /* each cell width */
-    height: 50px; /* each cell height */
+    width: 60px;
+    height: 60px;
     border: 1px solid black;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
+}
+
+.character {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: yellow;
+    padding: 2px;
+    border-radius: 5px;
+}
+
+.character {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: darkred;
+    padding: 2px;
+    border-radius: 5px;
+    font-size: 0.8em;
 }
 
 .safe-zone {
