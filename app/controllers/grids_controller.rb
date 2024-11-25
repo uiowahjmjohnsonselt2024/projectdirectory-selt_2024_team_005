@@ -38,8 +38,12 @@ class GridsController < ApplicationController
       flash[:error] = "Grid not found"
       redirect_to grids_path
     else
-      @cells = @grid.cells.order(:cell_id)
-      @grid_matrix = @cells.each_slice(@grid.size).to_a
+      @visibility = current_user.visibility_for(@grid)
+      @cells = @grid.cells.where("cell_loc LIKE ?", "R[0-#{@visibility - 1}]C[0-#{@visibility - 1}]")
+      @cells = @cells.order(:cell_id)
+      print(@cells)
+      print(@visibility)
+      @grid_matrix = @cells.each_slice(@visibility).to_a
       @character = Character.find_by(username: @user.username)
     end
   end
@@ -47,17 +51,16 @@ class GridsController < ApplicationController
   def expand
     @grid = Grid.find_by(grid_id: params[:id])
     if @grid.nil?
-      # puts "grid nil entered"
       flash[:error] = "Grid not found"
       redirect_to grids_path
     else
-      @grid.size += 1
-      if @grid.save
-        @grid.expand_grid
+      current_visibility = current_user.visibility_for(@grid)
+      if current_visibility < Grid::GRID_SIZE
+        new_visibility = current_visibility + 1
+        current_user.set_visibility_for(@grid, new_visibility)
         flash[:notice] = "Grid expanded successfully"
-        # puts "grid expanded succcessfully"
       else
-        flash[:error] = "Failed to expand grid"
+        flash[:alert] = "Maximum grid size reached"
       end
       redirect_to @grid
     end
@@ -65,8 +68,12 @@ class GridsController < ApplicationController
 
 
   private
+
+  def set_grid
+    @grid = Grid.find_by(grid_id: params[:id])
+  end
   def grid_params
-    params.require(:grid).permit(:grid_id, :size, :name)
+    params.require(:grid).permit(:grid_id, :name)
   end
 
   def set_user
