@@ -4,6 +4,7 @@
     <title><%= content_for(:title) || "Shards Of The Grid With Saas Principles" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" cogit ntent="yes">
+    <%= javascript_include_tag 'application', 'data-turbo-track': 'reload' %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -34,7 +35,7 @@
         <li><%= link_to 'Profile', user_path(current_user.username) %></li>
         <li><%= link_to 'Store', store_path(current_user.username) %></li>
         <li><%= link_to 'Grid', grids_path %></li>
-        <li> Logout </li>
+        <%= button_to 'Logout', logout_path, method: :delete %>
       </ul>
     </nav>
   <% end %>

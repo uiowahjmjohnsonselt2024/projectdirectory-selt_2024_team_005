@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   # Sessions Routes (login/logout)
   get "login", to: "sessions#new"       # Show login form
   post "login", to: "sessions#create"    # Handle login form submission
-  delete "logout", to: "sessions#destroy" # Handle logout (destroy session)
+  delete "logout", to: "sessions#destroy", as: :logout # Handle logout (destroy session)
 
   # Home routes
   get "home", to: "home#index"
@@ -40,6 +40,8 @@ Rails.application.routes.draw do
   # Character create and update
   post "create_character", to: "characters#create", as: "create_character"
   resources :characters, param: :username, only: [ :new, :create, :update ]
+
+
 
   # Grid and Cell routes
   resources :grids do
