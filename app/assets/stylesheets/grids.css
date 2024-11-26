@@ -100,3 +100,33 @@
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+.equipped-item {
+    display: flex;
+    align-items: center;  /* Centers the items vertically */
+    gap: 10px;  /* Adds space between the icon and the text */
+}
+
+.equipped-item-icon {
+    width: 40px;  /* Adjust as needed */
+    height: 40px;  /* Adjust as needed */
+    border: 2px solid #ccc;  /* Add a border (color and thickness) */
+    padding: 5px;  /* Optional: Add padding inside the border */
+    background-color: #e6fdff;  /* Color of the box */
+}
+
+.item-details {
+    display: flex;
+    flex-direction: column;  /* Stacks the name and attack stat vertically */
+}
+
+.item-name {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.item-stat {
+    color: #666;
+    margin-top: 0;  /* Removes any extra space above the stat */
+    line-height: 1;  /* Reduces space between the name and stat */
+}

@@ -1,8 +1,29 @@
 <div data-controller="grid">
   <div class="grid-container">
     <div id="character-stats">
-      <h2>Character Name</h2>
-      <p>Character stats</p>
+      <h2>
+        <%= @character.character_name %> - Lv <%= @character.level %>
+      </h2>
+      <p><strong>HP:</strong> <%= @character.current_hp %> / <%= @character.max_hp %></p>
+      <p><strong>EXP:</strong> <%= @character.current_exp %> / <%= @character.exp_to_level %></p>
+      <p><strong>Shards:</strong> <%= @user.shard_balance %></p>
+
+      <div class="equipped-item">
+        <%= image_tag(@weapon.icon, class: 'equipped-item-icon') %>
+        <div class="item-details">
+          <p class="item-name"><%= @weapon.name %></p>
+          <p class="item-stat">ATK: <%= @weapon.atk_bonus %></p>
+        </div>
+      </div>
+
+      <div class="equipped-item">
+        <%= image_tag(@armor.icon, class: 'equipped-item-icon') %>
+        <div class="item-details">
+          <p class="item-name"><%= @armor.name %></p>
+          <p class="item-stat">DEF: <%= @armor.def_bonus %></p>
+        </div>
+      </div>
+
     </div>
 
     <div class="grid">

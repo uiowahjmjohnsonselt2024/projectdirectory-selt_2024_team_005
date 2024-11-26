@@ -41,6 +41,8 @@ class GridsController < ApplicationController
       @cells = @grid.cells.order(:cell_id)
       @grid_matrix = @cells.each_slice(@grid.size).to_a
       @character = Character.find_by(username: @user.username)
+      @weapon = Weapon.find_by(weapon_id: @character.weapon_id)
+      @armor = Armor.find_by(armor_id: @character.armor_id)
     end
   end
 
