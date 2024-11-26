@@ -64,9 +64,9 @@ class UsersController < ApplicationController
       redirect_to user_path(@user.username) and return
     end
 
-    @character.shard_balance += shards_to_credit
+    @user.shard_balance += shards_to_credit
 
-    if @character.save
+    if @user.save
       flash[:notice] = "Successfully purchased #{shards_to_credit} shards."
       redirect_to user_path(@user.username)
     else
@@ -99,7 +99,6 @@ class UsersController < ApplicationController
         character_name: @user.username,   # This should be able to modify
         username: @user.username,
         health: 100,
-        shard_balance: 0,
         experience: 0,
         level: 1,
         grid_id: 1,

@@ -1,3 +1,5 @@
+<h1><%= @grid.name %></h1>
+
 <div data-controller="grid">
   <div class="grid-container">
     <% @grid_matrix.each do |row| %>
@@ -8,16 +10,17 @@
                data-action="click->grid#showDetails"
                data-cell-id="<%= cell.id %>">
             <%= cell.cell_loc %>
-            <% if @character && @character.cell_id == cell.cell_id %>
-              <div class="character" data-character-id="<%= @character.id %>" >
-                <%= @character.character_name %>
-              </div>
-            <% end %>
           </div>
         <% end %>
       </div>
     <% end %>
   </div>
+
+  <% if @visibility < Grid::GRID_SIZE %>
+    <%= button_to 'Expand (costs 10 shards)', expand_grid_path(@grid), method: :patch, class: 'expand-button' %>
+  <% else %>
+    <p>Maximum grid size reached.</p>
+  <% end %>
 
   <div id="cell-details" data-grid-target="details">
     <h2>Cell Details</h2>
@@ -25,5 +28,4 @@
       Select a cell to see the details!
     </div>
   </div>
-
 </div>

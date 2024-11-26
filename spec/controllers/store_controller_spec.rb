@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe StoreController, type: :controller do
-  let(:grid) { Grid.create!(name: 'Test Grid') }
+  let(:grid) { Grid.create!(name: 'Test Grid', size: 10) }
   let(:cell) { Cell.create!(id: 1, grid_id: grid.id, cell_loc: '1A', mons_prob: 0.3, disaster_prob: 0.3, weather: 'Sunny', terrain: 'desert', has_store: true) }
   let(:inventory) { Inventory.create!(inv_id: 1) }
-  let(:user) { User.create!(username: 'awesomehawkeye', email: 'awesome@uiowa.edu', password_digest: '12345') }
-  let(:character) { Character.create!(username: user.username, character_name: 'Hawkeye', shard_balance: 50, health: 100, experience: 0, level: 1, grid_id: grid.id, cell_id: cell.id, inv_id: inventory.id) }
+  let(:user) { User.create!(username: 'awesomehawkeye', email: 'awesome@uiowa.edu', shard_balance: 50, password_digest: '12345') }
+  let(:character) { Character.create!(username: user.username, character_name: 'Hawkeye', health: 100, experience: 0, level: 1, grid_id: grid.id, cell_id: cell.id, inv_id: inventory.id) }
   let(:item) { Item.create!(item_id: 1, name: 'Test Item', category: 'Weapon', cost: 10) }
 
 
@@ -46,10 +46,11 @@ RSpec.describe StoreController, type: :controller do
       it 'deducts shards and adds item to inventory' do
         post :buy_item, params: { username: user.username, id: item.id }
 
+        user.reload
         character.reload
         inventory.reload
 
-        expect(character.shard_balance).to eq(40)
+        expect(user.shard_balance).to eq(40)
         expect(inventory.items).to include(item.item_id)
         expect(flash[:notice]).to eq("Item purchased successfully.")
         expect(response).to redirect_to(store_path)
@@ -57,7 +58,7 @@ RSpec.describe StoreController, type: :controller do
     end
 
     context 'when the character has insufficient shard balance' do
-      before { character.update(shard_balance: 5) }
+      before { user.update(shard_balance: 5) }
 
       it 'does not allow purchase and shows an alert' do
         post :buy_item, params: { username: user.username, id: item.id }
@@ -76,7 +77,7 @@ RSpec.describe StoreController, type: :controller do
     end
 
     context 'when the character does not have enough shards' do
-      before { character.update(shard_balance: 0) }
+      before { user.update(shard_balance: 0) }
 
       it 'shows an alert and does not make the purchase' do
         post :buy_item, params: { username: user.username, id: item.id }

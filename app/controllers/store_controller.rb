@@ -14,19 +14,19 @@ class StoreController < ApplicationController
       redirect_to user_path(@user.username) and return
     end
 
-    if @character.shard_balance.nil?
+    if @user.shard_balance.nil?
       flash[:alert] = "Insufficient balance to purchase this item."
       redirect_to store_path and return
     end
-    if @character.shard_balance < item.cost
+    if @user.shard_balance < item.cost
       flash[:alert] = "Insufficient balance to purchase this item."
       redirect_to store_path and return
     end
     inventory = Inventory.find(@character.inv_id) # Find the inventory using the character's inventory ID
     inventory.items << item.item_id
-    @character.shard_balance -= item.cost
+    @user.shard_balance -= item.cost
 
-    if @character.save && inventory.save
+    if @user.save && @character.save && inventory.save
       flash[:notice] = "Item purchased successfully."
       redirect_to store_path
     else
