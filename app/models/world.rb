@@ -1,7 +1,5 @@
 class World < ApplicationRecord
-  has_one :grid
-  has_many :world_players, dependent: :destroy
-  has_many :players, through: :world_players, source: :user
-
+  belongs_to :grid # A world is linked to an existing grid
   validates :name, presence: true
+  validates :grid, presence: true # Ensure a grid is always associated with a world
 end
