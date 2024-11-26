@@ -99,7 +99,6 @@ class UsersController < ApplicationController
         character_name: @user.username,   # This should be able to modify
         username: @user.username,
         health: 100,
-        shard_balance: 0,
         experience: 0,
         level: 1,
         grid_id: 1,

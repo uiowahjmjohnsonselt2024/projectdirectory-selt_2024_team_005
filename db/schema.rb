@@ -73,7 +73,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_25_052111) do
   create_table "users", primary_key: "username", id: :string, force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
-    t.integer "shard_balance", null: false
+    t.integer "shard_balance", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
