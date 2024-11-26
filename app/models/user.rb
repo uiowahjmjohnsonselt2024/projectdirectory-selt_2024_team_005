@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
 
   # For Multiplayer, worlds(servers)/world_players(the players in that server)
-  has_many :world_players, dependent: :destroy
+  has_many :world_players, foreign_key: :username, primary_key: :username
   has_many :worlds, through: :world_players
 
   has_many :user_grid_visibilities, foreign_key: "username", dependent: :destroy

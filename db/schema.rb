@@ -9,8 +9,8 @@
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
-ActiveRecord::Schema[7.2].define(version: 2024_11_25_052111) do
 
+ActiveRecord::Schema[7.2].define(version: 2024_11_26_091726) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -80,8 +80,18 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_25_052111) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  create_table "world_players", id: false, force: :cascade do |t|
+    t.string "username", null: false
+    t.integer "grid_id", null: false
+    t.bigint "world_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["username", "grid_id"], name: "index_world_players_on_username_and_grid_id", unique: true
+    t.index ["world_id"], name: "index_world_players_on_world_id"
+  end
+
   create_table "worlds", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.bigint "grid_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -93,10 +103,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_25_052111) do
   add_foreign_key "characters", "grids", primary_key: "grid_id"
   add_foreign_key "characters", "inventories", column: "inv_id", primary_key: "inv_id"
   add_foreign_key "characters", "users", column: "username", primary_key: "username"
-<<<<<<< HEAD
-  add_foreign_key "worlds", "grids", primary_key: "grid_id"
-=======
   add_foreign_key "user_grid_visibilities", "grids", primary_key: "grid_id"
   add_foreign_key "user_grid_visibilities", "users", column: "username", primary_key: "username"
->>>>>>> 0592b3a9ceb924137426fa375964161cc14395ef
+  add_foreign_key "world_players", "grids", primary_key: "grid_id"
+  add_foreign_key "world_players", "users", column: "username", primary_key: "username"
+  add_foreign_key "world_players", "worlds"
+  add_foreign_key "worlds", "grids", primary_key: "grid_id"
 end
