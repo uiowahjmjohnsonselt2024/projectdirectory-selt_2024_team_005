@@ -14,13 +14,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_025800) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "armors", primary_key: "armor_id", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "def_bonus", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "cells", primary_key: "cell_id", id: :serial, force: :cascade do |t|
     t.string "cell_loc", null: false
     t.float "mons_prob"
@@ -65,17 +58,35 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_025800) do
   end
 
   create_table "items", primary_key: "item_id", id: :serial, force: :cascade do |t|
-    t.integer "cost", null: false
     t.integer "itemable_id", null: false
     t.string "itemable_type", null: false
+    t.string "icon", null: false
+    t.integer "cost", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_items_on_item_id", unique: true
     t.index ["itemable_type", "itemable_id"], name: "index_items_on_itemable_type_and_itemable_id"
   end
 
+  create_table "weapons", primary_key: "weapon_id", id: :serial, force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description", null: false
+    t.integer "atk_bonus", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "armors", primary_key: "armor_id", id: :serial, force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.integer "def_bonus", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "potions", primary_key: "potion_id", id: :serial, force: :cascade do |t|
     t.string "name", null: false
+    t.string "description"
     t.integer "hp_regen", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -89,13 +100,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_025800) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
-  end
-
-  create_table "weapons", primary_key: "weapon_id", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "atk_bonus", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "cells", "grids", primary_key: "grid_id"
