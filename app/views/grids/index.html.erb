@@ -14,11 +14,6 @@
 
 <!-- Create cannot work properly -->
 <%= link_to 'Create a new grid', new_grid_path, class: 'create-button' %>
-<% if @grid %>
-  <%= button_to 'Expand', expand_grid_path(@grid), method: :patch, class: 'expand-button' %>
-<% else %>
-  <p>No grid available to expand. Create one!</p>
-<% end %>
 
 <table class="grids-table">
   <thead>

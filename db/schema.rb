@@ -9,8 +9,8 @@
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
+ActiveRecord::Schema[7.2].define(version: 2024_11_25_052111) do
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_26_083246) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,7 +30,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_26_083246) do
   create_table "characters", primary_key: "character_name", id: :string, force: :cascade do |t|
     t.string "username", null: false
     t.integer "health", null: false
-    t.integer "shard_balance", null: false
     t.integer "experience", null: false
     t.integer "level", null: false
     t.integer "grid_id", null: false
@@ -41,7 +40,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_26_083246) do
   end
 
   create_table "grids", primary_key: "grid_id", id: :serial, force: :cascade do |t|
-    t.integer "size", null: false
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -63,9 +61,19 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_26_083246) do
     t.index ["item_id"], name: "index_items_on_item_id", unique: true
   end
 
+  create_table "user_grid_visibilities", force: :cascade do |t|
+    t.string "username", null: false
+    t.integer "grid_id", null: false
+    t.integer "visibility", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["username", "grid_id"], name: "index_user_grid_visibilities_on_username_and_grid_id", unique: true
+  end
+
   create_table "users", primary_key: "username", id: :string, force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
+    t.integer "shard_balance", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -85,5 +93,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_26_083246) do
   add_foreign_key "characters", "grids", primary_key: "grid_id"
   add_foreign_key "characters", "inventories", column: "inv_id", primary_key: "inv_id"
   add_foreign_key "characters", "users", column: "username", primary_key: "username"
+<<<<<<< HEAD
   add_foreign_key "worlds", "grids", primary_key: "grid_id"
+=======
+  add_foreign_key "user_grid_visibilities", "grids", primary_key: "grid_id"
+  add_foreign_key "user_grid_visibilities", "users", column: "username", primary_key: "username"
+>>>>>>> 0592b3a9ceb924137426fa375964161cc14395ef
 end

@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   # Sessions Routes (login/logout)
   get "login", to: "sessions#new"       # Show login form
   post "login", to: "sessions#create"    # Handle login form submission
-  delete "logout", to: "sessions#destroy" # Handle logout (destroy session)
+  delete "logout", to: "sessions#destroy", as: :logout # Handle logout (destroy session)
 
   # Home routes
   get "home", to: "home#index"

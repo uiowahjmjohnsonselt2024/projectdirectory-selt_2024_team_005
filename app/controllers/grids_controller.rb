@@ -38,8 +38,12 @@ class GridsController < ApplicationController
       flash[:error] = "Grid not found"
       redirect_to grids_path
     else
-      @cells = @grid.cells.order(:cell_id)
-      @grid_matrix = @cells.each_slice(@grid.size).to_a
+      @visibility = current_user.visibility_for(@grid)
+      numbers = (0...@visibility).to_a.map(&:to_s)
+      numbers_pattern = numbers.join("|")
+      pattern = "^R(#{numbers_pattern})C(#{numbers_pattern})$"
+      @cells = @grid.cells.where("cell_loc ~ ?", pattern).order(:cell_id)
+      @grid_matrix = @cells.each_slice(@visibility).to_a
       @character = Character.find_by(username: @user.username)
     end
   end
@@ -47,17 +51,22 @@ class GridsController < ApplicationController
   def expand
     @grid = Grid.find_by(grid_id: params[:id])
     if @grid.nil?
-      # puts "grid nil entered"
       flash[:error] = "Grid not found"
       redirect_to grids_path
     else
-      @grid.size += 1
-      if @grid.save
-        @grid.expand_grid
-        flash[:notice] = "Grid expanded successfully"
-        # puts "grid expanded succcessfully"
+      current_visibility = current_user.visibility_for(@grid)
+      if current_visibility < Grid::GRID_SIZE
+        if @user.shard_balance >= 10
+          @user.shard_balance -= 10
+          @user.save
+          new_visibility = current_visibility + 1
+          current_user.set_visibility_for(@grid, new_visibility)
+          flash[:notice] = "Grid expanded successfully"
+        else
+          flash[:alert] = "Not enough shards to expand the grid"
+        end
       else
-        flash[:error] = "Failed to expand grid"
+        flash[:alert] = "Maximum grid size reached"
       end
       redirect_to @grid
     end
@@ -65,8 +74,12 @@ class GridsController < ApplicationController
 
 
   private
+
+  def set_grid
+    @grid = Grid.find_by(grid_id: params[:id])
+  end
   def grid_params
-    params.require(:grid).permit(:grid_id, :size, :name)
+    params.require(:grid).permit(:grid_id, :name)
   end
 
   def set_user
@@ -75,6 +88,7 @@ class GridsController < ApplicationController
       Rails.logger.info "No user found in session."
     else
       Rails.logger.info "User found: #{@user.username}"
+      @character = Character.find_by(username: @user.username)
     end
   end
 end
