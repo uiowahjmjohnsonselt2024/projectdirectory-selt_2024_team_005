@@ -43,6 +43,7 @@ class GridsController < ApplicationController
       @character = Character.find_by(username: @user.username)
       @weapon = Weapon.find_by(weapon_id: @character.weapon_id)
       @armor = Armor.find_by(armor_id: @character.armor_id)
+      @inventory = Inventory.find_by(inv_id: @character.inv_id)
     end
   end
 

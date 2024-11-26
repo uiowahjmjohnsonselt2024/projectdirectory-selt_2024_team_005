@@ -103,16 +103,16 @@
 
 .equipped-item {
     display: flex;
-    align-items: center;  /* Centers the items vertically */
-    gap: 10px;  /* Adds space between the icon and the text */
+    align-items: center;
+    gap: 10px;
 }
 
 .equipped-item-icon {
-    width: 40px;  /* Adjust as needed */
-    height: 40px;  /* Adjust as needed */
-    border: 2px solid #ccc;  /* Add a border (color and thickness) */
-    padding: 5px;  /* Optional: Add padding inside the border */
-    background-color: #e6fdff;  /* Color of the box */
+    width: 40px;
+    height: 40px;
+    border: 2px solid #ccc;
+    padding: 5px;
+    background-color: #e6fdff;
 }
 
 .item-details {
@@ -127,6 +127,41 @@
 
 .item-stat {
     color: #666;
-    margin-top: 0;  /* Removes any extra space above the stat */
-    line-height: 1;  /* Reduces space between the name and stat */
+    margin-top: 0;
+    line-height: 1;
+}
+
+.inventory-grid {
+    display: inline-grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 0;
+}
+
+.inventory-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 5px;
+    margin: 0;
+    width: 50px;
+    height: 50px;
+    box-sizing: border-box;
+}
+
+.inventory-item-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;  /* Ensure icon fits inside the box */
+}
+
+.empty-slot {
+    width: 100%;
+    height: 100%;
+    background-color: #e6e6e6;  /* Light grey for empty slots */
+    border: 1px dashed #ccc;  /* Dashed border for empty slots */
+    padding: 0;
 }
