@@ -1,0 +1,17 @@
+{
+  "name": "projectdirectory-selt_2024_team_005",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uiowahjmjohnsonselt2024/projectdirectory-selt_2024_team_005.git"
+  },
+  "private": true,
+  "devDependencies": {
+    "esbuild": "^0.24.0"
+  }
+}

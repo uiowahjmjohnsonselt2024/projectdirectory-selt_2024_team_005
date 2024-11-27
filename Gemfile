@@ -5,6 +5,8 @@ ruby "3.3.0"
 gem "rails", "~> 7.2.2"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
+# Hotwire itself!
+gem "hotwire-rails"
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", ">= 2.1"
 # Use the Puma web server [https://github.com/puma/puma]
@@ -84,4 +86,5 @@ group :test do
   gem "database_cleaner"
   gem "rails-controller-testing"
   gem "simplecov", "~> 0.22.0"
+
 end
