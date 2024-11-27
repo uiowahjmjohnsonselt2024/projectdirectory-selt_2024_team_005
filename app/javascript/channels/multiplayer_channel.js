@@ -20,6 +20,10 @@ consumer.subscriptions.create(
         // Called when there's incoming data on the WebSocket for this channel
         received(data) {
             console.log("Received data:", data);
+            const chatBox = document.getElementById("chat-box");
+            const messageElement = document.createElement("div");
+            messageElement.textContent = `${data.username}: ${data.message}`;
+            chatBox.appendChild(messageElement);
 
             // Check if the data is about a player move
             if (data.type === "player_move") {
@@ -29,18 +33,13 @@ consumer.subscriptions.create(
     }
 )
 
-// Update the player's position on the grid (client-side logic)
+// Update the player's position on the grid
 function updatePlayerPosition(data) {
     const playerElement = document.getElementById(`player-${data.player_id}`);
 
     if (playerElement) {
         // Move the player element to the new position
-        playerElement.style.top = `${data.new_position.y}px`;
-        playerElement.style.left = `${data.new_position.x}px`;
-
-        // Optionally, display a message about the move
-        const messageElement = document.createElement("p");
-        messageElement.innerText = `${data.username} moved to ${data.new_position.x}, ${data.new_position.y}`;
-        document.getElementById("movement-messages").appendChild(messageElement);
+        // playerElement.style.top = `${data.new_position.y}px`;
+        // playerElement.style.left = `${data.new_position.x}px`;
     }
 }

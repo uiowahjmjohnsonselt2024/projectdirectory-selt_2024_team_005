@@ -8,6 +8,11 @@ class User < ApplicationRecord
   has_many :world_players, foreign_key: :username, primary_key: :username
   has_many :worlds, through: :world_players
 
+  # Messaging
+  has_many :messages, foreign_key: :username
+
+
+
   has_many :user_grid_visibilities, foreign_key: "username", dependent: :destroy
   has_many :grids, through: :user_grid_visibilities
   validates :shard_balance, presence: true, numericality: { greater_than_or_equal_to: 0 }

@@ -13,5 +13,8 @@
   "private": true,
   "devDependencies": {
     "esbuild": "^0.24.0"
+  },
+  "dependencies": {
+    "@rails/actioncable": "^8.0.0"
   }
 }

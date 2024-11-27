@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_26_091726) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_27_072531) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,6 +61,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_26_091726) do
     t.index ["item_id"], name: "index_items_on_item_id", unique: true
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.text "content"
+    t.string "username", null: false
+    t.bigint "world_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["world_id"], name: "index_messages_on_world_id"
+  end
+
   create_table "user_grid_visibilities", force: :cascade do |t|
     t.string "username", null: false
     t.integer "grid_id", null: false
@@ -103,6 +112,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_26_091726) do
   add_foreign_key "characters", "grids", primary_key: "grid_id"
   add_foreign_key "characters", "inventories", column: "inv_id", primary_key: "inv_id"
   add_foreign_key "characters", "users", column: "username", primary_key: "username"
+  add_foreign_key "messages", "users", column: "username", primary_key: "username"
+  add_foreign_key "messages", "worlds"
   add_foreign_key "user_grid_visibilities", "grids", primary_key: "grid_id"
   add_foreign_key "user_grid_visibilities", "users", column: "username", primary_key: "username"
   add_foreign_key "world_players", "grids", primary_key: "grid_id"

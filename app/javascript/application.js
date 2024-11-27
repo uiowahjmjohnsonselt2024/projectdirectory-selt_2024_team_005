@@ -2,5 +2,6 @@
 import _ from "lodash";
 import "@hotwired/turbo-rails"
 import "controllers"
+import "channels"
 import Rails from "@rails/ujs";
 Rails.start();

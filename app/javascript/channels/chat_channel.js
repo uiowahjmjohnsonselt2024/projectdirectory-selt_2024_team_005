@@ -1,15 +1,41 @@
-import consumer from "./consumer"
+import consumer from "channels/consumer";
 
-consumer.subscriptions.create("ChatChannel", {
-  connected() {
-    // Called when the subscription is ready for use on the server
-  },
+document.addEventListener('DOMContentLoaded', () => {
+  const sendButton = document.getElementById('send-button');
+  const messageInput = document.getElementById('message-input');
+  const worldId = 1;  // Replace with dynamic world ID (e.g., passed from controller or URL)
 
-  disconnected() {
-    // Called when the subscription has been terminated by the server
-  },
+  if (sendButton) {
+    sendButton.addEventListener('click', sendChatMessage);
+  }
 
-  received(data) {
-    // Called when there's incoming data on the websocket for this channel
+  // Connect to the chat channel for the current world
+  const chatChannel = consumer.subscriptions.create(
+      { channel: "ChatChannel", world_id: worldId },  // Pass the world_id dynamically
+      {
+        connected() {
+          console.log(`Connected to chat channel for world ${worldId}`);
+        },
+
+        disconnected() {
+          console.log(`Disconnected from chat channel for world ${worldId}`);
+        },
+
+        received(data) {
+          const messageList = document.getElementById('message-list'); // List of chat messages
+          const messageElement = document.createElement('div');
+          messageElement.textContent = `${data.username}: ${data.message}`;
+          messageList.appendChild(messageElement);
+        }
+      }
+  );
+
+  function sendChatMessage() {
+    const message = messageInput.value;
+    if (message.trim()) {
+      // Send the message to the channel
+      chatChannel.send({ message: message });
+      messageInput.value = ''; // Clear input field
+    }
   }
 });

@@ -3,4 +3,4 @@
 pin "application"
 pin "lodash", to: "https://cdn.skypack.dev/lodash"
 
-pin "@hotwired/turbo-rails", to: "turbo.min.js"
+pin "turbo", to: "turbo.min.js"
