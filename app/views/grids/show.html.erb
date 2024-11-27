@@ -28,15 +28,36 @@
         <% @inventory.items.each_with_index do |item_id, index| %>
           <% item = @inventory.items[index] ? Item.find(@inventory.items[index]).itemable : nil %>
           <div class="inventory-item <%= 'empty-slot' if item.nil? %>"
-               data-action="click->inventory-grid#select"
+               data-action="
+                 click->inventory-grid#select
+                 mouseenter->inventory-grid#hover
+                 mouseleave->inventory-grid#leave
+                 mouseleave->inventory-grid#hidePopoverOnMouseLeave"
                data-index="<%= index %>"
                data-target="inventory-grid.slot">
+
+            <!-- Popover content that appears on click -->
+            <div class="popover-menu" data-target="inventory-grid.popover" style="display: none;">
+              <div class="popover-buttons">
+                <button class="popover-button use-button">Use</button>
+                <button class="popover-button discard-button">Discard</button>
+              </div>
+            </div>
+
+            <!-- Hover popover content for preview -->
+            <div class="hover-popover" data-target="inventory-grid.hoverPopover" style="display: none;">
+              <p><%= item&.name %></p>
+              <p><%= item&.description %></p>
+            </div>
+
             <% if item %>
               <%= image_tag(item.icon, class: 'inventory-item-icon') %>
             <% end %>
           </div>
         <% end %>
       </div>
+
+
 
     </div>
 
