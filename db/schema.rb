@@ -43,8 +43,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_025800) do
     t.integer "current_exp", null: false
     t.integer "exp_to_level", null: false
     t.integer "level", null: false
-    t.integer "weapon_id", null: false
-    t.integer "armor_id", null: false
+    t.integer "weapon_item_id", null: false
+    t.integer "armor_item_id", null: false
     t.integer "grid_id", null: false
     t.integer "cell_id", null: false
     t.integer "inv_id", null: false
