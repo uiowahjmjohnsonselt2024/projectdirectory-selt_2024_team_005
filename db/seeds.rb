@@ -29,8 +29,7 @@ end
 # Tips: We can't directly specify the cell_id as @cell.cell_id, cause cells are generated after creating grid
 # For now just set it as 1000 for simple, this should be modified as we need store characters last location
 @character1 = Character.find_or_create_by!(username: @user.username, character_name: 'Hawkeye', level: 1, grid_id: @grid.grid_id,
-                                           cell_id: @first_cell.cell_id, inv_id: @inventory1.inv_id,
-                                           weapon_id: @item1.itemable.id, armor_id: @item2.itemable.id) do |character|
+                                           cell_id: @first_cell.cell_id, inv_id: @inventory1.inv_id) do |character|
   character.current_hp = character.max_hp
   character.current_exp = 0
 end
@@ -42,8 +41,7 @@ end
   user.shard_balance = 100000000
 end
 @character2 = Character.find_or_create_by!(username: @user2.username, character_name: 'Hawkeye2', level: 1, grid_id: @grid.grid_id,
-                                           cell_id: @first_cell.cell_id, inv_id: @inventory2.inv_id,
-                                           weapon_id: @item1.itemable.id, armor_id: @item2.itemable.id) do |character|
+                                           cell_id: @first_cell.cell_id, inv_id: @inventory2.inv_id) do |character|
   character.current_hp = character.max_hp
   character.current_exp = 0
 end

@@ -8,8 +8,14 @@ class Character < ApplicationRecord
   validates :level, presence: true, numericality: { greater_than_or_equal_to: 1 }
 
   before_save :set_hp_and_exp, if: :level_changed?
+  before_save :set_default_equipment, if: :new_record?
 
   private
+
+  def set_default_equipment
+    self.weapon_item_id ||= Item.find_by(itemable_type: 'Weapon', itemable_id: 1).id
+    self.armor_item_id ||= Item.find_by(itemable_type: 'Armor', itemable_id: 1).id
+  end
 
   def set_hp_and_exp
     self.max_hp = calculate_max_hp(level)

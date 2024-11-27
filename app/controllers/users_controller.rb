@@ -102,9 +102,7 @@ class UsersController < ApplicationController
         level: 1,
         grid_id: 1,
         cell_id: Grid.find(1).cells.order(:cell_id).first.cell_id,
-        inv_id: @inventory.inv_id,
-        weapon_id: 1,
-        armor_id: 1
+        inv_id: @inventory.inv_id
       )
       flash.now[:notice] = "Account and a default character successfully created! Please log in."
       redirect_to login_path  # Redirect to the login page after successful account creation
