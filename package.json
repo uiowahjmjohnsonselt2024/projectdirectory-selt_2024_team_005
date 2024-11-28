@@ -15,7 +15,9 @@
     "esbuild": "^0.24.0"
   },
   "dependencies": {
+    "@hotwired/turbo-rails": "^7.0.0",
     "@rails/actioncable": "^8.0.0",
-    "@hotwired/turbo-rails": "^7.0.0"
+    "actioncable": "^5.2.8-1",
+    "stimulus": "^3.2.2"
   }
 }

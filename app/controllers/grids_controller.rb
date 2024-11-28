@@ -34,7 +34,11 @@ class GridsController < ApplicationController
 
   def show
     @grid = Grid.find_by(grid_id: params[:id])
-    @world = @grid.world
+    @world = World.find_by(grid_id: params[:id])
+    if @world.nil?
+      flash[:alert] = "World not found"
+      redirect_to grids_path
+    end
     if @grid.nil?
       flash[:error] = "Grid not found"
       redirect_to grids_path
