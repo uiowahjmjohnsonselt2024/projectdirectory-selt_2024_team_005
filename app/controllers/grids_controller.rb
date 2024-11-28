@@ -38,7 +38,7 @@ class GridsController < ApplicationController
       flash[:error] = "Grid not found"
       redirect_to grids_path
     else
-      @visibility = current_user.visibility_for(@grid)
+      @visibility = @user.visibility_for(@grid)
       numbers = (0...@visibility).to_a.map(&:to_s)
       numbers_pattern = numbers.join("|")
       pattern = "^R(#{numbers_pattern})C(#{numbers_pattern})$"
@@ -54,13 +54,13 @@ class GridsController < ApplicationController
       flash[:error] = "Grid not found"
       redirect_to grids_path
     else
-      current_visibility = current_user.visibility_for(@grid)
+      current_visibility = @user.visibility_for(@grid)
       if current_visibility < Grid::GRID_SIZE
         if @user.shard_balance >= 10
           @user.shard_balance -= 10
           @user.save
           new_visibility = current_visibility + 1
-          current_user.set_visibility_for(@grid, new_visibility)
+          @user.set_visibility_for(@grid, new_visibility)
           flash[:notice] = "Grid expanded successfully"
         else
           flash[:alert] = "Not enough shards to expand the grid"

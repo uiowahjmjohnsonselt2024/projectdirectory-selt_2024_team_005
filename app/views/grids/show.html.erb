@@ -1,6 +1,6 @@
 <h1><%= @grid.name %></h1>
 
-<div data-controller="grid">
+<div data-controller="grid" data-grid-size="<%= @visibility %>">
   <div class="grid-container">
     <% @grid_matrix.each do |row| %>
       <div class="grid-row">
@@ -10,6 +10,11 @@
                data-action="click->grid#showDetails"
                data-cell-id="<%= cell.id %>">
             <%= cell.cell_loc %>
+            <% if @character && @character.cell_id == cell.cell_id %>
+              <div class="character" data-character-id="<%= @character.id %>" >
+                <%= @character.character_name %>
+              </div>
+            <% end %>
           </div>
         <% end %>
       </div>

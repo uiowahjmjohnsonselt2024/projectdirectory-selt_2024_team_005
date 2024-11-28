@@ -4,6 +4,9 @@ export default class extends Controller {
     static targets = ["details", "character"];
 
     connect() {
+        const gridSize = parseInt(this.element.dataset.gridSize, 10);
+        console.log("Grid size:", gridSize);
+        this.gridSize = gridSize;
         console.log("Grid Controller Connected");
         // Remove previous event listener
         document.removeEventListener("keydown", this.moveCharacterBound);
@@ -67,18 +70,20 @@ export default class extends Controller {
         let col = remainder % 100;
 
         // Calculate new row and col
+        const gridSize = this.gridSize;
+
         switch (event.key) {
             case "ArrowUp":
                 if (row > 0) row -= 1;
                 break;
             case "ArrowDown":
-                if (row < 5) row += 1;
+                if (row < gridSize-1) row += 1;
                 break;
             case "ArrowLeft":
                 if (col > 0) col -= 1;
                 break;
             case "ArrowRight":
-                if (col < 5) col += 1;
+                if (col < gridSize-1) col += 1;
                 break;
             default:
                 return;
