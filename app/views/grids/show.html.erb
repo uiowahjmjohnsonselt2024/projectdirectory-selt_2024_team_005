@@ -29,3 +29,44 @@
     </div>
   </div>
 </div>
+
+
+<!-- Chat box for displaying messages -->
+<div id="chat-box" data-world-id="<%=@world.id %>" style="height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
+  <!-- Messages will be appended here dynamically -->
+</div>
+
+<div id="chat-container">
+  <!-- Displaying the chat messages -->
+  <div id="message-list"></div>
+
+  <!-- Input for sending new messages -->
+  <label for="message-input">Enter your message:</label>
+  <input type="text" id="message-input" placeholder="Type your message...">
+  <button id="send-button">Send</button>
+</div>
+
+<% content_for :javascript do %>
+  <script>
+      document.addEventListener("turbo:load", () => {
+          const sendButton = document.getElementById("send-button");
+          const messageInput = document.getElementById("message-input");
+
+          // Add event listener to send button
+          sendButton.addEventListener("click", () => {
+              const message = messageInput.value.trim();
+              if (message) {
+                  // Call the function to send the message via ActionCable
+                  sendChatMessage(message);
+                  messageInput.value = ""; // Clear input field
+              }
+          });
+
+          // Define the function to send chat messages
+          function sendChatMessage(content) {
+              // Assuming chatChannel is already established in a separate JS file
+              chatChannel.perform("send_message", { content: content });
+          }
+      });
+  </script>
+<% end %>

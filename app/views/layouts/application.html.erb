@@ -4,7 +4,15 @@
     <title><%= content_for(:title) || "Shards Of The Grid With Saas Principles" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" cogit ntent="yes">
-    <%= javascript_include_tag 'application', 'data-turbo-track': 'reload' %>
+    <!-- Import map should come first -->
+    <script type="importmap" data-turbo-track="reload">
+      {
+        "imports": {
+          "application": "/assets/application-d1ed7e1c.js"
+        }
+      }
+    </script>
+    <%= javascript_include_tag 'application', type: 'module', 'data-turbo-track': 'reload' %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -49,19 +57,7 @@
   <% end %>
 
   <%= yield %>
+  <%= yield :javascript %>
+
   </body>
 </html>
-
-<!-- Chat box for displaying messages -->
-<div id="chat-box" style="height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
-  <!-- Messages will be appended here dynamically -->
-</div>
-
-<div id="chat-container">
-  <!-- Displaying the chat messages -->
-  <div id="message-list"></div>
-
-  <!-- Input for sending new messages -->
-  <input type="text" id="message-input" placeholder="Type your message...">
-  <button id="send-button">Send</button>
-</div>

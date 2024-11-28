@@ -1,6 +1,6 @@
-# Pin npm packages by running ./bin/importmap
-
 pin "application"
-pin "lodash", to: "https://cdn.skypack.dev/lodash"
-
-pin "turbo", to: "turbo.min.js"
+pin "@hotwired/turbo-rails", to: "turbo.min.js"
+pin "@hotwired/stimulus", to: "stimulus.min.js"
+pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
+pin_all_from "app/javascript/controllers", under: "controllers"
+pin "grid_controller", to: "controllers/grid_controller.js"

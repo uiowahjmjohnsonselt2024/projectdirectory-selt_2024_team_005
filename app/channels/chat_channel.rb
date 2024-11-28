@@ -16,10 +16,15 @@ class ChatChannel < ApplicationCable::Channel
     )
 
     # Broadcast the message to the chat channel
-    ActionCable.server.broadcast(
-      "chat_#{params[:world_id]}",
-      username: current_user.username,
-      message: message.content
-    )
+    if message.persisted?
+      ActionCable.server.broadcast(
+        "chat_#{params[:world_id]}",
+        username: current_user.username,
+        message: message.content
+      )
+    else
+      Rails.logger.error "Message save failed: #{message.errors.full_messages.join(', ')}"
+    end
+
   end
 end
