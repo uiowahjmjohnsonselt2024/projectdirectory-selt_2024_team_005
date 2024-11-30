@@ -23,7 +23,7 @@ class StoreController < ApplicationController
       redirect_to store_path and return
     end
     inventory = Inventory.find(@character.inv_id) # Find the inventory using the character's inventory ID
-    inventory.items << item.item_id
+    inventory.add_item(item.item_id)
     @user.shard_balance -= item.cost
 
     if @user.save && @character.save && inventory.save

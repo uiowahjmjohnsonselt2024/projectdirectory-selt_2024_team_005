@@ -82,6 +82,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.shard_balance ||= 0
 
     # Check if the username or email already exists
     if User.exists?(username: @user.username) || User.exists?(email: @user.email)
@@ -98,8 +99,6 @@ class UsersController < ApplicationController
       @character = Character.create!(
         character_name: @user.username,   # This should be able to modify
         username: @user.username,
-        health: 100,
-        experience: 0,
         level: 1,
         grid_id: 1,
         cell_id: Grid.find(1).cells.order(:cell_id).first.cell_id,
@@ -108,7 +107,7 @@ class UsersController < ApplicationController
       flash.now[:notice] = "Account and a default character successfully created! Please log in."
       redirect_to login_path  # Redirect to the login page after successful account creation
     else
-      flash.now[:notice] = ""
+      flash.now[:notice] = @user.errors.full_messages.join(", ")
       render :new  # Render the new user form again with error messages
     end
   end

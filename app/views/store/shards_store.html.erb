@@ -5,7 +5,7 @@
 <div class="store-items">
   <% @items.each do |item| %>
     <div class="item">
-      <h2><%= item.name %></h2>
+      <h2><%= item.itemable.name %></h2>
       <p><%= item.category %></p>
       <p>Price: $<%= item.cost %></p>
       <%= form_with(url: buy_item_path(@user.username, item.id), method: :post, local: true) do |form| %>
