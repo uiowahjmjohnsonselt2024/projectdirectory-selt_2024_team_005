@@ -6,7 +6,7 @@ RSpec.describe StoreController, type: :controller do
   let(:inventory) { Inventory.create!(inv_id: 1) }
   let(:user) { User.create!(username: 'awesomehawkeye', email: 'awesome@uiowa.edu', shard_balance: 50, password_digest: '12345') }
   let(:character) { Character.create!(username: user.username, character_name: 'Hawkeye', level: 1, grid_id: grid.id, cell_id: cell.id, inv_id: inventory.id) }
-  let(:weapon) { Weapon.create(name:'Test Item', atk_bonus: 1) }
+  let(:weapon) { Weapon.create(name: 'Test Item', atk_bonus: 1) }
   let(:item) { Item.create!(itemable: weapon, cost: 10) }
 
 
