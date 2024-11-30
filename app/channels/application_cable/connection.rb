@@ -4,7 +4,7 @@ module ApplicationCable
 
     def connect
       self.current_user = find_verified_user
-      Rails.logger.info "WebSocket connected: #{current_user}" # 调试日志
+      Rails.logger.info "WebSocket connected: #{current_user}"
     end
 
     private
