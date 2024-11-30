@@ -127,6 +127,6 @@
 }
 
 .username {
-    color: blue; /* 设置用户名的颜色为蓝色 */
-    font-weight: bold; /* 可选：加粗显示 */
+    color: blue;
+    font-weight: bold;
 }
