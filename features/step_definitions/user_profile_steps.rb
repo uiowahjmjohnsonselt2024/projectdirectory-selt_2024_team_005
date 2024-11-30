@@ -9,13 +9,14 @@ Given(/^I have an account and logged in$/) do
   @grid = Grid.create!(grid_id: 1, size: 10, name: 'earth')
   @cell = Cell.create!(cell_id: 1, cell_loc: '1A', mons_prob: 0.3, disaster_prob: 0.3, weather: 'Sunny',
                        terrain: 'desert', has_store: true, grid_id: @grid.grid_id)
-  @item1 = Item.create!(item_id: 1, name: 'thingy', category: 'sword', cost: 1)
-  @item2 = Item.create!(item_id: 2, name: 'stuff', category: 'shield', cost: 1)
+  @sword = Weapon.create!(name: 'sword', atk_bonus: 1)
+  @shield = Armor.create!(name: 'shield', def_bonus: 1)
+  @item1 = Item.create!(itemable: @sword, cost: 1)
+  @item2 = Item.create!(itemable: @shield, cost: 1)
 
   @inventory = Inventory.create!(inv_id: 1, items: [ @item1, @item2 ])
-  @character = Character.create!(username: @user.username, character_name: 'Hawkeye', health: 100,
-                                 experience: 0, level: 1, grid_id: @grid.grid_id, cell_id: @cell.cell_id,
-                                 inv_id: @inventory.inv_id)
+  @character = Character.create!(username: @user.username, character_name: 'Hawkeye', level: 1, grid_id: @grid.grid_id,
+                                 cell_id: @cell.cell_id, inv_id: @inventory.inv_id)
   visit login_path
   fill_in 'Username', with: 'awesomehawkeye'
   fill_in 'Password', with: '12345'

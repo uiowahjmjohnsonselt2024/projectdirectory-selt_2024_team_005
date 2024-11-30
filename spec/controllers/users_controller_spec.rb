@@ -4,8 +4,7 @@ RSpec.describe UsersController, type: :controller do
   let(:grid) { Grid.create!(id: 1, name: 'Test Grid') }
   let(:inventory) { Inventory.create!(inv_id: 1) }
   let(:cell) { Cell.create!(id: 1, grid_id: 1, cell_loc: '1A', mons_prob: 0.3, disaster_prob: 0.3, weather: 'Sunny', terrain: 'desert', has_store: true) }
-  let(:character) { Character.create!(username: user.username, character_name: 'Hawkeye', shard_balance: 0,
-                                      health: 100, experience: 0, level: 1, grid_id: 1, cell_id: 1, inv_id: 1) }
+  let(:character) { Character.create!(username: user.username, character_name: 'Hawkeye', level: 1, grid_id: 1, cell_id: 1, inv_id: 1) }
   describe 'GET #show' do
     context 'when the user exists' do
       it 'returns a successful response' do
