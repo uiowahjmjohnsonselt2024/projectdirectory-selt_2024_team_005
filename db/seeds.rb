@@ -19,7 +19,6 @@ end
 # @cell = Cell.find_or_create_by!(cell_id: 1, cell_loc: '1A', mons_prob: 0.3, disaster_prob: 0.3, weather: 'Sunny',
 #                                 terrain: 'desert', has_store: true, grid_id: @grid.grid_id)
 @first_cell = @grid.cells.order(:cell_id).first
-<<<<<<< HEAD
 @wooden_sword = Weapon.find_or_create_by!(name: 'Wooden Sword', atk_bonus: 1)
 @leather_armor = Armor.find_or_create_by!(name: 'Leather Armor', def_bonus: 1)
 @health_potion_xs = Potion.find_or_create_by!(name: 'Health Potion XS', hp_regen: 10)
@@ -38,20 +37,6 @@ end
 
 @inventory2 = Inventory.find_or_create_by!(inv_id: 2, items: [ @item1.item_id, @item2.item_id ])
 @user2 = User.find_or_create_by!(username: 'abcd2', email: 'student2@uiowa.edu') do |user|
-=======
-@item1 = Item.find_or_create_by!(item_id: 1, name: 'Mediocre Sword', category: 'Weapon', cost: 1)
-@item2 = Item.find_or_create_by!(item_id: 2, name: 'Health Pack', category: 'Support', cost: 1)
-
-@inventory = Inventory.find_or_create_by!(inv_id: 1, items: [ @item1, @item2 ])
-# Tips: We can't directly specify the cell_id as @cell.cell_id, cause cells are generated after creating grid
-# For now just set it as 1000 for simple, this should be modified as we need store characters last location
-@character = Character.find_or_create_by!(username: @user.username, character_name: 'Hawkeye', health: 100,
-                                          experience: 0, level: 1,  grid_id: @grid.grid_id,
-                                          cell_id:  @first_cell.cell_id, inv_id: @inventory.inv_id)
-
-@inventory2 = Inventory.find_or_create_by!(inv_id: 2, items: [ @item1, @item2 ])
-@user2 = User.find_or_create_by!(username: 'abcd2', email: 'student2@uiowa.edu', shard_balance: 20) do |user|
->>>>>>> origin
   user.password = '54321'
   user.password_confirmation = '54321'
   user.shard_balance = 100000000
@@ -61,9 +46,3 @@ end
   character.current_hp = character.max_hp
   character.current_exp = 0
 end
-<<<<<<< HEAD
-=======
-@character2 = Character.find_or_create_by!(username: @user2.username, character_name: 'Hawkeye2',
-                                           health: 100, experience: 0, level: 1, grid_id: @grid.grid_id,
-                                           cell_id:  @first_cell.cell_id, inv_id: @inventory.inv_id)
->>>>>>> origin
