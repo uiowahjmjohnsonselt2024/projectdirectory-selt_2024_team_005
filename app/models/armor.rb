@@ -8,6 +8,6 @@ class Armor < ApplicationRecord
   def set_default_description
     self.description ||= "DEF +#{def_bonus}" if def_bonus.present?
 
-    self.icon ||= 'armor.png'
+    self.icon ||= "armor.png"
   end
 end

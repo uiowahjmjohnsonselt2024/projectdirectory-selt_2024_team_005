@@ -8,6 +8,6 @@ class Potion < ApplicationRecord
   def set_default_description
     self.description ||= "HP +#{hp_regen}" if hp_regen.present?
 
-    self.icon ||= 'potion.png'
+    self.icon ||= "potion.png"
   end
 end
