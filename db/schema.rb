@@ -38,15 +38,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_25_052111) do
 
   create_table "characters", primary_key: "character_name", id: :string, force: :cascade do |t|
     t.string "username", null: false
-<<<<<<< HEAD
     t.integer "current_hp", null: false
     t.integer "max_hp", null: false
     t.integer "current_exp", null: false
     t.integer "exp_to_level", null: false
-=======
-    t.integer "health", null: false
-    t.integer "experience", null: false
->>>>>>> origin
     t.integer "level", null: false
     t.integer "weapon_item_id", null: false
     t.integer "armor_item_id", null: false
@@ -101,11 +96,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_25_052111) do
   create_table "users", primary_key: "username", id: :string, force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
-<<<<<<< HEAD
-    t.integer "shard_balance", null: false
-=======
     t.integer "shard_balance", default: 0, null: false
->>>>>>> origin
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
