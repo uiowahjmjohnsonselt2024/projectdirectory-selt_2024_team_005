@@ -125,3 +125,8 @@
     text-decoration: underline; /* Underline on hover */
     font-weight: bold; /* Make text bold on hover */
 }
+
+.username {
+    color: blue; /* 设置用户名的颜色为蓝色 */
+    font-weight: bold; /* 可选：加粗显示 */
+}
