@@ -66,7 +66,7 @@ class UsersController < ApplicationController
 
     @user.shard_balance += shards_to_credit
 
-    if @character.save
+    if @user.save
       flash[:notice] = "Successfully purchased #{shards_to_credit} shards."
       redirect_to user_path(@user.username)
     else

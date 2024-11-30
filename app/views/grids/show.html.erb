@@ -1,4 +1,6 @@
-<div data-controller="grid">
+<h1><%= @grid.name %></h1>
+
+<div data-controller="grid" data-grid-size="<%= @visibility %>">
   <div class="grid-container">
     <div id="character-stats">
       <h2>
@@ -56,9 +58,6 @@
           </div>
         <% end %>
       </div>
-
-
-
     </div>
 
     <div class="grid">
@@ -81,10 +80,17 @@
       <% end %>
     </div>
 
+    <% if @visibility < Grid::GRID_SIZE %>
+      <%= button_to 'Expand (costs 10 shards)', expand_grid_path(@grid), method: :patch, class: 'expand-button' %>
+    <% else %>
+      <p>Maximum grid size reached.</p>
+    <% end %>
+
     <div id="cell-details" data-grid-target="details">
       <h2>Cell Details</h2>
-      <div>Select a cell to see the details!</div>
+      <div>
+        Select a cell to see the details! Use Keyboard to move your character!
+      </div>
     </div>
   </div>
-
 </div>

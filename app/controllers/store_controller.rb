@@ -26,7 +26,7 @@ class StoreController < ApplicationController
     inventory.add_item(item.item_id)
     @user.shard_balance -= item.cost
 
-    if @character.save && inventory.save
+    if @user.save && @character.save && inventory.save
       flash[:notice] = "Item purchased successfully."
       redirect_to store_path
     else

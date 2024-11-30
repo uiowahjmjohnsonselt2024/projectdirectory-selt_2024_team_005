@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
       # Set up session with username instead of id
       session[:username] = @user.username  # Save username in session
       flash[:notice] = "Successfully logged in!"
-      redirect_to home_path  # Redirect to home page
+      redirect_to user_path(@user.username)  # Redirect to home page
     elsif !(@user && @user.authenticate(params[:password]))
       flash.now[:alert] = "Invalid username or password"
       render :new  # Render the login form again
