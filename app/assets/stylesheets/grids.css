@@ -42,10 +42,10 @@
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
     gap: 1px;
     padding: 10px;
 }
+
 
 .grid-row {
     display: contents;
