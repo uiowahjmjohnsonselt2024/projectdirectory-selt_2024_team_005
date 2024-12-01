@@ -1,5 +1,6 @@
 class ChatChannel < ApplicationCable::Channel
   def subscribed
+<<<<<<< HEAD
     stream_from "chat_#{params[:world_id]}"
   end
 
@@ -26,5 +27,21 @@ class ChatChannel < ApplicationCable::Channel
       Rails.logger.error "Message save failed: #{message.errors.full_messages.join(', ')}"
     end
 
+=======
+    # Static roomname: "general"
+    room = params[:room] || "general"
+    stream_from "chat_channel_#{room}"
+  end
+
+  def receive(data)
+    if data["message"].present?
+      # print, debug, log
+      Rails.logger.info "Message received: #{data['message']}"
+      # Broadcast the message to room "general"
+      room = params[:room] || "general"
+      username = current_user
+      ActionCable.server.broadcast("chat_channel_#{room}", { username: username, message: data["message"] })
+    end
+>>>>>>> bd3e9e9115042199b9e47c0ac8507840173daca7
   end
 end

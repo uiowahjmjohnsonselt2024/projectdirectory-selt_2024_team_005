@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 <h1 style="text-align: center;"><%= @grid.name %></h1>
+=======
+<body class="chat-page">
+<h1><%= @grid.name %></h1>
+>>>>>>> bd3e9e9115042199b9e47c0ac8507840173daca7
 
 <div data-controller="grid" data-grid-size="<%= @visibility %>">
   <div class="grid-container">
@@ -94,6 +99,7 @@
   </div>
 </div>
 
+<<<<<<< HEAD
 
 <!-- Chat box for displaying messages -->
 <div id="chat-box" data-world-id="<%=@world.id %>" style="height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
@@ -135,3 +141,17 @@
   </script>
 <% end %>
 </div>
+=======
+<div id="messages" style="border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll;">
+</div>
+<form id="chat-form">
+  <input
+    type="text"
+    id="chat-input"
+    placeholder="Type your message..."
+    style="width: 80%;"
+    />
+  <button type="submit">Send</button>
+</form>
+</body>
+>>>>>>> bd3e9e9115042199b9e47c0ac8507840173daca7

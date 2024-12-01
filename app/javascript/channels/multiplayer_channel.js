@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import consumer from "channels/consumer"
 
 // Example: Dynamically set the world_id when a player joins a world
@@ -43,3 +44,15 @@ function updatePlayerPosition(data) {
         // playerElement.style.left = `${data.new_position.x}px`;
     }
 }
+=======
+import consumer from "channels/consumer";
+
+const multiplayerChannel = consumer.subscriptions.create("MultiplayerChannel", {
+  received(data) {
+    // Empty Logic
+    console.log("MultiplayerChannel received data:", data);
+  },
+});
+
+export default multiplayerChannel;
+>>>>>>> bd3e9e9115042199b9e47c0ac8507840173daca7

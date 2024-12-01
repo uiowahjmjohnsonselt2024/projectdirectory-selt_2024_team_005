@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<<<<<<< HEAD
 <head>
   <title><%= content_for(:title) || "Shards Of The Grid With Saas Principles" %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -59,3 +60,55 @@
 <%= yield :javascript %>
 </body>
 </html>
+=======
+  <head>
+    <title><%= content_for(:title) || "Shards Of The Grid With Saas Principles" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" cogit ntent="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'grids', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body >
+  <% unless (controller_name == 'sessions' && action_name == 'new') ||
+    (controller_name == 'password_resets' && (action_name == 'new' || action_name == 'create' || action_name == 'edit') ||
+    (controller_name == 'users' && (action_name == 'create' || action_name == 'new' || action_name == 'edit')) ) %>
+    <header>
+      <h1 class="main_header">Group 5 Game</h1>
+    </header>
+  <% end %>
+  <% unless (controller_name == 'sessions' && action_name == 'new') ||
+    (controller_name == 'password_resets' && (action_name == 'new' || action_name == 'create' || action_name == 'edit') ||
+      (controller_name == 'users' && (action_name == 'create' || action_name == 'new' || action_name == 'edit'))) %>
+    <nav class="navbar">
+      <ul class="nav-links">
+        <li><%= link_to 'Profile', user_path(current_user.username) %></li>
+        <li><%= link_to 'Store', store_path(current_user.username) %></li>
+        <li><%= link_to 'Grid', grids_path %></li>
+        <%= button_to 'Logout', logout_path, method: :delete, class: 'btn btn-primary'%>
+
+      </ul>
+    </nav>
+  <% end %>
+
+  <% if flash[:alert] %>
+    <div ><%= flash[:alert] %></div>
+  <%end %>
+  <% if flash[:notice] %>
+    <div ><%= flash[:notice] %></div>
+  <% end %>
+
+  <%= yield %>
+  </body>
+</html>
+>>>>>>> bd3e9e9115042199b9e47c0ac8507840173daca7
