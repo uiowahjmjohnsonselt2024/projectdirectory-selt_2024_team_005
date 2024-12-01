@@ -1,37 +1,96 @@
 <body class="chat-page">
-<h1><%= @grid.name %></h1>
+<h1 style="text-align: center;"><%= @grid.name %></h1>
 
 <div data-controller="grid" data-grid-size="<%= @visibility %>">
   <div class="grid-container">
-    <% @grid_matrix.each do |row| %>
-      <div class="grid-row">
-        <% row.each do |cell| %>
-          <% css_class = cell.cell_loc == 'R0C0' ? 'grid-cell safe-zone' : 'grid-cell' %>
-          <div class="<%= css_class %>"
-               data-action="click->grid#showDetails"
-               data-cell-id="<%= cell.id %>">
-            <%= cell.cell_loc %>
-            <% if @character && @character.cell_id == cell.cell_id %>
-              <div class="character" data-character-id="<%= @character.id %>" >
-                <%= @character.character_name %>
+    <div id="character-stats">
+      <h2>
+        <%= @character.character_name %> - Lv <%= @character.level %>
+      </h2>
+      <p><strong>HP:</strong> <%= @character.current_hp %> / <%= @character.max_hp %></p>
+      <p><strong>EXP:</strong> <%= @character.current_exp %> / <%= @character.exp_to_level %></p>
+      <p><strong>Shards:</strong> <%= @user.shard_balance %></p>
+
+      <div class="equipped-item">
+        <%= image_tag(@weapon.icon, class: 'equipped-item-icon') %>
+        <div class="item-details">
+          <p class="item-name"><%= @weapon.name %></p>
+          <p class="item-stat">ATK: <%= @weapon.atk_bonus %></p>
+        </div>
+      </div>
+      <div class="equipped-item">
+        <%= image_tag(@armor.icon, class: 'equipped-item-icon') %>
+        <div class="item-details">
+          <p class="item-name"><%= @armor.name %></p>
+          <p class="item-stat">DEF: <%= @armor.def_bonus %></p>
+        </div>
+      </div>
+
+      <h3>Inventory</h3>
+      <div class="inventory-grid" data-controller="inventory-grid">
+        <% @inventory.items.each_with_index do |item_id, index| %>
+          <% item = @inventory.items[index] ? Item.find(@inventory.items[index]).itemable : nil %>
+          <div class="inventory-item <%= 'empty-slot' if item.nil? %>"
+               data-action="
+                 click->inventory-grid#select
+                 mouseenter->inventory-grid#hover
+                 mouseleave->inventory-grid#leave
+                 mouseleave->inventory-grid#hidePopoverOnMouseLeave"
+               data-index="<%= index %>"
+               data-target="inventory-grid.slot">
+
+            <div class="popover-menu" data-target="inventory-grid.popover" style="display: none;">
+              <div class="popover-buttons">
+                <button class="popover-button use-button">Use</button>
+                <button class="popover-button discard-button">Discard</button>
               </div>
+            </div>
+
+            <div class="hover-popover" data-target="inventory-grid.hoverPopover" style="display: none;">
+              <p><%= item&.name %></p>
+              <p><%= item&.description %></p>
+            </div>
+
+            <% if item %>
+              <%= image_tag(item.icon, class: 'inventory-item-icon') %>
             <% end %>
           </div>
         <% end %>
       </div>
-    <% end %>
-  </div>
 
-  <% if @visibility < Grid::GRID_SIZE %>
-    <%= button_to 'Expand (costs 10 shards)', expand_grid_path(@grid), method: :patch, class: 'expand-button' %>
-  <% else %>
-    <p>Maximum grid size reached.</p>
-  <% end %>
+      <% if @visibility < Grid::GRID_SIZE %>
+        <%= button_to 'Expand (costs 10 shards)', expand_grid_path(@grid), method: :patch, class: 'expand-button' %>
+      <% else %>
+        <p>Maximum grid size reached.</p>
+      <% end %>
 
-  <div id="cell-details" data-grid-target="details">
-    <h2>Cell Details</h2>
-    <div>
-      Select a cell to see the details! Use Keyboard to move your character!
+    </div>
+
+    <div class="grid" style="grid-template-columns: repeat(<%= @visibility %>, 1fr);">
+      <% @grid_matrix.each do |row| %>
+        <div class="grid-row">
+          <% row.each do |cell| %>
+            <% css_class = cell.cell_loc == 'R0C0' ? 'grid-cell safe-zone' : 'grid-cell' %>
+            <div class="<%= css_class %>"
+                 data-action="click->grid#showDetails"
+                 data-cell-id="<%= cell.id %>">
+              <%= cell.cell_loc %>
+              <% if @character && @character.cell_id == cell.cell_id %>
+                <div class="character" data-character-id="<%= @character.id %>" >
+                  <%= @character.character_name %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div id="cell-details" data-grid-target="details">
+      <h2>Cell Details</h2>
+      <div>
+        Select a cell to see the details! Use Keyboard to move your character!
+      </div>
     </div>
   </div>
 </div>

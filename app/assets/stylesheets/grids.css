@@ -25,12 +25,30 @@
 
 .grid-container {
     display: flex;
-    flex-direction: column;
-    width: 400px;  /* grid width */
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
     margin: 20px auto;
 }
+
+#character-stats {
+    width: 300px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.grid {
+    display: grid;
+    gap: 1px;
+    padding: 10px;
+}
+
+
 .grid-row {
-    display: flex;
+    display: contents;
 }
 .grid-cell {
     width: 60px;
@@ -73,4 +91,149 @@
 .grid-cell.selected {
     background-color: rgba(0, 0, 0, 0.1); /* Deep color when the cell is selected */
     border: 2px solid #000; /* Add an obvious border to make it easier for the user to see the selected status */
+}
+
+#cell-details {
+    width: 300px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.equipped-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.equipped-item-icon {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #ccc;
+    padding: 5px;
+    background-color: #e6fdff;
+}
+
+.item-details {
+    display: flex;
+    flex-direction: column;  /* Stacks the name and attack stat vertically */
+}
+
+.item-name {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.item-stat {
+    color: #666;
+    margin-top: 0;
+    line-height: 1;
+}
+
+.inventory-grid {
+    display: inline-grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 0;
+}
+
+.inventory-item {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 5px;
+    margin: 0;
+    width: 50px;
+    height: 50px;
+    box-sizing: border-box;
+}
+
+.inventory-item-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;  /* Ensure icon fits inside the box */
+}
+
+.empty-slot {
+    width: 50px;
+    height: 50px;
+    background-color: #e6e6e6;  /* Light grey for empty slots */
+    border: 1px dashed #ccc;  /* Dashed border for empty slots */
+    padding: 0;
+}
+
+.inventory-item:hover .hover-popover {
+    display: block; /* Show hover popover */
+}
+
+.hover-popover, .popover-menu {
+    display: none; /* Hide by default */
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 2px 5px;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.hover-popover {
+    width: auto; /* Automatically adjusts to the content's width */
+    line-height: 0.5;
+    white-space: nowrap; /* Prevents text from wrapping to the next line */
+    max-width: 250px; /* Optional: To limit the maximum width */
+}
+
+.popover-menu {
+    display: none;  /* Show only when clicked */
+    position: absolute;
+}
+
+.popover-buttons {
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.popover-button {
+    background-color: rgb(74, 74, 74);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s ease-in-out;
+    width: 80px;
+}
+
+.popover-button.use-button {
+    color: #4CAF50; /* Green for "Use" */
+    border-color: #4CAF50;
+}
+
+.popover-button.use-button:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.popover-button.discard-button {
+    color: #F44336; /* Red for "Discard" */
+    border-color: #F44336;
+}
+
+.popover-button.discard-button:hover {
+    background-color: #F44336;
+    color: white;
+}
+
+.inventory-item.selected {
+    background-color: rgba(183, 255, 246, 0.72);
 }

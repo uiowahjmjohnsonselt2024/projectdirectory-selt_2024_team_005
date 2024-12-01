@@ -5,8 +5,9 @@ RSpec.describe StoreController, type: :controller do
   let(:cell) { Cell.create!(id: 1, grid_id: grid.id, cell_loc: '1A', mons_prob: 0.3, disaster_prob: 0.3, weather: 'Sunny', terrain: 'desert', has_store: true) }
   let(:inventory) { Inventory.create!(inv_id: 1) }
   let(:user) { User.create!(username: 'awesomehawkeye', email: 'awesome@uiowa.edu', shard_balance: 50, password_digest: '12345') }
-  let(:character) { Character.create!(username: user.username, character_name: 'Hawkeye', health: 100, experience: 0, level: 1, grid_id: grid.id, cell_id: cell.id, inv_id: inventory.id) }
-  let(:item) { Item.create!(item_id: 1, name: 'Test Item', category: 'Weapon', cost: 10) }
+  let(:character) { Character.create!(username: user.username, character_name: 'Hawkeye', level: 1, grid_id: grid.id, cell_id: cell.id, inv_id: inventory.id) }
+  let(:weapon) { Weapon.create(name: 'Test Item', atk_bonus: 1) }
+  let(:item) { Item.create!(itemable: weapon, cost: 10) }
 
 
   before do

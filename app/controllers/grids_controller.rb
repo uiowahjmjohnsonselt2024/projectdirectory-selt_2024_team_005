@@ -45,6 +45,9 @@ class GridsController < ApplicationController
       @cells = @grid.cells.where("cell_loc ~ ?", pattern).order(:cell_id)
       @grid_matrix = @cells.each_slice(@visibility).to_a
       @character = Character.find_by(username: @user.username)
+      @weapon = Item.find_by(item_id: @character.weapon_item_id)
+      @armor = Item.find_by(item_id: @character.armor_item_id)
+      @inventory = Inventory.find_by(inv_id: @character.inv_id)
     end
   end
 
