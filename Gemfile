@@ -84,4 +84,6 @@ group :test do
   gem "database_cleaner"
   gem "rails-controller-testing"
   gem "simplecov", "~> 0.22.0"
+  gem 'database_cleaner-active_record'
 end
+

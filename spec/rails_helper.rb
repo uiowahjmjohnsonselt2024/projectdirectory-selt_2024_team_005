@@ -67,3 +67,22 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 end
+
+require 'database_cleaner/active_record'
+
+RSpec.configure do |config|
+  config.before(:suite) do
+    # Clean the database before the test suite starts
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    # Start a transaction before each test
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    # Rollback the transaction after each test
+    DatabaseCleaner.clean
+  end
+end

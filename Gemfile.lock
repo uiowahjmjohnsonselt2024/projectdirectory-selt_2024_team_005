@@ -481,6 +481,7 @@ DEPENDENCIES
   capybara
   cucumber-rails (~> 3.1)
   database_cleaner
+  database_cleaner-active_record
   debug
   dotenv-rails
   guard-rspec
