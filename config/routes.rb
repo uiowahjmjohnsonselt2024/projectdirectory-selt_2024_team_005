@@ -6,6 +6,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :cells, only: [:update]  # Routes PATCH requests to CellsController#update
+  resources :characters, only: [:update]  # Routes PATCH requests to CharactersController#update
+
+
   # Signup Routes
   get "signup", to: "users#new"
   post "signup", to: "users#create"

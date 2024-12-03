@@ -1,5 +1,6 @@
 class CellsController < ApplicationController
   before_action :set_cell, only: [ :show, :update ]
+  before_action :set_user
 
   def show
     @cell = Cell.find(params[:id])
@@ -9,23 +10,33 @@ class CellsController < ApplicationController
   end
 
   def update
-    # Assuming you have logic here to move the character to a new cell
-    check_for_disaster
+    @cell = Cell.find(params[:id])
+    puts "in update"
+    # Perform the disaster check whenever a character moves to a new cell
+    disaster_message = check_for_disaster(@cell)
+
+    # Respond with the disaster message and any other necessary data (e.g., cell info)
+    respond_to do |format|
+      format.json { render json: { disaster_message: disaster_message, cell: @cell } }
+    end
   end
 
   private
-  def check_for_disaster
-    current_cell = @cells.first
-    disaster_threshold = current_cell[:disaster_prob]
+  def check_for_disaster(cell)
+    puts "WEVE ENTERED "
+    disaster_threshold = cell[:disaster_prob]
     if rand < disaster_threshold
-      puts rand
-      puts disaster_threshold
-      puts "NUMBERS HERE"
       damage = 20
+      @character = Character.find_by(username: @user.username)
       @character.send(:take_disaster_damage, damage)
 
-      flash[:alert] = "A disaster has occurred! You lost #{damage} HP due to the disaster."
+      # Return the disaster message to the front-end
+      @character.save
+      return "A disaster has occurred! You lost #{damage} HP due to the disaster."
     end
+  end
+  def set_user
+    @user = User.find_by(username: session[:username])
   end
 
   def set_cell
