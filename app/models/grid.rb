@@ -21,7 +21,7 @@ class Grid < ApplicationRecord
           cell_id: cell_id,
           cell_loc: cell_loc,
           mons_prob: rand,
-          disaster_prob: rand,
+          disaster_prob: 0.99,
           weather: "sunny",
           terrain: "grass",
           has_store: [ true, false ].sample,

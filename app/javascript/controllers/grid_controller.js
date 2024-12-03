@@ -97,6 +97,8 @@ export default class extends Controller {
         if (newCell) {
             newCell.appendChild(characterElement);
             this.updateCharacterPosition(characterElement.getAttribute("data-character-id"), newCellId);
+
+            //this.checkForDisaster(newCellId);
         }
     }
 
@@ -125,4 +127,27 @@ export default class extends Controller {
                 console.error("Error updating character position:", error);
             });
     }
+    // checkForDisaster(newCellId) {
+    //     const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+    //
+    //     // Fetch disaster status after the character moves
+    //     fetch(`/cells/${newCellId}`, {
+    //         method: "PATCH",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             "Accept": "application/json",
+    //             "X-CSRF-Token": csrfToken
+    //         }
+    //     })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             if (data.disaster_message) {
+    //                 // Display disaster message
+    //                 alert(data.disaster_message);
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.error("Error checking for disaster:", error);
+    //         });
+    // }
 }

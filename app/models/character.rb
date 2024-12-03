@@ -17,6 +17,11 @@ class Character < ApplicationRecord
     self.armor_item_id ||= Item.find_by(itemable_type: "Armor", itemable_id: 1).id
   end
 
+  def take_disaster_damage(amount)
+    self.current_hp = [self.current_hp - amount, 0].max
+    save
+  end
+
   def set_hp_and_exp
     self.max_hp = calculate_max_hp(level)
     self.exp_to_level = calculate_exp_to_level(level)
