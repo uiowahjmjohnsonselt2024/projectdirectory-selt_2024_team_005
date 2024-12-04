@@ -1,3 +1,4 @@
+// app/javascript/controllers/grid_controller.js
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
@@ -5,9 +6,8 @@ export default class extends Controller {
 
     connect() {
         const gridSize = parseInt(this.element.dataset.gridSize, 10);
-        console.log("Grid size:", gridSize);
         this.gridSize = gridSize;
-        console.log("Grid Controller Connected");
+        this.isMonsterPromptActive = false; // Initialize the flag
         // Remove previous event listener
         document.removeEventListener("keydown", this.moveCharacterBound);
         this.moveCharacterBound = this.moveCharacter.bind(this);
@@ -15,48 +15,15 @@ export default class extends Controller {
     }
 
     disconnect() {
-        // Remove the keydown event listener when the controller is disconnected
         document.removeEventListener("keydown", this.moveCharacterBound);
     }
 
-    showDetails(event) {
-        // Get the cell element that is clicked
-        const cell = event.currentTarget;
-        const cellId = cell.getAttribute("data-cell-id");
-        console.log(`Cell ${cellId} clicked`);
-
-        // Use AJAX requests to fetch cell details
-        fetch(`/cells/${cellId}`)
-            .then(response => response.json())
-            .then(data => {
-                // Update the details section on the page
-                this.detailsTarget.innerHTML = `
-                    <p><strong>Cell Location:</strong> ${data.cell_loc}</p>
-                    <p><strong>Monster Probability:</strong> ${data.mons_prob}</p>
-                    <p><strong>Disaster Probability:</strong> ${data.disaster_prob}</p>
-                    <p><strong>Weather:</strong> ${data.weather}</p>
-                    <p><strong>Terrain:</strong> ${data.terrain}</p>
-                    <p><strong>Has Store:</strong> ${data.has_store ? 'Yes' : 'No'}</p>
-                `;
-
-                // Call the "highlightSelectedCell" method to highlight the selected cell
-                this.highlightSelectedCell(cell);
-            })
-            .catch(error => console.error('Error fetching cell details:', error));
-    }
-
-    highlightSelectedCell(selectedCell) {
-        // Remove the style of the previously selected cell
-        const previouslySelected = document.querySelector(".grid-cell.selected");
-        if (previouslySelected) {
-            previouslySelected.classList.remove("selected");
+    moveCharacter(event) {
+        // Prevent movement if monster prompt is active
+        if (this.isMonsterPromptActive) {
+            return;
         }
 
-        // Add a style to the currently selected cell
-        selectedCell.classList.add("selected");
-    }
-
-    moveCharacter(event) {
         const characterElement = document.querySelector(`.character`);
         if (!characterElement) return;
 
@@ -77,19 +44,19 @@ export default class extends Controller {
                 if (row > 0) row -= 1;
                 break;
             case "ArrowDown":
-                if (row < gridSize-1) row += 1;
+                if (row < gridSize - 1) row += 1;
                 break;
             case "ArrowLeft":
                 if (col > 0) col -= 1;
                 break;
             case "ArrowRight":
-                if (col < gridSize-1) col += 1;
+                if (col < gridSize - 1) col += 1;
                 break;
             default:
                 return;
         }
 
-        // Calculate cell_id
+        // Calculate new cell_id
         const newCellId = gridId * 10000 + row * 100 + col;
 
         // Find the new cell
@@ -107,10 +74,10 @@ export default class extends Controller {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
-                "X-CSRF-Token": csrfToken  // CSRF Token to prevent request being blocked
+                Accept: "application/json",
+                "X-CSRF-Token": csrfToken,
             },
-            body: JSON.stringify({ character: { cell_id: newCellId } })
+            body: JSON.stringify({ character: { cell_id: newCellId } }),
         })
             .then((response) => {
                 if (!response.ok) {
@@ -129,7 +96,11 @@ export default class extends Controller {
                 console.error("Error updating character position:", error);
             });
     }
+
     showMonsterPrompt(monster) {
+        // Set the flag to true to prevent character movement
+        this.isMonsterPromptActive = true;
+
         // Create a modal or prompt to display the monster's stats
         const monsterPrompt = document.createElement("div");
         monsterPrompt.classList.add("monster-prompt");
@@ -152,6 +123,8 @@ export default class extends Controller {
             // Handle fight action (to be implemented later)
             console.log("Fight button clicked");
             document.body.removeChild(monsterPrompt);
+            // Reset the flag when the prompt is dismissed
+            this.isMonsterPromptActive = false;
         });
 
         document.getElementById("bribe-button").addEventListener("click", () => {
@@ -162,6 +135,8 @@ export default class extends Controller {
                     if (response.status === "ok") {
                         // Bribe successful, remove the monster prompt
                         document.body.removeChild(monsterPrompt);
+                        // Reset the flag when the prompt is dismissed
+                        this.isMonsterPromptActive = false;
                         // Update shard balance displayed on the page
                         this.updateShardBalance(-10);
                     } else {
@@ -183,7 +158,7 @@ export default class extends Controller {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
+                Accept: "application/json",
                 "X-CSRF-Token": csrfToken,
             },
             body: JSON.stringify({}),
