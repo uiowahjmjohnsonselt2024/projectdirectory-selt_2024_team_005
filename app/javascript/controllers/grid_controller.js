@@ -19,13 +19,14 @@ export default class extends Controller {
     }
 
     moveCharacter(event) {
-        // Prevent movement if monster prompt is active
-        if (this.isMonsterPromptActive) {
-            return;
-        }
-
+        // Prevent movement if monster prompt is active or character is dead
         const characterElement = document.querySelector(`.character`);
         if (!characterElement) return;
+
+        const characterHp = parseInt(characterElement.getAttribute('data-character-hp'), 10);
+        if (this.isMonsterPromptActive || characterHp <= 0) {
+            return;
+        }
 
         const currentCell = characterElement.closest(".grid-cell");
         const currentCellId = parseInt(currentCell.getAttribute("data-cell-id"));
@@ -110,6 +111,7 @@ export default class extends Controller {
         <h2>A wild monster appears!</h2>
         <p><strong>ATK:</strong> ${monster.atk}</p>
         <p><strong>DEF:</strong> ${monster.def}</p>
+        <p><strong>HP:</strong> ${monster.hp}</p>
         <button id="fight-button">Fight</button>
         <button id="bribe-button">Bribe the Monster and Run (10 shards)</button>
         <div id="monster-error-message" style="color: red;"></div>
@@ -120,11 +122,23 @@ export default class extends Controller {
 
         // Add event listeners to the buttons
         document.getElementById("fight-button").addEventListener("click", () => {
-            // Handle fight action (to be implemented later)
             console.log("Fight button clicked");
-            document.body.removeChild(monsterPrompt);
-            // Reset the flag when the prompt is dismissed
-            this.isMonsterPromptActive = false;
+            this.fightMonster()
+                .then((response) => {
+                    if (response.status === "ok") {
+                        // Start the battle animation
+                        this.startBattleAnimation(response.battle_log, response.outcome);
+                        // Remove the monster prompt
+                        document.body.removeChild(monsterPrompt);
+                        // Keep the isMonsterPromptActive flag true during battle
+                    } else {
+                        // Handle error
+                        console.error(response.message);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fighting the monster:", error);
+                });
         });
 
         document.getElementById("bribe-button").addEventListener("click", () => {
@@ -177,5 +191,98 @@ export default class extends Controller {
             currentBalance += amountChange;
             shardBalanceElement.textContent = currentBalance;
         }
+    }
+    fightMonster() {
+        const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+        const characterName = document.querySelector(".character").getAttribute("data-character-id");
+        return fetch(`/characters/${characterName}/fight_monster`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "X-CSRF-Token": csrfToken,
+            },
+            body: JSON.stringify({}),
+        })
+            .then((response) => response.json())
+            .catch((error) => {
+                console.error("Error fighting the monster:", error);
+                throw error;
+            });
+    }
+
+    startBattleAnimation(battleLog, outcome) {
+        let index = 0;
+        const battleInterval = setInterval(() => {
+            if (index >= battleLog.length) {
+                clearInterval(battleInterval);
+                // Battle over
+                if (outcome === "win") {
+                    console.log("You defeated the monster!");
+                    // Update the character's HP on the page
+                    document.getElementById("character-current-hp").textContent = battleLog[battleLog.length - 1].character_hp;
+                    // Allow movement again
+                    this.isMonsterPromptActive = false;
+                } else {
+                    console.log("You have been defeated!");
+                    document.getElementById("character-current-hp").textContent = battleLog[battleLog.length - 1].character_hp;
+                    // Display GAME OVER banner
+                    this.displayGameOver();
+                }
+                return;
+            }
+
+            const currentRound = battleLog[index];
+            // Update the battle stats on the page
+            this.updateBattleStats(currentRound);
+            index++;
+        }, 500);
+    }
+
+    updateBattleStats(roundData) {
+        // Create or update the battle stats display
+        let battleStatsElement = document.getElementById("battle-stats");
+        if (!battleStatsElement) {
+            battleStatsElement = document.createElement("div");
+            battleStatsElement.id = "battle-stats";
+            battleStatsElement.classList.add("battle-stats");
+            document.body.appendChild(battleStatsElement);
+        }
+
+        battleStatsElement.innerHTML = `
+      <h2>Battle Round ${roundData.round}</h2>
+      <p>Your HP: ${Math.max(roundData.character_hp, 0)}</p>
+      <p>Monster HP: ${Math.max(roundData.monster_hp, 0)}</p>
+      <p>You dealt ${roundData.damage_to_monster} damage.</p>
+      <p>Monster dealt ${roundData.damage_to_character} damage.</p>
+    `;
+
+        // Update character's current HP data attribute
+        const characterElement = document.querySelector('.character');
+        if (characterElement) {
+            characterElement.setAttribute('data-character-hp', roundData.character_hp);
+        }
+
+        // Update the HP displayed on the page
+        document.getElementById("character-current-hp").textContent = Math.max(roundData.character_hp, 0);
+    }
+
+    displayGameOver() {
+        // Remove battle stats
+        const battleStatsElement = document.getElementById("battle-stats");
+        if (battleStatsElement) {
+            document.body.removeChild(battleStatsElement);
+        }
+
+        // Display GAME OVER banner
+        const gameOverBanner = document.createElement("div");
+        gameOverBanner.id = "game-over-banner";
+        gameOverBanner.innerHTML = `
+      <h1>GAME OVER</h1>
+    `;
+        document.body.appendChild(gameOverBanner);
+
+        // Prevent further movement
+        this.isMonsterPromptActive = true;
     }
 }
