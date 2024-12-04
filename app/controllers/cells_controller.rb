@@ -30,7 +30,7 @@ class CellsController < ApplicationController
       @character.send(:take_disaster_damage, damage)
       @character.save
       # Return the disaster message to the front-end
-      return "A disaster has occurred! <br> You lost #{damage} HP due to the disaster."
+      "A disaster has occurred! <br> You lost #{damage} HP due to the disaster."
     end
   end
   def set_user

@@ -18,7 +18,7 @@ class Character < ApplicationRecord
   end
 
   def take_disaster_damage(amount)
-    self.current_hp = [self.current_hp - amount, 0].max
+    self.current_hp = [ self.current_hp - amount, 0 ].max
     save
   end
 
