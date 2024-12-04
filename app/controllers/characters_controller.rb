@@ -20,6 +20,20 @@ class CharactersController < ApplicationController
     end
   end
 
+  def bribe_monster
+    # @user is already set in set_character
+    if @user.shard_balance >= 10
+      @user.shard_balance -= 10
+      if @user.save
+        render json: { status: "ok", message: "Bribe successful" }, status: :ok
+      else
+        render json: { status: "error", message: "Unable to update shard balance" }, status: :unprocessable_entity
+      end
+    else
+      render json: { status: "error", message: "Not enough shards to bribe the monster" }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def set_character

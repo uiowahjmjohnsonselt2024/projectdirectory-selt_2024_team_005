@@ -140,7 +140,8 @@ export default class extends Controller {
         <p><strong>ATK:</strong> ${monster.atk}</p>
         <p><strong>DEF:</strong> ${monster.def}</p>
         <button id="fight-button">Fight</button>
-        <button id="run-button">Run</button>
+        <button id="bribe-button">Bribe the Monster and Run (10 shards)</button>
+        <div id="monster-error-message" style="color: red;"></div>
       </div>
     `;
 
@@ -153,10 +154,53 @@ export default class extends Controller {
             document.body.removeChild(monsterPrompt);
         });
 
-        document.getElementById("run-button").addEventListener("click", () => {
-            // Handle run action (to be implemented later)
-            console.log("Run button clicked");
-            document.body.removeChild(monsterPrompt);
+        document.getElementById("bribe-button").addEventListener("click", () => {
+            // Handle bribe action
+            console.log("Bribe button clicked");
+            this.bribeMonster()
+                .then((response) => {
+                    if (response.status === "ok") {
+                        // Bribe successful, remove the monster prompt
+                        document.body.removeChild(monsterPrompt);
+                        // Update shard balance displayed on the page
+                        this.updateShardBalance(-10);
+                    } else {
+                        // Display error message
+                        const errorMessageDiv = document.getElementById("monster-error-message");
+                        errorMessageDiv.textContent = response.message;
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error bribing the monster:", error);
+                });
         });
+    }
+
+    bribeMonster() {
+        const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+        const characterName = document.querySelector(".character").getAttribute("data-character-id");
+        return fetch(`/characters/${characterName}/bribe_monster`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "X-CSRF-Token": csrfToken,
+            },
+            body: JSON.stringify({}),
+        })
+            .then((response) => response.json())
+            .catch((error) => {
+                console.error("Error bribing the monster:", error);
+                throw error;
+            });
+    }
+
+    updateShardBalance(amountChange) {
+        const shardBalanceElement = document.getElementById("shard-balance");
+        if (shardBalanceElement) {
+            let currentBalance = parseInt(shardBalanceElement.textContent, 10);
+            currentBalance += amountChange;
+            shardBalanceElement.textContent = currentBalance;
+        }
     }
 }
