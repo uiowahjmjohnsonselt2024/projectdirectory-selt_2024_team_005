@@ -23,18 +23,14 @@ class CellsController < ApplicationController
 
   private
   def check_for_disaster(cell)
-    puts "WEVE ENTERED "
     disaster_threshold = cell[:disaster_prob]
     if rand < disaster_threshold
       damage = 20
       @character = Character.find_by(username: @user.username)
       @character.send(:take_disaster_damage, damage)
-
-      # Return the disaster message to the front-end
       @character.save
-      return "A disaster has occurred! You lost #{damage} HP due to the disaster."
-      # flash[:alert] = "A disaster has occurred! You lost #{damage} HP due to the disaster."
-      # return { disaster_message: flash[:alert] }
+      # Return the disaster message to the front-end
+      return "A disaster has occurred! <br> You lost #{damage} HP due to the disaster."
     end
   end
   def set_user

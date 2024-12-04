@@ -142,8 +142,8 @@ export default class extends Controller {
             .then(data => {
                 console.log("Response data:", data); // Log the entire response data
                 if (data.disaster_message) {
-                    // Display disaster message
-                    alert(data.disaster_message);
+                    // Show disaster prompt with the disaster message, damage, and current HP
+                    this.showDisasterPrompt(data.disaster_message, 20, data.current_hp);
                 } else {
                     console.warn("No disaster message found in response.");
                 }
@@ -152,4 +152,41 @@ export default class extends Controller {
                 console.error("Error checking for disaster:", error);
             });
     }
+
+    showDisasterPrompt(disasterMessage, damage, currentHP) {
+        // Set the flag to true to prevent character movement during the disaster prompt
+        this.isDisasterPromptActive = true;
+
+        // Create the disaster prompt modal
+        const disasterPrompt = document.createElement("div");
+        disasterPrompt.classList.add("disaster-prompt");
+
+        disasterPrompt.innerHTML = `
+    <div class="disaster-popup">
+        <h2>Disaster Strikes!</h2>
+        <p><strong> ${disasterMessage}</strong></p>
+        <p><strong>Damage Taken:</strong> ${damage} HP</p>
+        <p><strong>Better luck next time!</strong></p>
+        <button id="acknowledge-button">Accept</button>
+        <div id="disaster-error-message" style="color: red;"></div>
+    </div>
+    `;
+
+        // Append the disaster prompt to the body
+        document.body.appendChild(disasterPrompt);
+
+        // Add event listener to the Acknowledge button
+        document.getElementById("acknowledge-button").addEventListener("click", () => {
+            console.log("Disaster acknowledged");
+
+            // Remove the disaster prompt from the page
+            document.body.removeChild(disasterPrompt);
+
+            // Reset the disaster prompt flag
+            this.isDisasterPromptActive = false;
+            window.location.reload();  // This will reload the current page
+        });
+    }
+
+
 }
