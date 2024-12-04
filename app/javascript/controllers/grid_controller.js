@@ -112,17 +112,51 @@ export default class extends Controller {
             },
             body: JSON.stringify({ character: { cell_id: newCellId } })
         })
-            .then(response => {
+            .then((response) => {
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
                 return response.json();
             })
-            .then(data => {
+            .then((data) => {
                 console.log("Character position updated successfully", data);
+                if (data.monster) {
+                    // Display the monster encounter prompt
+                    this.showMonsterPrompt(data.monster);
+                }
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error("Error updating character position:", error);
             });
+    }
+    showMonsterPrompt(monster) {
+        // Create a modal or prompt to display the monster's stats
+        const monsterPrompt = document.createElement("div");
+        monsterPrompt.classList.add("monster-prompt");
+
+        monsterPrompt.innerHTML = `
+      <div class="monster-popup">
+        <h2>A wild monster appears!</h2>
+        <p><strong>ATK:</strong> ${monster.atk}</p>
+        <p><strong>DEF:</strong> ${monster.def}</p>
+        <button id="fight-button">Fight</button>
+        <button id="run-button">Run</button>
+      </div>
+    `;
+
+        document.body.appendChild(monsterPrompt);
+
+        // Add event listeners to the buttons
+        document.getElementById("fight-button").addEventListener("click", () => {
+            // Handle fight action (to be implemented later)
+            console.log("Fight button clicked");
+            document.body.removeChild(monsterPrompt);
+        });
+
+        document.getElementById("run-button").addEventListener("click", () => {
+            // Handle run action (to be implemented later)
+            console.log("Run button clicked");
+            document.body.removeChild(monsterPrompt);
+        });
     }
 }
