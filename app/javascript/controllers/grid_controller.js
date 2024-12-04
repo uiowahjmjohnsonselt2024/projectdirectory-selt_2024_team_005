@@ -143,7 +143,7 @@ export default class extends Controller {
                 console.log("Response data:", data); // Log the entire response data
                 if (data.disaster_message) {
                     // Show disaster prompt with the disaster message, damage, and current HP
-                    this.showDisasterPrompt(data.disaster_message, 20, data.current_hp);
+                    this.showDisasterPrompt(data.disaster_message, 15, data.current_hp);
                 } else {
                     console.warn("No disaster message found in response.");
                 }

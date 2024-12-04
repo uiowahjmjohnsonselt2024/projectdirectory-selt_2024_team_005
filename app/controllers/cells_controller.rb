@@ -11,7 +11,6 @@ class CellsController < ApplicationController
 
   def update
     @cell = Cell.find(params[:id])
-    puts "in update"
     # Perform the disaster check whenever a character moves to a new cell
     disaster_message = check_for_disaster(@cell)
 
@@ -25,7 +24,7 @@ class CellsController < ApplicationController
   def check_for_disaster(cell)
     disaster_threshold = cell[:disaster_prob]
     if rand < disaster_threshold
-      damage = 20
+      damage = 15
       @character = Character.find_by(username: @user.username)
       @character.send(:take_disaster_damage, damage)
       @character.save
