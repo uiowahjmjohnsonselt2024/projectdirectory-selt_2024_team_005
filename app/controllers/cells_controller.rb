@@ -33,6 +33,8 @@ class CellsController < ApplicationController
       # Return the disaster message to the front-end
       @character.save
       return "A disaster has occurred! You lost #{damage} HP due to the disaster."
+    #   flash[:alert] = "A disaster has occurred! You lost #{damage} HP due to the disaster."
+      #       return nil
     end
   end
   def set_user
