@@ -1,3 +1,4 @@
+# config/routes.rb
 Rails.application.routes.draw do
   resources :users, param: :username do
     member do
@@ -43,7 +44,12 @@ Rails.application.routes.draw do
 
   # Character create and update
   post "create_character", to: "characters#create", as: "create_character"
-  resources :characters, param: :username, only: [ :new, :create, :update ]
+  resources :characters, param: :username, only: [ :new, :create, :update ] do
+    member do
+      post "bribe_monster"
+      post "fight_monster"
+    end
+  end
 
 
 
