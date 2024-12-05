@@ -22,11 +22,13 @@ end
 @wooden_sword = Weapon.find_or_create_by!(name: 'Wooden Sword', atk_bonus: 1)
 @leather_armor = Armor.find_or_create_by!(name: 'Leather Armor', def_bonus: 1)
 @health_potion_xs = Potion.find_or_create_by!(name: 'Health Potion XS', hp_regen: 10)
+@disaster_ward = Potion.find_or_create_by!(name: 'Catastrophe Ward', hp_regen: 5)
 @item1 = Item.find_or_create_by!(itemable: @wooden_sword, cost: 1)
 @item2 = Item.find_or_create_by!(itemable: @leather_armor, cost: 1)
 @item3 = Item.find_or_create_by!(itemable: @health_potion_xs, cost: 1)
+@item4 = Item.find_or_create_by!(itemable: @disaster_ward, cost: 10)
 
-@inventory1 = Inventory.find_or_create_by!(inv_id: 1, items: [ @item1.item_id, @item2.item_id, @item3.item_id ])
+@inventory1 = Inventory.find_or_create_by!(inv_id: 1, items: [ @item1.item_id, @item2.item_id, @item3.item_id, @item4.item_id])
 # Tips: We can't directly specify the cell_id as @cell.cell_id, cause cells are generated after creating grid
 # For now just set it as 1000 for simple, this should be modified as we need store characters last location
 @character1 = Character.find_or_create_by!(username: @user.username, character_name: 'Hawkeye', level: 1, grid_id: @grid.grid_id,

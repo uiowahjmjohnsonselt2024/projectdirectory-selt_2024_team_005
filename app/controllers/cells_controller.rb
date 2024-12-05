@@ -23,10 +23,20 @@ class CellsController < ApplicationController
   private
   def check_for_disaster(cell)
     disaster_threshold = cell[:disaster_prob]
+    @character = Character.find_by(username: @user.username)
+    inventory = Inventory.find(@character.inv_id)
+
+    item_ids = inventory.items
+    # Find the items in the inventory, using the correct primary key column
+    items = Item.where(item_id: item_ids).includes(:itemable)
+    # Check if any item is a Disaster Ward
+    disaster_ward_item = items.find { |item| item.itemable.name == 'Catastrophe Ward' }
+
+    if disaster_ward_item
+      disaster_threshold = disaster_threshold / 3.0
+    end
+
     if rand < disaster_threshold
-      # add if @character has certain item in inventory, then divide disaster_threshold by 3
-      # add this item to the inventory of our character
-      # Add the item to store
       damage = 15
       @character = Character.find_by(username: @user.username)
       @character.send(:take_disaster_damage, damage)
