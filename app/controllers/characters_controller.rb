@@ -64,11 +64,11 @@ class CharactersController < ApplicationController
 
     while character_hp > 0 && monster_hp > 0
       # Character attacks monster
-      damage_to_monster = [character_atk - monster_def, 0].max
+      damage_to_monster = [ character_atk - monster_def, 0 ].max
       monster_hp -= damage_to_monster
 
       # Monster attacks character
-      damage_to_character = [monster_atk - character_def, 0].max
+      damage_to_character = [ monster_atk - character_def, 0 ].max
       character_hp -= damage_to_character
 
       battle_log << {
