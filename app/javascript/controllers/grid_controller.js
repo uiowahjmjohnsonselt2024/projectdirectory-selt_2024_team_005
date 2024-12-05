@@ -18,6 +18,40 @@ export default class extends Controller {
         document.removeEventListener("keydown", this.moveCharacterBound);
     }
 
+    // Add the showDetails method
+    showDetails(event) {
+        // Get the cell element that is clicked
+        const cell = event.currentTarget;
+        const cellId = cell.getAttribute("data-cell-id");
+        console.log(`Cell ${cellId} clicked`);
+
+        // Use AJAX requests to fetch cell details
+        fetch(`/cells/${cellId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                // Update the details section on the page
+                this.detailsTarget.innerHTML = `
+          <p><strong>Weather:</strong> ${data.weather}</p>
+          <p><strong>Terrain:</strong> ${data.terrain}</p>
+        `;
+
+                // Call the "highlightSelectedCell" method to highlight the selected cell
+                this.highlightSelectedCell(cell);
+            })
+            .catch((error) => console.error("Error fetching cell details:", error));
+    }
+
+    highlightSelectedCell(selectedCell) {
+        // Remove the style of the previously selected cell
+        const previouslySelected = document.querySelector(".grid-cell.selected");
+        if (previouslySelected) {
+            previouslySelected.classList.remove("selected");
+        }
+
+        // Add a style to the currently selected cell
+        selectedCell.classList.add("selected");
+    }
+
     moveCharacter(event) {
         // Prevent movement if monster prompt is active or character is dead
         const characterElement = document.querySelector(`.character`);
