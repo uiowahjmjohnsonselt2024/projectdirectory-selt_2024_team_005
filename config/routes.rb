@@ -43,7 +43,7 @@ Rails.application.routes.draw do
   resources :characters, param: :username, only: [ :new, :create, :update ] do
     member do
       post "bribe_monster"
-      post 'fight_monster'
+      post "fight_monster"
     end
   end
 

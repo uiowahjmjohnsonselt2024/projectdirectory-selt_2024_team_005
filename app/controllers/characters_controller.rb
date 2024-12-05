@@ -43,16 +43,16 @@ class CharactersController < ApplicationController
     end
     # TODO: what if character doesn't have weapon/armor? Implement default weapon?
     # Get character's equipment
-    weapon = Weapon.find_by(weapon_id: @character.weapon_item_id)
-    armor = Armor.find_by(armor_id: @character.armor_item_id)
+    weapon = Item.find_by(item_id: @character.weapon_item_id)
+    armor = Item.find_by(item_id: @character.armor_item_id)
     character_atk = weapon.atk_bonus
     character_def = armor.def_bonus
     character_hp = @character.current_hp
 
     # Monster stats
-    monster_atk = monster['atk']
-    monster_def = monster['def']
-    monster_hp = monster['hp']
+    monster_atk = monster["atk"]
+    monster_def = monster["def"]
+    monster_hp = monster["hp"]
 
     # Battle simulation
     battle_log = []
@@ -60,11 +60,11 @@ class CharactersController < ApplicationController
 
     while character_hp > 0 && monster_hp > 0
       # Character attacks monster
-      damage_to_monster = [character_atk - monster_def, 0].max
+      damage_to_monster = [ character_atk - monster_def, 0 ].max
       monster_hp -= damage_to_monster
 
       # Monster attacks character
-      damage_to_character = [monster_atk - character_def, 0].max
+      damage_to_character = [ monster_atk - character_def, 0 ].max
       character_hp -= damage_to_character
 
       battle_log << {
