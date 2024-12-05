@@ -7,7 +7,8 @@
       <h2>
         <%= @character.character_name %> - Lv <%= @character.level %>
       </h2>
-      <p><strong>HP:</strong> <%= @character.current_hp %> / <%= @character.max_hp %></p>
+<!--      <p><strong>HP:</strong> <%#= @character.current_hp %> / <%#= @character.max_hp %></p>-->
+      <p><strong>HP:</strong> <span id="character-current-hp"><%= @character.current_hp %></span> / <%= @character.max_hp %></p>
       <p><strong>EXP:</strong> <%= @character.current_exp %> / <%= @character.exp_to_level %></p>
       <p><strong>Shards:</strong> <%= @user.shard_balance %></p>
 

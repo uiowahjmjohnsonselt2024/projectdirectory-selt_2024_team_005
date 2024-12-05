@@ -19,8 +19,8 @@ end
 # @cell = Cell.find_or_create_by!(cell_id: 1, cell_loc: '1A', mons_prob: 0.3, disaster_prob: 0.3, weather: 'Sunny',
 #                                 terrain: 'desert', has_store: true, grid_id: @grid.grid_id)
 @first_cell = @grid.cells.order(:cell_id).first
-@wooden_sword = Weapon.find_or_create_by!(name: 'Wooden Sword', atk_bonus: 1)
-@leather_armor = Armor.find_or_create_by!(name: 'Leather Armor', def_bonus: 1)
+@wooden_sword = Weapon.find_or_create_by!(name: 'Wooden Sword', atk_bonus: 15)
+@leather_armor = Armor.find_or_create_by!(name: 'Leather Armor', def_bonus: 10)
 @health_potion_xs = Potion.find_or_create_by!(name: 'Health Potion XS', hp_regen: 10)
 @item1 = Item.find_or_create_by!(itemable: @wooden_sword, cost: 1)
 @item2 = Item.find_or_create_by!(itemable: @leather_armor, cost: 1)

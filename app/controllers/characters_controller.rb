@@ -43,10 +43,14 @@ class CharactersController < ApplicationController
     end
     # TODO: what if character doesn't have weapon/armor? Implement default weapon?
     # Get character's equipment
-    weapon = Item.find_by(item_id: @character.weapon_item_id)
-    armor = Item.find_by(item_id: @character.armor_item_id)
-    character_atk = weapon.atk_bonus
-    character_def = armor.def_bonus
+    weapon_item = Item.find_by(item_id: @character.weapon_item_id)
+    weapon = weapon_item&.itemable
+    character_atk = weapon ? weapon.atk_bonus : 0
+
+    armor_item = Item.find_by(item_id: @character.armor_item_id)
+    armor = armor_item&.itemable
+    character_def = armor ? armor.def_bonus : 0
+
     character_hp = @character.current_hp
 
     # Monster stats

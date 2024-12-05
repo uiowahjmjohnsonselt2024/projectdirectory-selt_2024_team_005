@@ -107,16 +107,16 @@ export default class extends Controller {
         monsterPrompt.classList.add("monster-prompt");
 
         monsterPrompt.innerHTML = `
-      <div class="monster-popup">
-        <h2>A wild monster appears!</h2>
-        <p><strong>ATK:</strong> ${monster.atk}</p>
-        <p><strong>DEF:</strong> ${monster.def}</p>
-        <p><strong>HP:</strong> ${monster.hp}</p>
-        <button id="fight-button">Fight</button>
-        <button id="bribe-button">Bribe the Monster and Run (10 shards)</button>
-        <div id="monster-error-message" style="color: red;"></div>
-      </div>
-    `;
+          <div class="monster-popup">
+            <h2>A wild monster appears!</h2>
+            <p><strong>ATK:</strong> ${monster.atk}</p>
+            <p><strong>DEF:</strong> ${monster.def}</p>
+            <p><strong>HP:</strong> ${monster.hp}</p>
+            <button id="fight-button">Fight</button>
+            <button id="bribe-button">Bribe the Monster and Run (10 shards)</button>
+            <div id="monster-error-message" style="color: red;"></div>
+          </div>
+        `;
 
         document.body.appendChild(monsterPrompt);
 
@@ -133,11 +133,20 @@ export default class extends Controller {
                         // Keep the isMonsterPromptActive flag true during battle
                     } else {
                         // Handle error
+                        const errorMessageDiv = document.getElementById("monster-error-message");
+                        errorMessageDiv.textContent = response.message;
                         console.error(response.message);
+                        // Allow movement again
+                        this.isMonsterPromptActive = false;
                     }
                 })
                 .catch((error) => {
+                    // Display error message
+                    const errorMessageDiv = document.getElementById("monster-error-message");
+                    errorMessageDiv.textContent = error.message;
                     console.error("Error fighting the monster:", error);
+                    // Allow movement again
+                    this.isMonsterPromptActive = false;
                 });
         });
 
@@ -192,6 +201,7 @@ export default class extends Controller {
             shardBalanceElement.textContent = currentBalance;
         }
     }
+    // app/javascript/controllers/grid_controller.js
     fightMonster() {
         const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
         const characterName = document.querySelector(".character").getAttribute("data-character-id");
@@ -204,7 +214,15 @@ export default class extends Controller {
             },
             body: JSON.stringify({}),
         })
-            .then((response) => response.json())
+            .then((response) => {
+                if (!response.ok) {
+                    // Handle HTTP errors
+                    return response.json().then((errorData) => {
+                        throw new Error(errorData.message || 'Error fighting the monster');
+                    });
+                }
+                return response.json();
+            })
             .catch((error) => {
                 console.error("Error fighting the monster:", error);
                 throw error;
@@ -250,12 +268,12 @@ export default class extends Controller {
         }
 
         battleStatsElement.innerHTML = `
-      <h2>Battle Round ${roundData.round}</h2>
-      <p>Your HP: ${Math.max(roundData.character_hp, 0)}</p>
-      <p>Monster HP: ${Math.max(roundData.monster_hp, 0)}</p>
-      <p>You dealt ${roundData.damage_to_monster} damage.</p>
-      <p>Monster dealt ${roundData.damage_to_character} damage.</p>
-    `;
+          <h2>Battle Round ${roundData.round}</h2>
+          <p>Your HP: ${Math.max(roundData.character_hp, 0)}</p>
+          <p>Monster HP: ${Math.max(roundData.monster_hp, 0)}</p>
+          <p>You dealt ${roundData.damage_to_monster} damage.</p>
+          <p>Monster dealt ${roundData.damage_to_character} damage.</p>
+        `;
 
         // Update character's current HP data attribute
         const characterElement = document.querySelector('.character');
@@ -278,8 +296,8 @@ export default class extends Controller {
         const gameOverBanner = document.createElement("div");
         gameOverBanner.id = "game-over-banner";
         gameOverBanner.innerHTML = `
-      <h1>GAME OVER</h1>
-    `;
+          <h1>GAME OVER</h1>
+        `;
         document.body.appendChild(gameOverBanner);
 
         // Prevent further movement
