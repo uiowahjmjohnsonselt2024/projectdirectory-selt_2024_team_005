@@ -41,7 +41,7 @@ class CharactersController < ApplicationController
     if monster.nil?
       render json: { status: "error", message: "No monster to fight" }, status: :unprocessable_entity and return
     end
-    # TODO: what if character doesn't have weapon/armor? Implement default weapon?
+
     # Get character's equipment
     weapon_item = Item.find_by(item_id: @character.weapon_item_id)
     weapon = weapon_item&.itemable
@@ -64,11 +64,11 @@ class CharactersController < ApplicationController
 
     while character_hp > 0 && monster_hp > 0
       # Character attacks monster
-      damage_to_monster = [ character_atk - monster_def, 0 ].max
+      damage_to_monster = [character_atk - monster_def, 0].max
       monster_hp -= damage_to_monster
 
       # Monster attacks character
-      damage_to_character = [ monster_atk - character_def, 0 ].max
+      damage_to_character = [monster_atk - character_def, 0].max
       character_hp -= damage_to_character
 
       battle_log << {
@@ -80,16 +80,33 @@ class CharactersController < ApplicationController
       }
     end
 
-    # Update character's HP
-    @character.update(current_hp: character_hp)
+    # Initialize variables
+    exp_gain = 0
+    level_ups = 0
 
-    # Determine outcome
+    # Determine outcome and update character's stats accordingly
     if character_hp > 0 && monster_hp <= 0
       outcome = "win"
+      # Calculate EXP gain
+      exp_gain = monster_atk * monster_def
+      @character.current_exp += exp_gain
+      # Level up if necessary
+      while @character.current_exp >= @character.exp_to_level
+        @character.current_exp -= @character.exp_to_level
+        @character.level += 1
+        @character.exp_to_level = calculate_new_exp_to_level(@character.level)
+        level_ups += 1
+      end
+      @character.current_hp = character_hp
+      @character.save
     elsif character_hp <= 0 && monster_hp > 0
       outcome = "lose"
+      @character.current_hp = 0
+      @character.save
     elsif character_hp <= 0 && monster_hp <= 0
       outcome = "draw"
+      @character.current_hp = 0
+      @character.save
     end
 
     # Remove monster from session
@@ -98,11 +115,21 @@ class CharactersController < ApplicationController
     render json: {
       status: "ok",
       outcome: outcome,
-      battle_log: battle_log
+      battle_log: battle_log,
+      exp_gain: exp_gain,
+      level_ups: level_ups,
+      current_exp: @character.current_exp,
+      exp_to_level: @character.exp_to_level,
+      level: @character.level
     }, status: :ok
   end
 
+
   private
+  def calculate_new_exp_to_level(level)
+    # Example: EXP required increases by 100 each level
+    level * 100
+  end
 
   def set_character
     @user = User.find_by(username: session[:username])

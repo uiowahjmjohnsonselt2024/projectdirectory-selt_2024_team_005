@@ -126,8 +126,16 @@ export default class extends Controller {
             this.fightMonster()
                 .then((response) => {
                     if (response.status === "ok") {
-                        // Start the battle animation
-                        this.startBattleAnimation(response.battle_log, response.outcome);
+                        // Start the battle animation with additional data
+                        this.startBattleAnimation(
+                            response.battle_log,
+                            response.outcome,
+                            response.exp_gain,
+                            response.level_ups,
+                            response.current_exp,
+                            response.exp_to_level,
+                            response.level
+                        );
                         // Remove the monster prompt
                         document.body.removeChild(monsterPrompt);
                         // Keep the isMonsterPromptActive flag true during battle
@@ -149,6 +157,7 @@ export default class extends Controller {
                     this.isMonsterPromptActive = false;
                 });
         });
+
 
         document.getElementById("bribe-button").addEventListener("click", () => {
             // Handle bribe action
@@ -229,7 +238,7 @@ export default class extends Controller {
             });
     }
 
-    startBattleAnimation(battleLog, outcome) {
+    startBattleAnimation(battleLog, outcome, expGain, levelUps, currentExp, expToLevel, newLevel) {
         let index = 0;
         const battleInterval = setInterval(() => {
             if (index >= battleLog.length) {
@@ -238,12 +247,28 @@ export default class extends Controller {
                 if (outcome === "win") {
                     console.log("You defeated the monster!");
                     // Update the character's HP on the page
-                    document.getElementById("character-current-hp").textContent = battleLog[battleLog.length - 1].character_hp;
-                    // Allow movement again
-                    this.isMonsterPromptActive = false;
+                    document.getElementById("character-current-hp").textContent = Math.max(battleLog[battleLog.length - 1].character_hp, 0);
+                    // Display "You defeated the monster!" message
+                    this.displayBattleOutcome("You defeated the monster!", expGain, levelUps, newLevel);
+                    // Keep the battle stats display for 0.2 seconds before removing it
+                    setTimeout(() => {
+                        // Remove battle stats display
+                        const battleStatsElement = document.getElementById("battle-stats");
+                        if (battleStatsElement) {
+                            document.body.removeChild(battleStatsElement);
+                        }
+                        // Update character's EXP and Level on the page
+                        document.getElementById("character-current-exp").textContent = currentExp;
+                        document.getElementById("character-exp-to-level").textContent = expToLevel;
+                        if (levelUps > 0) {
+                            document.getElementById("character-level").textContent = newLevel;
+                        }
+                        // Allow movement again
+                        this.isMonsterPromptActive = false;
+                    }, 500); // 500 milliseconds
                 } else {
                     console.log("You have been defeated!");
-                    document.getElementById("character-current-hp").textContent = battleLog[battleLog.length - 1].character_hp;
+                    document.getElementById("character-current-hp").textContent = Math.max(battleLog[battleLog.length - 1].character_hp, 0);
                     // Display GAME OVER banner
                     this.displayGameOver();
                 }
@@ -283,6 +308,17 @@ export default class extends Controller {
 
         // Update the HP displayed on the page
         document.getElementById("character-current-hp").textContent = Math.max(roundData.character_hp, 0);
+    }
+
+    displayBattleOutcome(message, expGain, levelUps, newLevel) {
+        let battleStatsElement = document.getElementById("battle-stats");
+        if (battleStatsElement) {
+            battleStatsElement.innerHTML = `
+      <h2>${message}</h2>
+      <p>You gained ${expGain} EXP!</p>
+      ${levelUps > 0 ? `<p>You leveled up! New level: ${newLevel}</p>` : ''}
+    `;
+        }
     }
 
     displayGameOver() {
