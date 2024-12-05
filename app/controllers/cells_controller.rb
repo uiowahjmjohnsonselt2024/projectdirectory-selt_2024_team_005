@@ -24,6 +24,9 @@ class CellsController < ApplicationController
   def check_for_disaster(cell)
     disaster_threshold = cell[:disaster_prob]
     if rand < disaster_threshold
+      # add if @character has certain item in inventory, then divide disaster_threshold by 3
+      # add this item to the inventory of our character
+      # Add the item to store
       damage = 15
       @character = Character.find_by(username: @user.username)
       @character.send(:take_disaster_damage, damage)
