@@ -8,6 +8,7 @@ export default class extends Controller {
         const gridSize = parseInt(this.element.dataset.gridSize, 10);
         this.gridSize = gridSize;
         this.isMonsterPromptActive = false; // Initialize the flag
+        this.isDisasterPromptActive = false;
         // Remove previous event listener
         document.removeEventListener("keydown", this.moveCharacterBound);
         this.moveCharacterBound = this.moveCharacter.bind(this);
@@ -152,8 +153,14 @@ export default class extends Controller {
             .then(data => {
                 console.log("Response data:", data); // Log the entire response data
                 if (data.disaster_message) {
-                    // Show disaster prompt with the disaster message, damage, and current HP
-                    this.showDisasterPrompt(data.disaster_message, 15, data.current_hp);
+                    // Queue the disaster prompt if a monster is present
+                    if (this.isMonsterPromptActive) {
+                        this.pendingDisasterMessage = data.disaster_message;
+                        this.pendingDamage = 15; // Example value
+                        this.pendingCurrentHP = data.current_hp;
+                    } else {
+                        this.showDisasterPrompt(data.disaster_message, 15, data.current_hp);
+                    }
                 } else {
                     console.warn("No disaster message found in response.");
                 }
@@ -162,6 +169,7 @@ export default class extends Controller {
                 console.error("Error checking for disaster:", error);
             });
     }
+
 
     showDisasterPrompt(disasterMessage, damage, currentHP) {
         // Set the flag to true to prevent character movement during the disaster prompt
@@ -172,14 +180,14 @@ export default class extends Controller {
         disasterPrompt.classList.add("disaster-prompt");
 
         disasterPrompt.innerHTML = `
-    <div class="disaster-popup">
-        <h2>Disaster Strikes!</h2>
-        <p><strong> ${disasterMessage}</strong></p>
-        <p><strong>Damage Taken:</strong> ${damage} HP</p>
-        <p><strong>Better luck next time!</strong></p>
-        <button id="acknowledge-button">Accept</button>
-        <div id="disaster-error-message" style="color: red;"></div>
-    </div>
+        <div class="disaster-popup">
+            <h2>Disaster Strikes!</h2>
+            <p><strong> ${disasterMessage}</strong></p>
+            <p><strong>Damage Taken:</strong> ${damage} HP</p>
+            <p><strong>Better luck next time!</strong></p>
+            <button id="acknowledge-button">Accept</button>
+            <div id="disaster-error-message" style="color: red;"></div>
+        </div>
     `;
 
         // Append the disaster prompt to the body
@@ -194,20 +202,25 @@ export default class extends Controller {
 
             // Reset the disaster prompt flag
             this.isDisasterPromptActive = false;
-            window.location.reload();  // This will reload the current page
+            location.reload();
         });
     }
 
-    showMonsterPrompt(monster){
+    showMonsterPrompt(monster) {
+        if (this.isMonsterPromptActive) {
+            console.log("Monster prompt is already active.");
+            return; // Ensure the monster prompt doesn't stack
+        }
+
         // Set the flag to true to prevent character movement
         this.isMonsterPromptActive = true;
 
-        // Create a modal or prompt to display the monster's stats
+        // Create the monster prompt modal
         const monsterPrompt = document.createElement("div");
         monsterPrompt.classList.add("monster-prompt");
 
         monsterPrompt.innerHTML = `
-          <div class="monster-popup">
+        <div class="monster-popup">
             <h2>A wild monster appears!</h2>
             <p><strong>ATK:</strong> ${monster.atk}</p>
             <p><strong>DEF:</strong> ${monster.def}</p>
@@ -215,8 +228,8 @@ export default class extends Controller {
             <button id="fight-button">Fight</button>
             <button id="bribe-button">Bribe the Monster and Run (10 shards)</button>
             <div id="monster-error-message" style="color: red;"></div>
-          </div>
-        `;
+        </div>
+    `;
 
         document.body.appendChild(monsterPrompt);
 
@@ -238,7 +251,8 @@ export default class extends Controller {
                         );
                         // Remove the monster prompt
                         document.body.removeChild(monsterPrompt);
-                        // Keep the isMonsterPromptActive flag true during battle
+                        // After the battle, show the disaster prompt if it was queued
+                        this.showQueuedDisasterPrompt();
                     } else {
                         // Handle error
                         const errorMessageDiv = document.getElementById("monster-error-message");
@@ -258,7 +272,6 @@ export default class extends Controller {
                 });
         });
 
-
         document.getElementById("bribe-button").addEventListener("click", () => {
             // Handle bribe action
             console.log("Bribe button clicked");
@@ -271,6 +284,8 @@ export default class extends Controller {
                         this.isMonsterPromptActive = false;
                         // Update shard balance displayed on the page
                         this.updateShardBalance(-10);
+                        // After bribing, show the disaster prompt if it was queued
+                        this.showQueuedDisasterPrompt();
                     } else {
                         // Display error message
                         const errorMessageDiv = document.getElementById("monster-error-message");
@@ -281,6 +296,17 @@ export default class extends Controller {
                     console.error("Error bribing the monster:", error);
                 });
         });
+    }
+
+    showQueuedDisasterPrompt() {
+        if (this.pendingDisasterMessage) {
+            // Show the disaster prompt after the monster prompt is closed
+            this.showDisasterPrompt(this.pendingDisasterMessage, this.pendingDamage, this.pendingCurrentHP);
+            // Clear the queued disaster data
+            this.pendingDisasterMessage = null;
+            this.pendingDamage = null;
+            this.pendingCurrentHP = null;
+        }
     }
 
     bribeMonster(){
@@ -440,4 +466,5 @@ export default class extends Controller {
         this.isMonsterPromptActive = true;
     }
 }
+
 

@@ -36,7 +36,6 @@ class CellsController < ApplicationController
       disaster_threshold = disaster_threshold / 3.0
     end
     puts disaster_threshold
-    puts "THRESHOLD"
 
     if rand < disaster_threshold
       damage = 15
