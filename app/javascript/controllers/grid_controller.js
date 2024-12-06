@@ -98,6 +98,7 @@ export default class extends Controller {
             // Removed the disaster check from here, so we don't immediately trigger it.
             // This line was previously: this.checkForDisaster(newCellId);
             this.updateCharacterPosition(characterElement.getAttribute("data-character-id"), newCellId);
+
         }
     }
 
@@ -124,10 +125,12 @@ export default class extends Controller {
                 if (data.monster) {
                     // Monster encountered: show monster prompt first and do NOT check for disaster now.
                     this.showMonsterPrompt(data.monster);
-                } else {
-                    // No monster encountered: now we can safely check for a disaster.
-                    this.checkForDisaster(newCellId);
+                    this.checkForDisaster(newCellId)
                 }
+                // } else {
+                //     // No monster encountered: now we can safely check for a disaster.
+                //     this.checkForDisaster(newCellId);
+                // }
             })
             .catch((error) => {
                 console.error("Error updating character position:", error);
@@ -167,7 +170,7 @@ export default class extends Controller {
 
     showDisasterPrompt(disasterMessage, damage, currentHP) {
         // Set the flag to true to prevent character movement during the disaster prompt
-        this.isDisasterPromptActive = true;
+        //this.isDisasterPromptActive = true;
 
         // Create the disaster prompt modal
         const disasterPrompt = document.createElement("div");
@@ -195,9 +198,8 @@ export default class extends Controller {
             document.body.removeChild(disasterPrompt);
 
             // Reset the disaster prompt flag
-            this.isDisasterPromptActive = false;
-            // No reload here by default, or if you do, it happens after no monster scenario anyway.
-            window.location.reload();
+           // this.isDisasterPromptActive = false;
+            // window.location.reload();
         });
     }
 
