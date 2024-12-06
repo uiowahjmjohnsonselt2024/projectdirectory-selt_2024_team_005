@@ -127,10 +127,11 @@ export default class extends Controller {
                     this.showMonsterPrompt(data.monster);
                     this.checkForDisaster(newCellId)
                 }
-                // } else {
-                //     // No monster encountered: now we can safely check for a disaster.
-                //     this.checkForDisaster(newCellId);
-                // }
+                else {
+                    // No monster encountered: now we can safely check for a disaster.
+                    this.checkForDisaster(newCellId);
+                    // window.location.reload();
+                }
             })
             .catch((error) => {
                 console.error("Error updating character position:", error);
@@ -199,7 +200,10 @@ export default class extends Controller {
 
             // Reset the disaster prompt flag
            // this.isDisasterPromptActive = false;
-            // window.location.reload();
+           // window.location.reload();
+            if (!this.isMonsterPromptActive ) {
+                window.location.reload();
+            }
         });
     }
 
@@ -314,6 +318,7 @@ export default class extends Controller {
             currentBalance += amountChange;
             shardBalanceElement.textContent = currentBalance;
         }
+        window.location.reload();
     }
     // app/javascript/controllers/grid_controller.js
     fightMonster() {
