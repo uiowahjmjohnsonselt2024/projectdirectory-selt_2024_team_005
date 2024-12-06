@@ -95,8 +95,8 @@ export default class extends Controller {
 
         if (newCell) {
             newCell.appendChild(characterElement);
-            // Trigger disaster check after the character moves to the new cell
-            this.checkForDisaster(newCellId);
+            // Removed the disaster check from here, so we don't immediately trigger it.
+            // This line was previously: this.checkForDisaster(newCellId);
             this.updateCharacterPosition(characterElement.getAttribute("data-character-id"), newCellId);
         }
     }
@@ -122,8 +122,11 @@ export default class extends Controller {
             .then((data) => {
                 console.log("Character position updated successfully", data);
                 if (data.monster) {
-                    // Display the monster encounter prompt
+                    // Monster encountered: show monster prompt first and do NOT check for disaster now.
                     this.showMonsterPrompt(data.monster);
+                } else {
+                    // No monster encountered: now we can safely check for a disaster.
+                    this.checkForDisaster(newCellId);
                 }
             })
             .catch((error) => {
@@ -134,8 +137,7 @@ export default class extends Controller {
     checkForDisaster(newCellId) {
         const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 
-        // Fetch disaster status after the character moves
-        fetch(`/cells/${newCellId}`, { // URL to match the Rails update action in cells_controller
+        fetch(`/cells/${newCellId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -150,7 +152,7 @@ export default class extends Controller {
                 return response.json();
             })
             .then(data => {
-                console.log("Response data:", data); // Log the entire response data
+                console.log("Response data:", data);
                 if (data.disaster_message) {
                     // Show disaster prompt with the disaster message, damage, and current HP
                     this.showDisasterPrompt(data.disaster_message, 15, data.current_hp);
@@ -172,14 +174,14 @@ export default class extends Controller {
         disasterPrompt.classList.add("disaster-prompt");
 
         disasterPrompt.innerHTML = `
-    <div class="disaster-popup">
+      <div class="disaster-popup">
         <h2>Disaster Strikes!</h2>
-        <p><strong> ${disasterMessage}</strong></p>
+        <p><strong>${disasterMessage}</strong></p>
         <p><strong>Damage Taken:</strong> ${damage} HP</p>
         <p><strong>Better luck next time!</strong></p>
         <button id="acknowledge-button">Accept</button>
         <div id="disaster-error-message" style="color: red;"></div>
-    </div>
+      </div>
     `;
 
         // Append the disaster prompt to the body
@@ -194,7 +196,8 @@ export default class extends Controller {
 
             // Reset the disaster prompt flag
             this.isDisasterPromptActive = false;
-            window.location.reload();  // This will reload the current page
+            // No reload here by default, or if you do, it happens after no monster scenario anyway.
+            window.location.reload();
         });
     }
 
