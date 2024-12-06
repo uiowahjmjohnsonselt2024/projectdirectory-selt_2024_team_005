@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_06_223217) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_06_230427) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -82,6 +82,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_06_223217) do
     t.string "room_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["username", "created_at"], name: "index_messages_on_username_and_created_at"
   end
 
   create_table "potions", primary_key: "potion_id", id: :serial, force: :cascade do |t|
