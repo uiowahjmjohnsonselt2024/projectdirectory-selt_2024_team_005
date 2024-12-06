@@ -22,6 +22,15 @@ class ChatChannel < ApplicationCable::Channel
       channel_type = params[:channel_type] || "world"
       room_id = params[:room_id]
       username = current_user
+
+      # Save message into database
+      Message.create!(
+        content: data["message"],
+        username: username,
+        channel_type: channel_type,
+        room_id: room_id
+      )
+
       if channel_type == "world"
         # Broadcast to the world chat
         ActionCable.server.broadcast("world_chat", { username: username, message: data["message"], channel: "world" })
@@ -30,5 +39,21 @@ class ChatChannel < ApplicationCable::Channel
         ActionCable.server.broadcast("room_chat_#{room_id}", { username: username, message: data["message"], channel: "room" })
       end
     end
+  end
+
+  def load_recent_messages(data)
+    maximum_message = 50
+    channel_type = params[:channel_type]
+    room_id = params[:room_id]
+
+    messages = if channel_type == "world"
+                 Message.where(channel_type: "world").order(created_at: :desc).limit(maximum_message)
+               elsif channel_type == "room" && room_id.present?
+                 Message.where(channel_type: "room", room_id: room_id).order(created_at: :desc).limit(maximum_message)
+               else
+                 []
+               end
+
+    transmit(messages.reverse.map { |msg| { username: msg.username, message: msg.content } })
   end
 end

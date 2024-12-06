@@ -13,24 +13,50 @@ function subscribeToChannel(channelType, roomName = null) {
         received(data) {
           const messagesContainer = document.getElementById("messages");
           if (messagesContainer) {
-            const messageElement = document.createElement("div");
-            const usernameElement = document.createElement("span");
-            usernameElement.innerText = `${data.username}: `;
-            usernameElement.classList.add("username"); // 添加样式类
-
-            const messageContent = document.createElement("span");
-            messageContent.innerText = data.message;
-
-            messageElement.appendChild(usernameElement);
-            messageElement.appendChild(messageContent);
-            messagesContainer.appendChild(messageElement);
-
+            if (Array.isArray(data)) {
+              // Historical message
+              clearMessages();
+              data.forEach((msg) => renderMessage(msg, messagesContainer));
+            } else {
+              // Real-time message
+              renderMessage(data, messagesContainer);
+            }
             // Automatically scroll to the latest messages
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
           }
         },
+        connected() {
+          // Load recent messages
+          console.log(`Connected to ${channelType} channel`);
+          clearMessages();
+          chatChannel.perform("load_recent_messages", {}); // Load recent message
+        },
+        disconnected() {
+          console.log("Disconnected from chat channel.");
+        },
       }
   );
+}
+
+function clearMessages() {
+  const messagesContainer = document.getElementById("messages");
+  if (messagesContainer) {
+    messagesContainer.innerHTML = "";
+  }
+}
+
+function renderMessage(data, messagesContainer){
+  const messageElement = document.createElement("div");
+  const usernameElement = document.createElement("span");
+  usernameElement.innerText = `${data.username}: `;
+  usernameElement.classList.add("username");
+
+  const messageContent = document.createElement("span");
+  messageContent.innerText = data.message;
+
+  messageElement.appendChild(usernameElement);
+  messageElement.appendChild(messageContent);
+  messagesContainer.appendChild(messageElement);
 }
 
 document.addEventListener("turbo:load", () => {
