@@ -33,10 +33,9 @@ class CellsController < ApplicationController
     disaster_ward_item = items.find { |item| item.itemable.name == 'Catastrophe Ward' }
 
     if disaster_ward_item
-      disaster_threshold = disaster_threshold / 3.0
+      disaster_threshold = disaster_threshold / 2.0
     end
     puts disaster_threshold
-    puts "THRESHOLD"
 
     if rand < disaster_threshold
       damage = 15
