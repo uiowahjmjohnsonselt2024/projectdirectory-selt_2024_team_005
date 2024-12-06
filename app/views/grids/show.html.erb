@@ -1,4 +1,4 @@
-<body class="chat-page">
+<body class="chat-page" data-room-id="<%= @grid.name %>">
 <!-- app/views/grids/show.html.erb -->
 <h1 style="text-align: center;"><%= @grid.name %></h1>
 
@@ -96,8 +96,14 @@
   </div>
 </div>
 
+<select id="chat-type-selector">
+  <option value="world">World Chat</option>
+  <option value="room">Room Chat</option>
+</select>
+
 <div id="messages" style="border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll;">
 </div>
+
 <form id="chat-form">
   <input
     type="text"
