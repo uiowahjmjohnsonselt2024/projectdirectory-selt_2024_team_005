@@ -1,13 +1,14 @@
+<!-- app/views/grids/show.html.erb -->
 <h1 style="text-align: center;"><%= @grid.name %></h1>
 
 <div data-controller="grid" data-grid-size="<%= @visibility %>">
   <div class="grid-container">
     <div id="character-stats">
       <h2>
-        <%= @character.character_name %> - Lv <%= @character.level %>
+        <%= @character.character_name %> - Lv <span id="character-level"><%= @character.level %></span>
       </h2>
-      <p><strong>HP:</strong> <%= @character.current_hp %> / <%= @character.max_hp %></p>
-      <p><strong>EXP:</strong> <%= @character.current_exp %> / <%= @character.exp_to_level %></p>
+      <p><strong>HP:</strong> <span id="character-current-hp"><%= @character.current_hp %></span> / <%= @character.max_hp %></p>
+      <p><strong>EXP:</strong> <span id="character-current-exp"><%= @character.current_exp %></span> / <span id="character-exp-to-level"><%= @character.exp_to_level %></span></p>
       <p><strong>Shards:</strong> <%= @user.shard_balance %></p>
 
       <div class="equipped-item">
