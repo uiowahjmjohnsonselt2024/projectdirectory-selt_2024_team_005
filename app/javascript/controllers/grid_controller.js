@@ -201,8 +201,12 @@ export default class extends Controller {
             // Reset the disaster prompt flag
            // this.isDisasterPromptActive = false;
            // window.location.reload();
-            if (!this.isMonsterPromptActive ) {
-                window.location.reload();
+            if (currentHP <= 0) {
+                this.displayGameOver();
+            } else {
+                if (!this.isMonsterPromptActive) {
+                    window.location.reload();
+                }
             }
         });
     }
