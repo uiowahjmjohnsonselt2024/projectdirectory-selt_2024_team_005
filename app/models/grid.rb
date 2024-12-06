@@ -20,8 +20,8 @@ class Grid < ApplicationRecord
         cells_in_grid << {
           cell_id: cell_id,
           cell_loc: cell_loc,
-          mons_prob: 0.99,
-          disaster_prob: 0.99,
+          mons_prob: 0.18,
+          disaster_prob: 0.12,
           weather: "sunny",
           terrain: "grass",
           has_store: [ true, false ].sample,
