@@ -30,7 +30,7 @@ class CellsController < ApplicationController
     # Find the items in the inventory, using the correct primary key column
     items = Item.where(item_id: item_ids).includes(:itemable)
     # Check if any item is a Disaster Ward
-    disaster_ward_item = items.find { |item| item.itemable.name == 'Catastrophe Ward' }
+    disaster_ward_item = items.find { |item| item.itemable.name == "Catastrophe Ward" }
 
     if disaster_ward_item
       disaster_threshold = disaster_threshold / 2.0
