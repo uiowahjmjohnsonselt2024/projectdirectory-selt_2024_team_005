@@ -40,10 +40,18 @@
                data-target="inventory-grid.slot">
 
             <div class="popover-menu" data-target="inventory-grid.popover" style="display: none;">
-              <div class="popover-buttons">
-                <button class="popover-button use-button">Use</button>
-                <button class="popover-button discard-button">Discard</button>
-              </div>
+              <% if item %>
+                <div class="popover-buttons">
+                  <%= form_with url: use_item_inventory_index_path, method: :post, class: "popover-form", remote: true do %>
+                    <%= hidden_field_tag :index, index %>
+                    <button type="submit" class="popover-button use-button">Use</button>
+                  <% end %>
+                  <%= form_with url: discard_item_inventory_index_path, method: :post, class: "popover-form", remote: true do %>
+                    <%= hidden_field_tag :index, index %>
+                    <button type="submit" class="popover-button discard-button">Discard</button>
+                  <% end %>
+                </div>
+              <% end %>
             </div>
 
             <div class="hover-popover" data-target="inventory-grid.hoverPopover" style="display: none;">
