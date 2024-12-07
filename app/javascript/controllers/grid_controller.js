@@ -1,5 +1,6 @@
 // app/javascript/controllers/grid_controller.js
 import { Controller } from "@hotwired/stimulus";
+import consumer from "channels/consumer";
 
 export default class extends Controller {
     static targets = ["details", "character"];
@@ -7,7 +8,25 @@ export default class extends Controller {
     connect() {
         const gridSize = parseInt(this.element.dataset.gridSize, 10);
         this.gridSize = gridSize;
+        this.isOnlineMode = false; // Default: Offline
+
+        // Get current character by character-id
+        const currentCharacterName = document.body.dataset.currentCharacterName;
+        this.currentCharacter = document.querySelector(`.character[data-character-id='${currentCharacterName}']`);
+        if (!this.currentCharacter) {
+            console.error("Current character not found for movement!");
+        } else {
+            console.log("Current character found:", this.currentCharacter);
+        }
+
+        // Listen to the button event
+        const onlineModeButton = document.getElementById("online-mode-toggle");
+        if (onlineModeButton) {
+            onlineModeButton.addEventListener("click", () => this.toggleOnlineMode());
+        }
+
         this.isMonsterPromptActive = false; // Initialize the flag
+
         // Remove previous event listener
         document.removeEventListener("keydown", this.moveCharacterBound);
         this.moveCharacterBound = this.moveCharacter.bind(this);
@@ -16,7 +35,79 @@ export default class extends Controller {
 
     disconnect() {
         // Remove the keydown event listener when the controller is disconnected
+        if (this.multiplayerChannel) {
+            const currentCellId = this.currentCharacter.closest(".grid-cell").dataset.cellId;
+            this.multiplayerChannel.perform("update_position", { cell_id: currentCellId });
+
+            this.multiplayerChannel.unsubscribe();
+        }
+
         document.removeEventListener("keydown", this.moveCharacterBound);
+    }
+
+    toggleOnlineMode() {
+        this.isOnlineMode = !this.isOnlineMode;
+
+        if (this.isOnlineMode) {
+            this.enableOnlineMode();
+        } else {
+            this.disableOnlineMode();
+        }
+    }
+
+    enableOnlineMode() {
+        const gridId = document.body.dataset.roomId;
+        if (!gridId) return;
+
+        this.multiplayerChannel = consumer.subscriptions.create(
+            { channel: "MultiplayerChannel", grid_id: gridId },
+            {
+                received: (data) => {
+                    if (data.type === "grid_state") {
+                        console.log("Grid state received:", data.players);
+                        // Clear all other characters except for the current one
+                        document.querySelectorAll(".character[data-character-id]").forEach(el => {
+                            if (el.dataset.characterId !== document.body.dataset.currentCharacterName) {
+                                el.remove();
+                            }
+                        });
+                        // Add characters from the server
+                        data.players.forEach(player => this.addCharacterToGrid(player));
+                        // Ensure the current character is correctly added to the grid
+                        this.currentCharacter = document.querySelector(
+                            `.character[data-character-id='${document.body.dataset.currentCharacterName}']`
+                        );
+                    } else if (data.type === "player_joined") {
+                        console.log("Player joined:", data.character);
+                        this.addCharacterToGrid(data.character);
+                    } else if (data.type === "update_position") {
+                        console.log("Player moved:", data.character);
+                        this.moveOtherCharacter(data.character.character_name, data.character.cell_id);
+                    } else if (data.type === "player_left") {
+                        console.log("Player left:", data.character);
+                        this.removeCharacterFromGrid(data.character.character_name);
+                    }
+                },
+            }
+        );
+
+        console.log("Online mode enabled");
+        document.getElementById("online-mode-toggle").textContent = "Disable Online Mode";
+    }
+
+    disableOnlineMode() {
+        if (this.multiplayerChannel) {
+            const currentCellId = this.currentCharacter.closest(".grid-cell").dataset.cellId;
+            this.multiplayerChannel.perform("update_position", { cell_id: currentCellId });
+
+            this.multiplayerChannel.unsubscribe();
+            this.multiplayerChannel = null;
+        }
+
+        // Remove all other players' characters
+        document.querySelectorAll(".character[data-character-id]").forEach(el => el.remove());
+        console.log("Online mode disabled");
+        document.getElementById("online-mode-toggle").textContent = "Enable Online Mode";
     }
 
     // Add the showDetails method
@@ -53,6 +144,11 @@ export default class extends Controller {
     }
 
     moveCharacter(event) {
+        if (!this.currentCharacter) {
+            console.error("Current character not found for movement!");
+            return;
+        }
+
         // Prevent movement if monster prompt is active or character is dead
         const characterElement = document.querySelector(`.character`);
         if (!characterElement) return;
@@ -99,6 +195,51 @@ export default class extends Controller {
             // This line was previously: this.checkForDisaster(newCellId);
             this.updateCharacterPosition(characterElement.getAttribute("data-character-id"), newCellId);
 
+            // Broadcast the player's new location if under multiplayer mode
+            if (this.isOnlineMode && this.multiplayerChannel) {
+                this.multiplayerChannel.perform("update_position", { cell_id: newCellId });
+            }
+        }
+    }
+
+    addCharacterToGrid(character) {
+        const { character_name, cell_id } = character;
+        if (!character_name || !cell_id) {
+            console.warn("Invalid character data:", character);
+            return;
+        }
+
+        // Avoid adding duplicate characters
+        const existingCharacter = document.querySelector(`.character[data-character-id='${character_name}']`);
+        if (existingCharacter) {
+            console.warn(`Character ${character_name} already exists in the grid.`);
+            return;
+        }
+
+        const cell = document.querySelector(`[data-cell-id='${cell_id}']`);
+        if (cell) {
+            const characterDiv = document.createElement("div");
+            characterDiv.className = "character";
+            characterDiv.dataset.characterId = character_name;
+            characterDiv.textContent = character_name;
+            cell.appendChild(characterDiv);
+        }
+    }
+
+    moveOtherCharacter(character_name, newCellId) {
+        if (character_name === document.body.dataset.currentCharacterName) return;
+
+        const characterElement = document.querySelector(`.character[data-character-id='${character_name}']`);
+        const targetCell = document.querySelector(`[data-cell-id='${newCellId}']`);
+        if (characterElement && targetCell) {
+            targetCell.appendChild(characterElement);
+        }
+    }
+
+    removeCharacterFromGrid(character_name) {
+        const character = document.querySelector(`.character[data-character-id='${character_name}']`);
+        if (character) {
+            character.remove();
         }
     }
 
@@ -178,15 +319,15 @@ export default class extends Controller {
         disasterPrompt.classList.add("disaster-prompt");
 
         disasterPrompt.innerHTML = `
-      <div class="disaster-popup">
-        <h2>Disaster Strikes!</h2>
-        <p><strong>${disasterMessage}</strong></p>
-        <p><strong>Damage Taken:</strong> ${damage} HP</p>
-        <p><strong>Better luck next time!</strong></p>
-        <button id="acknowledge-button">Accept</button>
-        <div id="disaster-error-message" style="color: red;"></div>
-      </div>
-    `;
+            <div class="disaster-popup">
+                <h2>Disaster Strikes!</h2>
+                <p><strong>${disasterMessage}</strong></p>
+                <p><strong>Damage Taken:</strong> ${damage} HP</p>
+                <p><strong>Better luck next time!</strong></p>
+                <button id="acknowledge-button">Accept</button>
+                <div id="disaster-error-message" style="color: red;"></div>
+            </div>
+        `;
 
         // Append the disaster prompt to the body
         document.body.appendChild(disasterPrompt);
@@ -205,10 +346,17 @@ export default class extends Controller {
                 this.displayGameOver();
             } else {
                 if (!this.isMonsterPromptActive) {
-                    window.location.reload();
+                    // window.location.reload();
+                    this.updateUIAfterDisaster(currentHP);
                 }
             }
         });
+    }
+
+    updateUIAfterDisaster(currentHP) {
+        document.getElementById("character-current-hp").textContent = currentHP;
+        // If there are other logics that needs to be reset after actions, it can be dealt with here
+        console.log("UI updated after disaster");
     }
 
     showMonsterPrompt(monster){

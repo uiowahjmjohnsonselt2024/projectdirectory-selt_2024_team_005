@@ -21,7 +21,7 @@ class ChatChannel < ApplicationCable::Channel
       Rails.logger.info "Message received: #{data['message']}"
       channel_type = params[:channel_type] || "world"
       room_id = params[:room_id]
-      username = current_user
+      username = current_user.character.character_name
 
       # Save message into database
       Message.create!(
