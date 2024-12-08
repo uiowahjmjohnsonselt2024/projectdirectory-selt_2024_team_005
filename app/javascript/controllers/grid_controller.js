@@ -26,6 +26,7 @@ export default class extends Controller {
         }
 
         this.isMonsterPromptActive = false; // Initialize the flag
+        this.isDisasterPromptActive = false;
 
         // Remove previous event listener
         document.removeEventListener("keydown", this.moveCharacterBound);
@@ -172,7 +173,7 @@ export default class extends Controller {
         if (!characterElement) return;
 
         const characterHp = parseInt(characterElement.getAttribute('data-character-hp'), 10);
-        if (this.isMonsterPromptActive || characterHp <= 0) {
+        if (this.isMonsterPromptActive || this.isDisasterPromptActive || characterHp <= 0) {
             return;
         }
 
@@ -350,7 +351,7 @@ export default class extends Controller {
 
     showDisasterPrompt(disasterMessage, damage, currentHP) {
         // Set the flag to true to prevent character movement during the disaster prompt
-        //this.isDisasterPromptActive = true;
+        this.isDisasterPromptActive = true;
 
         // Create the disaster prompt modal
         const disasterPrompt = document.createElement("div");
@@ -392,10 +393,24 @@ export default class extends Controller {
     }
 
     updateUIAfterDisaster(currentHP) {
-        document.getElementById("character-current-hp").textContent = currentHP;
-        // If there are other logics that needs to be reset after actions, it can be dealt with here
+        const hpElement = document.getElementById("character-current-hp");
+        if (hpElement) {
+            hpElement.textContent = currentHP;
+        } else {
+            console.error("No character-current-hp element found!");
+        }
+
+        const characterElement = document.querySelector('.character');
+        if (characterElement) {
+            characterElement.setAttribute('data-character-hp', currentHP);
+        } else {
+            console.error("No character element found!");
+        }
+
+        // If there are other logics that need to be reset after actions, handle them here
         console.log("UI updated after disaster");
     }
+
 
     showMonsterPrompt(monster){
         // Set the flag to true to prevent character movement
@@ -468,8 +483,6 @@ export default class extends Controller {
                         document.body.removeChild(monsterPrompt);
                         // Reset the flag when the prompt is dismissed
                         this.isMonsterPromptActive = false;
-                        // Update shard balance displayed on the page
-                        this.updateShardBalance(-10);
                     } else {
                         // Display error message
                         const errorMessageDiv = document.getElementById("monster-error-message");
@@ -495,21 +508,31 @@ export default class extends Controller {
             body: JSON.stringify({}),
         })
             .then((response) => response.json())
+            .then((data) => {
+                if (data.status === "ok") {
+                    this.updateShardBalance(data.shard_balance);
+                    return data;
+                } else {
+                    throw new Error("Failed to bribe the monster");
+                }
+            })
             .catch((error) => {
                 console.error("Error bribing the monster:", error);
                 throw error;
             });
     }
 
-    updateShardBalance(amountChange) {
+    updateShardBalance(newBalance) {
+        console.log("updateShardBalance called with:", newBalance);
         const shardBalanceElement = document.getElementById("shard-balance");
         if (shardBalanceElement) {
-            let currentBalance = parseInt(shardBalanceElement.textContent, 10);
-            currentBalance += amountChange;
-            shardBalanceElement.textContent = currentBalance;
+            shardBalanceElement.textContent = newBalance;
+            console.log("Shard balance updated without reloading the page.");
+        } else {
+            console.error("No shard-balance element found!");
         }
-        window.location.reload();
     }
+
     // app/javascript/controllers/grid_controller.js
     fightMonster() {
         const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");

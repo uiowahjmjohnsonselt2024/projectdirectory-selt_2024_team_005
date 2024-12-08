@@ -27,7 +27,7 @@ class CharactersController < ApplicationController
       @user.shard_balance -= 10
       if @user.save
         session.delete(:current_monster)  # Remove monster from session
-        render json: { status: "ok", message: "Bribe successful" }, status: :ok
+        render json: { status: "ok", shard_balance: @user.shard_balance, message: "Bribe successful" }, status: :ok
       else
         render json: { status: "error", message: "Unable to update shard balance" }, status: :unprocessable_entity
       end

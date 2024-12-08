@@ -10,7 +10,7 @@
       </h2>
       <p><strong>HP:</strong> <span id="character-current-hp"><%= @character.current_hp %></span> / <%= @character.max_hp %></p>
       <p><strong>EXP:</strong> <span id="character-current-exp"><%= @character.current_exp %></span> / <span id="character-exp-to-level"><%= @character.exp_to_level %></span></p>
-      <p><strong>Shards:</strong> <%= @user.shard_balance %></p>
+      <p><strong>Shards:</strong> <span id="shard-balance"><%= @user.shard_balance %></span></p>
 
       <div class="equipped-item">
         <%= image_tag(@weapon.icon, class: 'equipped-item-icon') %>
