@@ -16,7 +16,7 @@ class CellsController < ApplicationController
 
     # Respond with the disaster message and any other necessary data (e.g., cell info)
     respond_to do |format|
-      format.json { render json: { disaster_message: disaster_message, cell: @cell } }
+      format.json { render json: { disaster_message: disaster_message, current_hp: @character.current_hp, cell: @cell } }
     end
   end
 

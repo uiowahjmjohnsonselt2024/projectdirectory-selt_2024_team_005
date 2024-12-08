@@ -379,7 +379,7 @@ export default class extends Controller {
             document.body.removeChild(disasterPrompt);
 
             // Reset the disaster prompt flag
-           // this.isDisasterPromptActive = false;
+            this.isDisasterPromptActive = false;
            // window.location.reload();
             if (currentHP <= 0) {
                 this.displayGameOver();
@@ -661,6 +661,7 @@ export default class extends Controller {
 
         // Prevent further movement
         this.isMonsterPromptActive = true;
+        this.isDisasterPromptActive = true;
     }
 }
 
