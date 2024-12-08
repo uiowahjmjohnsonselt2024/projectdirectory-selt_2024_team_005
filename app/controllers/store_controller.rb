@@ -50,14 +50,23 @@ class StoreController < ApplicationController
     @user.shard_balance -= @grid.cost
     @user.save
 
-    # Create a new user_grid_visibility record to grant the grid to the user
-    user_grid_visibility = UserGridVisibility.create(
-      username: @user.username,
-      grid_id: @grid.grid_id,
-      visibility: 1  # Set to "purchased"/"visible" status
-    )
+    # Check if the user already has visibility for this grid
+    user_grid_visibility = UserGridVisibility.find_by(username: @user.username, grid_id: @grid.id)
 
-    if user_grid_visibility.persisted?
+    if user_grid_visibility
+      # If the visibility record exists, update visibility to 6 (purchased/visible)
+      user_grid_visibility.update(visibility: 6)
+    else
+      # If no record exists, create a new one with visibility set to 6
+      user_grid_visibility = UserGridVisibility.create(
+        username: @user.username,
+        grid_id: @grid.id,
+        visibility: 6
+      )
+    end
+
+    # Check if the operation was successful
+    if user_grid_visibility.persisted? || user_grid_visibility.valid?
       flash[:notice] = "Grid purchased successfully!"
       redirect_to store_path(@user.username)
     else
@@ -65,4 +74,5 @@ class StoreController < ApplicationController
       redirect_to store_path(@user.username)
     end
   end
+
 end

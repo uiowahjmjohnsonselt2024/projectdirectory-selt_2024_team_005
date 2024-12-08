@@ -13,14 +13,16 @@
   user.password_confirmation = '54321'
   user.shard_balance = 100000000
 end
-@grid = Grid.find_or_create_by!(grid_id: 1, name: 'earth')
-@grid2 = Grid.find_or_create_by!(grid_id: 2, name: 'moon')
+@grid = Grid.find_or_create_by!(grid_id: 1, name: 'earth', cost: 20)
+@grid2 = Grid.find_or_create_by!(grid_id: 2, name: 'moon', cost: 20)
+@grid3 = Grid.find_or_create_by!(grid_id: 3, name: 'mars', cost: 20)
 # Tips: No need to instantiate a cell, since grid will generate cells after creating automatically!
 # @cell = Cell.find_or_create_by!(cell_id: 1, cell_loc: '1A', mons_prob: 0.3, disaster_prob: 0.3, weather: 'Sunny',
 #                                 terrain: 'desert', has_store: true, grid_id: @grid.grid_id)
 
-UserGridVisibility.find_or_create_by!(username: @user.username, grid_id: @grid.grid_id, visibility: 1)
-UserGridVisibility.find_or_create_by!(username: @user.username, grid_id: @grid2.grid_id, visibility: 1)
+UserGridVisibility.find_or_create_by!(username: @user.username, grid_id: @grid.grid_id, visibility: 6)
+UserGridVisibility.find_or_create_by!(username: @user.username, grid_id: @grid2.grid_id, visibility: 6)
+UserGridVisibility.find_or_create_by!(username: @user.username, grid_id: @grid3.grid_id, visibility: 0)
 
 @first_cell = @grid.cells.order(:cell_id).first
 @wooden_sword = Weapon.find_or_create_by!(name: 'Wooden Sword', atk_bonus: 30)
