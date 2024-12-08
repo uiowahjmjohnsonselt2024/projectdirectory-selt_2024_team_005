@@ -18,6 +18,10 @@ end
 # Tips: No need to instantiate a cell, since grid will generate cells after creating automatically!
 # @cell = Cell.find_or_create_by!(cell_id: 1, cell_loc: '1A', mons_prob: 0.3, disaster_prob: 0.3, weather: 'Sunny',
 #                                 terrain: 'desert', has_store: true, grid_id: @grid.grid_id)
+
+UserGridVisibility.find_or_create_by!(username: @user.username, grid_id: @grid.grid_id, visibility: 1)
+UserGridVisibility.find_or_create_by!(username: @user.username, grid_id: @grid2.grid_id, visibility: 1)
+
 @first_cell = @grid.cells.order(:cell_id).first
 @wooden_sword = Weapon.find_or_create_by!(name: 'Wooden Sword', atk_bonus: 30)
 @leather_armor = Armor.find_or_create_by!(name: 'Leather Armor', def_bonus: 10)
