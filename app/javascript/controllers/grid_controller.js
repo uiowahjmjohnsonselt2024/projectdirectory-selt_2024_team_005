@@ -46,6 +46,18 @@ export default class extends Controller {
     }
 
     toggleOnlineMode() {
+        // Check character's position before switching isOnlineMode
+        if (!this.isOnlineMode) {
+            if (!this.currentCharacter) {
+                alert("Your character is not currently in this grid. You cannot enable online mode.");
+                return;
+            }
+            const currentCell = this.currentCharacter.closest(".grid-cell");
+            if (!currentCell) {
+                alert("Your character is not currently in a cell on this grid. You cannot enable online mode.");
+                return;
+            }
+        }
         this.isOnlineMode = !this.isOnlineMode;
 
         if (this.isOnlineMode) {
@@ -65,21 +77,23 @@ export default class extends Controller {
                 received: (data) => {
                     if (data.type === "grid_state") {
                         console.log("Grid state received:", data.players);
-                        // Clear all other characters except for the current one
-                        document.querySelectorAll(".character[data-character-id]").forEach(el => {
-                            if (el.dataset.characterId !== document.body.dataset.currentCharacterName) {
-                                el.remove();
-                            }
-                        });
                         // Add characters from the server
                         data.players.forEach(player => this.addCharacterToGrid(player));
                         // Ensure the current character is correctly added to the grid
                         this.currentCharacter = document.querySelector(
                             `.character[data-character-id='${document.body.dataset.currentCharacterName}']`
                         );
+                        if (!this.currentCharacter) {
+                            console.error("Current character not found after grid_state update!");
+                        }
                     } else if (data.type === "player_joined") {
                         console.log("Player joined:", data.character);
-                        this.addCharacterToGrid(data.character);
+                        const exists = document.querySelector(`.character[data-character-id='${data.character.character_name}']`);
+                        if (!exists) {
+                            this.addCharacterToGrid(data.character);
+                        } else {
+                            console.log(`Player ${data.character.character_name} already in grid, skipping add.`);
+                        }
                     } else if (data.type === "update_position") {
                         console.log("Player moved:", data.character);
                         this.moveOtherCharacter(data.character.character_name, data.character.cell_id);
@@ -105,7 +119,11 @@ export default class extends Controller {
         }
 
         // Remove all other players' characters
-        document.querySelectorAll(".character[data-character-id]").forEach(el => el.remove());
+        document.querySelectorAll(".character[data-character-id]").forEach(el => {
+            if (el.dataset.characterId !== document.body.dataset.currentCharacterName) {
+                el.remove();
+            }
+        });
         console.log("Online mode disabled");
         document.getElementById("online-mode-toggle").textContent = "Enable Online Mode";
     }
@@ -148,9 +166,9 @@ export default class extends Controller {
             console.error("Current character not found for movement!");
             return;
         }
-
         // Prevent movement if monster prompt is active or character is dead
-        const characterElement = document.querySelector(`.character`);
+        const characterElement = this.currentCharacter;
+
         if (!characterElement) return;
 
         const characterHp = parseInt(characterElement.getAttribute('data-character-hp'), 10);
@@ -189,6 +207,12 @@ export default class extends Controller {
         const newCellId = gridId * 10000 + row * 100 + col;
         const newCell = document.querySelector(`[data-cell-id='${newCellId}']`);
 
+        // Check
+        if (newCellId === currentCellId) {
+            console.log("No movement: character at boundary");
+            return;
+        }
+
         if (newCell) {
             newCell.appendChild(characterElement);
             // Removed the disaster check from here, so we don't immediately trigger it.
@@ -213,7 +237,9 @@ export default class extends Controller {
         const existingCharacter = document.querySelector(`.character[data-character-id='${character_name}']`);
         if (existingCharacter) {
             console.warn(`Character ${character_name} already exists in the grid.`);
-            return;
+            // If already exists, remove the old role before adding a new one
+            existingCharacter.remove();
+            // return;
         }
 
         const cell = document.querySelector(`[data-cell-id='${cell_id}']`);
@@ -227,13 +253,25 @@ export default class extends Controller {
     }
 
     moveOtherCharacter(character_name, newCellId) {
-        if (character_name === document.body.dataset.currentCharacterName) return;
+        if (character_name === document.body.dataset.currentCharacterName) {
+            console.warn("Attempted to move current user's character");
+            return;
+        }
 
         const characterElement = document.querySelector(`.character[data-character-id='${character_name}']`);
         const targetCell = document.querySelector(`[data-cell-id='${newCellId}']`);
-        if (characterElement && targetCell) {
-            targetCell.appendChild(characterElement);
+        if (!characterElement) {
+            console.warn(`Character ${character_name} not found`);
+            return;
         }
+
+        if (!targetCell) {
+            console.warn(`Target cell ${newCellId} not found`);
+            return;
+        }
+        // Remove the character's original location and then move to the new location
+        characterElement.parentElement?.removeChild(characterElement);
+        targetCell.appendChild(characterElement);
     }
 
     removeCharacterFromGrid(character_name) {
