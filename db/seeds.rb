@@ -13,11 +13,31 @@
   user.password_confirmation = '54321'
   user.shard_balance = 100000000
 end
-@grid = Grid.find_or_create_by!(grid_id: 1, name: 'earth')
-@grid2 = Grid.find_or_create_by!(grid_id: 2, name: 'moon')
+@grid = Grid.find_or_create_by!(grid_id: 1, name: 'Earth', cost: 20)
+@grid2 = Grid.find_or_create_by!(grid_id: 2, name: 'Moon', cost: 20)
+@grid3 = Grid.find_or_create_by!(grid_id: 3, name: 'Mars', cost: 20)
+@grid4 = Grid.find_or_create_by!(grid_id: 4, name: 'Venus', cost: 25)
+@grid5 = Grid.find_or_create_by!(grid_id: 5, name: 'Saturn', cost: 30)
+@grid6 = Grid.find_or_create_by!(grid_id: 6, name: 'Jupiter', cost: 30)
+@grid7 = Grid.find_or_create_by!(grid_id: 7, name: 'Neptune', cost: 35)
+@grid8 = Grid.find_or_create_by!(grid_id: 8, name: 'Pluto', cost: 50)
 # Tips: No need to instantiate a cell, since grid will generate cells after creating automatically!
 # @cell = Cell.find_or_create_by!(cell_id: 1, cell_loc: '1A', mons_prob: 0.3, disaster_prob: 0.3, weather: 'Sunny',
 #                                 terrain: 'desert', has_store: true, grid_id: @grid.grid_id)
+
+UserGridVisibility.find_or_create_by!(username: @user.username, grid_id: @grid.grid_id) do |visibility|
+  visibility.visibility = 6 # Set to 6 for purchased visibility
+end
+
+UserGridVisibility.find_or_create_by!(username: @user.username, grid_id: @grid2.grid_id) do |visibility|
+  visibility.visibility = 6
+end
+
+UserGridVisibility.find_or_create_by!(username: @user.username, grid_id: @grid3.grid_id) do |visibility|
+  visibility.visibility = 0 # Set to 0 if not purchased
+end
+
+
 @first_cell = @grid.cells.order(:cell_id).first
 @wooden_sword = Weapon.find_or_create_by!(name: 'Wooden Sword', atk_bonus: 30)
 @leather_armor = Armor.find_or_create_by!(name: 'Leather Armor', def_bonus: 10)
@@ -47,4 +67,16 @@ end
                                            cell_id: @first_cell.cell_id, inv_id: @inventory2.inv_id) do |character|
   character.current_hp = character.max_hp
   character.current_exp = 0
+end
+
+UserGridVisibility.find_or_create_by!(username: @user2.username, grid_id: @grid.grid_id) do |visibility|
+  visibility.visibility = 6
+end
+
+UserGridVisibility.find_or_create_by!(username: @user2.username, grid_id: @grid2.grid_id) do |visibility|
+  visibility.visibility = 0
+end
+
+UserGridVisibility.find_or_create_by!(username: @user2.username, grid_id: @grid3.grid_id) do |visibility|
+  visibility.visibility = 0
 end

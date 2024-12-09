@@ -172,3 +172,22 @@
     color: blue;
     font-weight: bold;
 }
+
+.store-items, .store-grids, .owned-grids {
+    display: flex;           /* Use flexbox for the layout */
+    flex-wrap: wrap;         /* Allow wrapping to new lines if there are too many items */
+    gap: 20px;               /* Space between items */
+    justify-content: flex-start; /* Align items to the start of the container */
+}
+
+/* Style each item inside the container */
+.store-items .item, .store-grids .grid, .owned-grids .grid {
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+    width: 200px;             /* Set width of each item */
+    box-sizing: border-box;  /* Ensure padding and border are included in the total width */
+    border-radius: 8px;      /* Optional: Round the corners */
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add some shadow for a nicer effect */
+}
