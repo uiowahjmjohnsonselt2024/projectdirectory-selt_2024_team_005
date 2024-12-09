@@ -64,11 +64,14 @@ end
   character.current_exp = 0
 end
 
-user2_grid1 = UserGridVisibility.find_or_create_by!(username: @user2.username, grid_id: @grid.grid_id)
-user2_grid1.update(visibility: 6) # Set visibility to 6 for purchased grid
+UserGridVisibility.find_or_create_by!(username: @user2.username, grid_id: @grid.grid_id) do |visibility|
+  visibility.visibility = 6
+end
 
-user2_grid2 = UserGridVisibility.find_or_create_by!(username: @user2.username, grid_id: @grid2.grid_id)
-user2_grid2.update(visibility: 0) # Set visibility to 0 for unpurchased grid
+UserGridVisibility.find_or_create_by!(username: @user2.username, grid_id: @grid2.grid_id) do |visibility|
+  visibility.visibility = 0
+end
 
-user2_grid3 = UserGridVisibility.find_or_create_by!(username: @user2.username, grid_id: @grid3.grid_id)
-user2_grid3.update(visibility: 0)
+UserGridVisibility.find_or_create_by!(username: @user2.username, grid_id: @grid3.grid_id) do |visibility|
+  visibility.visibility = 0
+end

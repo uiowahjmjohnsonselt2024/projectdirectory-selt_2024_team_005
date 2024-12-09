@@ -41,7 +41,7 @@
 <h2>Your Owned Grids</h2>
 <div class="owned-grids">
   <% @user.user_grid_visibilities.each do |visibility| %>
-    <% if visibility.visibility == 6 %> <!-- Show grids that are purchased -->
+    <% if visibility.visibility >= 6 %> <!-- Show grids that are purchased -->
       <div class="grid">
         <h3><%= visibility.grid.name %></h3>
       </div>
