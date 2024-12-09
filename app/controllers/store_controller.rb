@@ -74,5 +74,4 @@ class StoreController < ApplicationController
       redirect_to store_path(@user.username)
     end
   end
-
 end

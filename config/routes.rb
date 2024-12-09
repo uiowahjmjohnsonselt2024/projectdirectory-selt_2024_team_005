@@ -43,9 +43,9 @@ Rails.application.routes.draw do
   end
 
   resources :store, only: [] do
-    post 'buy_grid', on: :collection
+    post "buy_grid", on: :collection
   end
-  post 'store/:username/buy_grid/:id', to: 'store#buy_grid', as: 'buy_grid'
+  post "store/:username/buy_grid/:id", to: "store#buy_grid", as: "buy_grid"
   # Character create and update
   post "create_character", to: "characters#create", as: "create_character"
   resources :characters, param: :username, only: [ :new, :create, :update ] do
