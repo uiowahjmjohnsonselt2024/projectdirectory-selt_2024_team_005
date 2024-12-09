@@ -20,9 +20,18 @@ end
 # @cell = Cell.find_or_create_by!(cell_id: 1, cell_loc: '1A', mons_prob: 0.3, disaster_prob: 0.3, weather: 'Sunny',
 #                                 terrain: 'desert', has_store: true, grid_id: @grid.grid_id)
 
-UserGridVisibility.find_or_create_by!(username: @user.username, grid_id: @grid.grid_id, visibility: 6)
-UserGridVisibility.find_or_create_by!(username: @user.username, grid_id: @grid2.grid_id, visibility: 6)
-UserGridVisibility.find_or_create_by!(username: @user.username, grid_id: @grid3.grid_id, visibility: 0)
+UserGridVisibility.find_or_create_by!(username: @user.username, grid_id: @grid.grid_id) do |visibility|
+  visibility.visibility = 6 # Set to 6 for purchased visibility
+end
+
+UserGridVisibility.find_or_create_by!(username: @user.username, grid_id: @grid2.grid_id) do |visibility|
+  visibility.visibility = 6
+end
+
+UserGridVisibility.find_or_create_by!(username: @user.username, grid_id: @grid3.grid_id) do |visibility|
+  visibility.visibility = 0 # Set to 0 if not purchased
+end
+
 
 @first_cell = @grid.cells.order(:cell_id).first
 @wooden_sword = Weapon.find_or_create_by!(name: 'Wooden Sword', atk_bonus: 30)
@@ -54,3 +63,12 @@ end
   character.current_hp = character.max_hp
   character.current_exp = 0
 end
+
+user2_grid1 = UserGridVisibility.find_or_create_by!(username: @user2.username, grid_id: @grid.grid_id)
+user2_grid1.update(visibility: 6) # Set visibility to 6 for purchased grid
+
+user2_grid2 = UserGridVisibility.find_or_create_by!(username: @user2.username, grid_id: @grid2.grid_id)
+user2_grid2.update(visibility: 0) # Set visibility to 0 for unpurchased grid
+
+user2_grid3 = UserGridVisibility.find_or_create_by!(username: @user2.username, grid_id: @grid3.grid_id)
+user2_grid3.update(visibility: 0)
