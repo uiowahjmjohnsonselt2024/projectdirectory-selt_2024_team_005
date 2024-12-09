@@ -24,10 +24,10 @@
   <tbody>
   <% @grids.each do |grid| %>
     <tr>
-<!--      <td><%#= grid.grid_id %></td>-->
       <td><%= grid.name %></td>
       <td>
         <%= link_to 'View', grid_path(grid) %>
+        <%= button_to 'Go', go_to_grid_path(grid), method: :patch %>
       </td>
     </tr>
   <% end %>
