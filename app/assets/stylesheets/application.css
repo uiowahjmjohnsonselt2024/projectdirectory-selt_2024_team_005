@@ -168,7 +168,7 @@
     margin-top: 10px;
 }
 
-.store-items, .store-grids {
+.store-items, .store-grids, .owned-grids {
     display: flex;           /* Use flexbox for the layout */
     flex-wrap: wrap;         /* Allow wrapping to new lines if there are too many items */
     gap: 20px;               /* Space between items */
@@ -176,7 +176,7 @@
 }
 
 /* Style each item inside the container */
-.store-items .item, .store-grids .grid {
+.store-items .item, .store-grids .grid, .owned-grids .grid {
     border: 1px solid #ccc;
     padding: 20px;
     text-align: center;

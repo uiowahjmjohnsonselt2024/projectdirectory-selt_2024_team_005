@@ -35,7 +35,7 @@ class User < ApplicationRecord
 
   def initialize_grid_visibilities
     Grid.find_each do |grid|
-      visibility = (grid.name == 'earth') ? 6 : 0  # Set visibility to 6 for Earth, 0 for all other grids
+      visibility = (grid.name == 'Earth') ? 6 : 0  # Set visibility to 6 for Earth, 0 for all other grids
       user_grid_visibilities.create!(grid_id: grid.grid_id, visibility: visibility)
     end
   end

@@ -3,6 +3,10 @@ class GridsController < ApplicationController
 
   def index
     @grids = Grid.all
+    @grids = Grid.all.select do |grid|
+      user_grid_visibility = UserGridVisibility.find_by(username: @user.username, grid_id: grid.grid_id)
+      user_grid_visibility && user_grid_visibility.visibility >= 6
+    end
   end
 
   def new
