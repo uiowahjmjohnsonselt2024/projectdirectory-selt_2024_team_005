@@ -7,7 +7,9 @@ export default class extends Controller {
     connect() {
         const gridSize = parseInt(this.element.dataset.gridSize, 10);
         this.gridSize = gridSize;
-        this.isMonsterPromptActive = false; // Initialize the flag
+        this.isMonsterPromptActive = false; // Flag for monster prompt
+        this.isDisasterPromptActive = false; // Flag for disaster prompt
+
         // Remove previous event listener
         document.removeEventListener("keydown", this.moveCharacterBound);
         this.moveCharacterBound = this.moveCharacter.bind(this);
@@ -15,50 +17,41 @@ export default class extends Controller {
     }
 
     disconnect() {
-        // Remove the keydown event listener when the controller is disconnected
         document.removeEventListener("keydown", this.moveCharacterBound);
     }
 
-    // Add the showDetails method
     showDetails(event) {
-        // Get the cell element that is clicked
         const cell = event.currentTarget;
         const cellId = cell.getAttribute("data-cell-id");
         console.log(`Cell ${cellId} clicked`);
 
-        // Use AJAX requests to fetch cell details
         fetch(`/cells/${cellId}`)
             .then(response => response.json())
             .then(data => {
                 this.detailsTarget.innerHTML = `
-          <p><strong>Weather:</strong> ${data.weather}</p>
-          <p><strong>Terrain:</strong> ${data.terrain}</p>
-        `;
-
-                // Call the "highlightSelectedCell" method to highlight the selected cell
+                    <p><strong>Weather:</strong> ${data.weather}</p>
+                    <p><strong>Terrain:</strong> ${data.terrain}</p>
+                `;
                 this.highlightSelectedCell(cell);
             })
             .catch((error) => console.error("Error fetching cell details:", error));
     }
 
     highlightSelectedCell(selectedCell) {
-        // Remove the style of the previously selected cell
         const previouslySelected = document.querySelector(".grid-cell.selected");
         if (previouslySelected) {
             previouslySelected.classList.remove("selected");
         }
-
-        // Add a style to the currently selected cell
         selectedCell.classList.add("selected");
     }
 
     moveCharacter(event) {
-        // Prevent movement if monster prompt is active or character is dead
         const characterElement = document.querySelector(`.character`);
         if (!characterElement) return;
 
         const characterHp = parseInt(characterElement.getAttribute('data-character-hp'), 10);
-        if (this.isMonsterPromptActive || characterHp <= 0) {
+        // Prevent movement if either monster or disaster prompt is active or character is dead
+        if (this.isMonsterPromptActive || this.isDisasterPromptActive || characterHp <= 0) {
             return;
         }
 
@@ -70,7 +63,6 @@ export default class extends Controller {
         let row = Math.floor(remainder / 100);
         let col = remainder % 100;
 
-        // Calculate new row and col
         const gridSize = this.gridSize;
 
         switch (event.key) {
@@ -95,10 +87,7 @@ export default class extends Controller {
 
         if (newCell) {
             newCell.appendChild(characterElement);
-            // Removed the disaster check from here, so we don't immediately trigger it.
-            // This line was previously: this.checkForDisaster(newCellId);
             this.updateCharacterPosition(characterElement.getAttribute("data-character-id"), newCellId);
-
         }
     }
 
@@ -109,7 +98,7 @@ export default class extends Controller {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json",
+                "Accept": "application/json",
                 "X-CSRF-Token": csrfToken,
             },
             body: JSON.stringify({ character: { cell_id: newCellId } }),
@@ -123,14 +112,10 @@ export default class extends Controller {
             .then((data) => {
                 console.log("Character position updated successfully", data);
                 if (data.monster) {
-                    // Monster encountered: show monster prompt first and do NOT check for disaster now.
                     this.showMonsterPrompt(data.monster);
                     this.checkForDisaster(newCellId)
-                }
-                else {
-                    // No monster encountered: now we can safely check for a disaster.
+                } else {
                     this.checkForDisaster(newCellId);
-                    // window.location.reload();
                 }
             })
             .catch((error) => {
@@ -158,7 +143,6 @@ export default class extends Controller {
             .then(data => {
                 console.log("Response data:", data);
                 if (data.disaster_message) {
-                    // Show disaster prompt with the disaster message, damage, and current HP
                     this.showDisasterPrompt(data.disaster_message, 15, data.current_hp);
                 } else {
                     console.warn("No disaster message found in response.");
@@ -171,36 +155,31 @@ export default class extends Controller {
 
     showDisasterPrompt(disasterMessage, damage, currentHP) {
         // Set the flag to true to prevent character movement during the disaster prompt
-        //this.isDisasterPromptActive = true;
+        this.isDisasterPromptActive = true;
 
-        // Create the disaster prompt modal
         const disasterPrompt = document.createElement("div");
         disasterPrompt.classList.add("disaster-prompt");
 
         disasterPrompt.innerHTML = `
-      <div class="disaster-popup">
-        <h2>Disaster Strikes!</h2>
-        <p><strong>${disasterMessage}</strong></p>
-        <p><strong>Damage Taken:</strong> ${damage} HP</p>
-        <p><strong>Better luck next time!</strong></p>
-        <button id="acknowledge-button">Accept</button>
-        <div id="disaster-error-message" style="color: red;"></div>
-      </div>
-    `;
+            <div class="disaster-popup">
+              <h2>Disaster Strikes!</h2>
+              <p><strong>${disasterMessage}</strong></p>
+              <p><strong>Damage Taken:</strong> ${damage} HP</p>
+              <p><strong>Better luck next time!</strong></p>
+              <button id="acknowledge-button">Accept</button>
+              <div id="disaster-error-message" style="color: red;"></div>
+            </div>
+        `;
 
-        // Append the disaster prompt to the body
         document.body.appendChild(disasterPrompt);
 
-        // Add event listener to the Acknowledge button
         document.getElementById("acknowledge-button").addEventListener("click", () => {
             console.log("Disaster acknowledged");
-
-            // Remove the disaster prompt from the page
             document.body.removeChild(disasterPrompt);
 
             // Reset the disaster prompt flag
-           // this.isDisasterPromptActive = false;
-           // window.location.reload();
+            this.isDisasterPromptActive = false;
+
             if (currentHP <= 0) {
                 this.displayGameOver();
             } else {
@@ -211,35 +190,31 @@ export default class extends Controller {
         });
     }
 
-    showMonsterPrompt(monster){
-        // Set the flag to true to prevent character movement
+    showMonsterPrompt(monster) {
         this.isMonsterPromptActive = true;
 
-        // Create a modal or prompt to display the monster's stats
         const monsterPrompt = document.createElement("div");
         monsterPrompt.classList.add("monster-prompt");
 
         monsterPrompt.innerHTML = `
-          <div class="monster-popup">
-            <h2>A wild monster appears!</h2>
-            <p><strong>ATK:</strong> ${monster.atk}</p>
-            <p><strong>DEF:</strong> ${monster.def}</p>
-            <p><strong>HP:</strong> ${monster.hp}</p>
-            <button id="fight-button">Fight</button>
-            <button id="bribe-button">Bribe the Monster and Run (10 shards)</button>
-            <div id="monster-error-message" style="color: red;"></div>
-          </div>
+            <div class="monster-popup">
+              <h2>A wild monster appears!</h2>
+              <p><strong>ATK:</strong> ${monster.atk}</p>
+              <p><strong>DEF:</strong> ${monster.def}</p>
+              <p><strong>HP:</strong> ${monster.hp}</p>
+              <button id="fight-button">Fight</button>
+              <button id="bribe-button">Bribe the Monster and Run (10 shards)</button>
+              <div id="monster-error-message" style="color: red;"></div>
+            </div>
         `;
 
         document.body.appendChild(monsterPrompt);
 
-        // Add event listeners to the buttons
         document.getElementById("fight-button").addEventListener("click", () => {
             console.log("Fight button clicked");
             this.fightMonster()
                 .then((response) => {
                     if (response.status === "ok") {
-                        // Start the battle animation with additional data
                         this.startBattleAnimation(
                             response.battle_log,
                             response.outcome,
@@ -249,43 +224,32 @@ export default class extends Controller {
                             response.exp_to_level,
                             response.level
                         );
-                        // Remove the monster prompt
                         document.body.removeChild(monsterPrompt);
-                        // Keep the isMonsterPromptActive flag true during battle
+                        // Keep isMonsterPromptActive true during the battle if needed until battle ends.
                     } else {
-                        // Handle error
                         const errorMessageDiv = document.getElementById("monster-error-message");
                         errorMessageDiv.textContent = response.message;
                         console.error(response.message);
-                        // Allow movement again
                         this.isMonsterPromptActive = false;
                     }
                 })
                 .catch((error) => {
-                    // Display error message
                     const errorMessageDiv = document.getElementById("monster-error-message");
                     errorMessageDiv.textContent = error.message;
                     console.error("Error fighting the monster:", error);
-                    // Allow movement again
                     this.isMonsterPromptActive = false;
                 });
         });
 
-
         document.getElementById("bribe-button").addEventListener("click", () => {
-            // Handle bribe action
             console.log("Bribe button clicked");
             this.bribeMonster()
                 .then((response) => {
                     if (response.status === "ok") {
-                        // Bribe successful, remove the monster prompt
                         document.body.removeChild(monsterPrompt);
-                        // Reset the flag when the prompt is dismissed
                         this.isMonsterPromptActive = false;
-                        // Update shard balance displayed on the page
                         this.updateShardBalance(-10);
                     } else {
-                        // Display error message
                         const errorMessageDiv = document.getElementById("monster-error-message");
                         errorMessageDiv.textContent = response.message;
                     }
