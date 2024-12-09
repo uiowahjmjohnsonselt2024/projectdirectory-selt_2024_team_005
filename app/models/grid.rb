@@ -40,7 +40,7 @@ class Grid < ApplicationRecord
           disaster_prob: 0.15,
           weather: weather,
           terrain: terrain,
-          has_store: [true, false].sample,
+          has_store: [ true, false ].sample,
           grid_id: self.grid_id,
           created_at: Time.current,
           updated_at: Time.current
