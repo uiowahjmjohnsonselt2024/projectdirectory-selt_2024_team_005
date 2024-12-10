@@ -1,5 +1,4 @@
 class Message < ApplicationRecord
-
   after_create :limit_user_messages
 
   private

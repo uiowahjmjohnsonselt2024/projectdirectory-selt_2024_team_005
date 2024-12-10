@@ -11,7 +11,7 @@ module ApplicationCable
 
     def find_verified_user
       # Extract session data from cookie encryption
-      verified_user = User.find_by(username: env['rack.session'][:username])
+      verified_user = User.find_by(username: env["rack.session"][:username])
       verified_user || reject_unauthorized_connection
     end
   end

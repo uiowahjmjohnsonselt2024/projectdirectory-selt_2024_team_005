@@ -48,11 +48,11 @@ class ChatChannel < ApplicationCable::Channel
 
     messages = if channel_type == "world"
                  Message.where(channel_type: "world").order(created_at: :desc).limit(maximum_message)
-               elsif channel_type == "room" && room_id.present?
+    elsif channel_type == "room" && room_id.present?
                  Message.where(channel_type: "room", room_id: room_id).order(created_at: :desc).limit(maximum_message)
-               else
+    else
                  []
-               end
+    end
 
     transmit(messages.reverse.map { |msg| { username: msg.username, message: msg.content } })
   end
