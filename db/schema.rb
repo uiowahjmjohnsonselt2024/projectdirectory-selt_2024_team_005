@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_25_052111) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_09_195613) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,6 +50,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_25_052111) do
     t.integer "inv_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "online_status"
   end
 
   create_table "grids", primary_key: "grid_id", id: :serial, force: :cascade do |t|
@@ -74,6 +75,16 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_25_052111) do
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_items_on_item_id", unique: true
     t.index ["itemable_type", "itemable_id"], name: "index_items_on_itemable_type_and_itemable_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.text "content"
+    t.string "username"
+    t.string "channel_type"
+    t.string "room_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["username", "created_at"], name: "index_messages_on_username_and_created_at"
   end
 
   create_table "potions", primary_key: "potion_id", id: :serial, force: :cascade do |t|

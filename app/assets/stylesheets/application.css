@@ -168,6 +168,11 @@
     margin-top: 10px;
 }
 
+.username {
+    color: blue;
+    font-weight: bold;
+}
+
 .store-items, .store-grids, .owned-grids {
     display: flex;           /* Use flexbox for the layout */
     flex-wrap: wrap;         /* Allow wrapping to new lines if there are too many items */
