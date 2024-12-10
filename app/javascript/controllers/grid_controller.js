@@ -144,6 +144,7 @@ export default class extends Controller {
           <p><strong>Weather:</strong> ${data.weather}</p>
           <p><strong>Terrain:</strong> ${data.terrain}</p>
            <button class="teleport-btn" data-cell-id="${cellId}">Teleport</button>
+           <p><strong>NOTE:</storng> Teleporting costs 5 shards.</p>
         `;
 
                 // Add event listener for teleport button
@@ -588,7 +589,7 @@ export default class extends Controller {
         } else {
             console.error("No shard-balance element found!");
         }
-        // window.location.reload();
+        window.location.reload();
     }
 
     // app/javascript/controllers/grid_controller.js

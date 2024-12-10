@@ -165,8 +165,6 @@ class CharactersController < ApplicationController
       @user.shard_balance -= 5
       @character.cell_id = new_cell_id
       @user.save
-    elsif @user.shard_balance <= 5
-      flash[:notice] = "Not enough shards to teleport."
 
       if @character.save
         # Return updated data
@@ -178,7 +176,8 @@ class CharactersController < ApplicationController
       else
         render json: { status: "error", message: "Failed to update character" }, status: :unprocessable_entity
       end
-    else
+    elsif @user.shard_balance < 5
+      flash[:notice] = "Not enough shards to teleport."
       render json: { status: "error", message: "Not enough shards" }, status: :bad_request
     end
   end
