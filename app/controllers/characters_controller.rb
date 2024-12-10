@@ -1,4 +1,5 @@
 # app/controllers/characters_controller.rb
+require "openai"
 class CharactersController < ApplicationController
   before_action :set_character
 
@@ -11,13 +12,36 @@ class CharactersController < ApplicationController
         # Monster encountered
         monster = generate_monster
         session[:current_monster] = monster  # Store monster stats in session
-        render json: { status: "ok", cell_id: @character.cell_id, monster: monster }, status: :ok
+        render json: {
+          status: "ok",
+          cell_id: @character.cell_id,
+          monster: monster,
+          weather: cell.weather,
+          terrain: cell.terrain
+        }, status: :ok
       else
         # No monster encountered
         render json: { status: "ok", cell_id: @character.cell_id }, status: :ok
       end
     else
       render json: { status: "error", errors: @character.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  def get_monster_ascii
+    weather = params[:weather]
+    terrain = params[:terrain]
+
+    # Call an internal method that uses ChatGPT API to generate ASCII
+    ascii = generate_monster_ascii(weather, terrain)
+    print(ascii)
+
+    if ascii
+      # Store the ASCII in session for this encounter or just return it directly
+      session[:current_monster_ascii] = ascii
+      render json: { status: "ok", ascii: ascii }, status: :ok
+    else
+      render json: { status: "error", message: "Failed to generate ASCII" }, status: :unprocessable_entity
     end
   end
 
@@ -152,5 +176,60 @@ class CharactersController < ApplicationController
     def_stat = rand(5..15)  # Random defense between 5 and 15
     hp = rand(10..20)  # Random HP between 10 and 20
     { atk: atk, def: def_stat, hp: hp }
+  end
+
+  def generate_monster_ascii(weather, terrain)
+    # This method should call the ChatGPT API and return ASCII monster based on weather and terrain.
+    # prompt = "Given a weather condition '#{weather}' and terrain '#{terrain}', generate a single ASCII art monster..."
+    # response = ChatGPTApi.call(prompt)
+    # return response.ascii_monster
+    #
+    # For demonstration, returning a static ASCII:
+    askai("Returns ONLY the ASCII code (15 lines at most) to draw an RPG monster with #{terrain} and #{weather} weather. No explanations necessary.")
+    #     ascii = "
+    #            ___
+    #          .-'   `-.
+    #         /         \
+    #        |           |
+    #        |   O   O   |
+    #        |     ^     |
+    #        |    '-'    |
+    #         \         /
+    #          `._   _.'
+    #             `-'
+    #            /   \
+    #        ___|_____|___
+    #      /    \   /    \
+    #     /      \ /      \
+    #    |   ____|____    |
+    #    |  /          \   |
+    #    | /            \  |
+    #    |/______________\_|
+    #    /  |  |    |  |  \
+    #   /   |  |    |  |   \
+    #  /____|__|____|__|____\
+    #
+    #    ~~~~~~~~~~~~~~~
+    #    ~   ~ ~ ~ ~ ~ ~ ~
+    #     ~ ~ ~ ~ ~ ~ ~ ~ ~
+    #        ~ ~ ~ ~ ~ ~
+    #
+    # "
+  end
+
+  def askai(prompt)
+    client = OpenAI::Client.new(
+      access_token: "your_access_token",
+      log_errors: true # Highly recommended in development, so you can see what errors OpenAI is returning. Not recommended in production because it could leak private data to your logs.
+    )
+    print("MODEL LIST:", client.models.list)
+    response = client.chat(
+      parameters: {
+        model: "gpt-4-turbo", # Required.
+        messages: [ { role: "user", content: prompt } ], # Required.
+        temperature: 0.7
+      }
+    )
+    response.dig("choices", 0, "message", "content")
   end
 end

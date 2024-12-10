@@ -154,6 +154,15 @@ GEM
     erubi (1.13.0)
     et-orbi (1.2.11)
       tzinfo
+    event_stream_parser (1.0.0)
+    faraday (2.12.2)
+      faraday-net_http (>= 2.0, < 3.5)
+      json
+      logger
+    faraday-multipart (1.0.4)
+      multipart-post (~> 2)
+    faraday-net_http (3.4.0)
+      net-http (>= 0.5.0)
     ffi (1.17.0-aarch64-linux-gnu)
     ffi (1.17.0-arm-linux-gnu)
     ffi (1.17.0-arm64-darwin)
@@ -229,7 +238,10 @@ GEM
     minitest (5.25.4)
     msgpack (1.7.5)
     multi_test (1.1.0)
+    multipart-post (2.4.1)
     nenv (0.3.0)
+    net-http (0.6.0)
+      uri
     net-imap (0.5.1)
       date
       net-protocol
@@ -388,6 +400,10 @@ GEM
       rubocop-minitest
       rubocop-performance
       rubocop-rails
+    ruby-openai (7.3.1)
+      event_stream_parser (>= 0.3.0, < 2.0.0)
+      faraday (>= 1)
+      faraday-multipart (>= 1)
     ruby-progressbar (1.13.0)
     rubyzip (2.3.2)
     securerandom (0.4.0)
@@ -452,6 +468,7 @@ GEM
     unicode-display_width (3.1.2)
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
+    uri (1.0.2)
     useragent (0.16.11)
     web-console (4.2.1)
       actionview (>= 6.0.0)
@@ -501,6 +518,7 @@ DEPENDENCIES
   rspec-rails
   rubocop
   rubocop-rails-omakase
+  ruby-openai
   selenium-webdriver
   simplecov (~> 0.22.0)
   solid_cable
