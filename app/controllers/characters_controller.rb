@@ -155,7 +155,7 @@ class CharactersController < ApplicationController
 
     # Check if the character exists
     if @character.nil?
-      render json: { status: 'error', message: 'Character not found' }, status: :not_found
+      render json: { status: "error", message: "Character not found" }, status: :not_found
       return
     end
 
@@ -165,19 +165,21 @@ class CharactersController < ApplicationController
       @user.shard_balance -= 5
       @character.cell_id = new_cell_id
       @user.save
+    elsif @user.shard_balance <= 5
+      flash[:notice] = "Not enough shards to teleport."
 
       if @character.save
         # Return updated data
         render json: {
-          status: 'ok',
+          status: "ok",
           shard_balance: @user.shard_balance,
           new_cell_id: @character.cell_id
         }
       else
-        render json: { status: 'error', message: 'Failed to update character' }, status: :unprocessable_entity
+        render json: { status: "error", message: "Failed to update character" }, status: :unprocessable_entity
       end
     else
-      render json: { status: 'error', message: 'Not enough shards' }, status: :bad_request
+      render json: { status: "error", message: "Not enough shards" }, status: :bad_request
     end
   end
 
