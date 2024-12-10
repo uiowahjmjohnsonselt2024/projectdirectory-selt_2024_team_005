@@ -186,35 +186,35 @@ class CharactersController < ApplicationController
     #
     # For demonstration, returning a static ASCII:
     askai("Returns ONLY the ASCII code (15 lines at most) to draw an RPG monster with #{terrain} and #{weather} weather. No explanations necessary.")
-#     ascii = "
-#            ___
-#          .-'   `-.
-#         /         \
-#        |           |
-#        |   O   O   |
-#        |     ^     |
-#        |    '-'    |
-#         \         /
-#          `._   _.'
-#             `-'
-#            /   \
-#        ___|_____|___
-#      /    \   /    \
-#     /      \ /      \
-#    |   ____|____    |
-#    |  /          \   |
-#    | /            \  |
-#    |/______________\_|
-#    /  |  |    |  |  \
-#   /   |  |    |  |   \
-#  /____|__|____|__|____\
-#
-#    ~~~~~~~~~~~~~~~
-#    ~   ~ ~ ~ ~ ~ ~ ~
-#     ~ ~ ~ ~ ~ ~ ~ ~ ~
-#        ~ ~ ~ ~ ~ ~
-#
-# "
+    #     ascii = "
+    #            ___
+    #          .-'   `-.
+    #         /         \
+    #        |           |
+    #        |   O   O   |
+    #        |     ^     |
+    #        |    '-'    |
+    #         \         /
+    #          `._   _.'
+    #             `-'
+    #            /   \
+    #        ___|_____|___
+    #      /    \   /    \
+    #     /      \ /      \
+    #    |   ____|____    |
+    #    |  /          \   |
+    #    | /            \  |
+    #    |/______________\_|
+    #    /  |  |    |  |  \
+    #   /   |  |    |  |   \
+    #  /____|__|____|__|____\
+    #
+    #    ~~~~~~~~~~~~~~~
+    #    ~   ~ ~ ~ ~ ~ ~ ~
+    #     ~ ~ ~ ~ ~ ~ ~ ~ ~
+    #        ~ ~ ~ ~ ~ ~
+    #
+    # "
   end
 
   def askai(prompt)
@@ -226,12 +226,10 @@ class CharactersController < ApplicationController
     response = client.chat(
       parameters: {
         model: "gpt-4-turbo", # Required.
-        messages: [{ role: "user", content: prompt}], # Required.
-        temperature: 0.7,
+        messages: [ { role: "user", content: prompt } ], # Required.
+        temperature: 0.7
       }
     )
     response.dig("choices", 0, "message", "content")
   end
-
-
 end
