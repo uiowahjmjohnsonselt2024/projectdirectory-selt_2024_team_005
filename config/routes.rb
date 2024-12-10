@@ -52,6 +52,7 @@ Rails.application.routes.draw do
     member do
       post "bribe_monster"
       post "fight_monster"
+      get "monster_ascii", to: "characters#get_monster_ascii"
     end
   end
 
