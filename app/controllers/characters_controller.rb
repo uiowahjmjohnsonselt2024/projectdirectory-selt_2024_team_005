@@ -3,6 +3,7 @@ require "openai"
 class CharactersController < ApplicationController
   before_action :set_character
 
+
   def update
     if @character.update(character_params)
       cell = Cell.find(@character.cell_id)
@@ -146,6 +147,39 @@ class CharactersController < ApplicationController
       exp_to_level: @character.exp_to_level,
       level: @character.level
     }, status: :ok
+  end
+
+  def teleport
+    teleport_cost = params[:cost].to_i
+    new_cell_id = params[:cellId].to_i
+
+    # Check if the character exists
+    if @character.nil?
+      render json: { status: "error", message: "Character not found" }, status: :not_found
+      return
+    end
+
+    # Check if the character has enough shards
+    if @user.shard_balance >= 5
+      # Deduct the shards and update the cell_id
+      @user.shard_balance -= 5
+      @character.cell_id = new_cell_id
+      @user.save
+
+      if @character.save
+        # Return updated data
+        render json: {
+          status: "ok",
+          shard_balance: @user.shard_balance,
+          new_cell_id: @character.cell_id
+        }
+      else
+        render json: { status: "error", message: "Failed to update character" }, status: :unprocessable_entity
+      end
+    elsif @user.shard_balance < 5
+      flash[:notice] = "Not enough shards to teleport."
+      render json: { status: "error", message: "Not enough shards" }, status: :bad_request
+    end
   end
 
 

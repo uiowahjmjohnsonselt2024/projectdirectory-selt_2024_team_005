@@ -56,6 +56,9 @@ Rails.application.routes.draw do
     end
   end
 
+  post "characters/:username/teleport", to: "characters#teleport", as: "teleport_character"
+
+
 
 
   # Grid and Cell routes
