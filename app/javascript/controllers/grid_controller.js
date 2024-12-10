@@ -572,17 +572,19 @@ export default class extends Controller {
                 console.error("Error bribing the monster:", error);
                 throw error;
             });
+        window.location.reload();
     }
 
     updateShardBalance(newBalance) {
         console.log("updateShardBalance called with:", newBalance);
         const shardBalanceElement = document.getElementById("shard-balance");
         if (shardBalanceElement) {
-            shardBalanceElement.textContent = newBalance;
+            // shardBalanceElement.textContent = newBalance;
             console.log("Shard balance updated without reloading the page.");
         } else {
             console.error("No shard-balance element found!");
         }
+        window.location.reload();
     }
 
     // app/javascript/controllers/grid_controller.js
