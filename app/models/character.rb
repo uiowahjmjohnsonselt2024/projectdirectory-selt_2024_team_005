@@ -39,4 +39,14 @@ class Character < ApplicationRecord
   def calculate_exp_to_level(level)
     1180 * level
   end
+
+  def broadcast_data
+    attributes.slice(
+      "character_name",
+      "cell_id",
+      "health",
+      "experience",
+      "level",
+    )
+  end
 end

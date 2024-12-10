@@ -1,3 +1,4 @@
+# app/controllers/grids_controller.rb
 class GridsController < ApplicationController
   before_action :set_user
 
@@ -78,6 +79,34 @@ class GridsController < ApplicationController
       redirect_to @grid
     end
   end
+
+  def go_to
+    @grid = Grid.find_by(grid_id: params[:id])
+    if @grid.nil?
+      flash[:error] = "Grid not found"
+      redirect_to grids_path and return
+    end
+
+    # Ensure we have a logged-in user and character
+    if @user.nil? || @character.nil?
+      flash[:alert] = "No user or character found in session"
+      redirect_to grids_path and return
+    end
+
+    # Find the cell with cell_loc = "R0C0" for this grid
+    starting_cell = @grid.cells.find_by(cell_loc: "R0C0")
+    if starting_cell.nil?
+      flash[:error] = "Starting cell (R0C0) not found for this grid"
+      redirect_to grids_path and return
+    end
+
+    # Update character
+    @character.update(grid_id: @grid.grid_id, cell_id: starting_cell.cell_id)
+
+    flash[:notice] = "You have moved to the #{@grid.name} grid."
+    redirect_to grid_path(@grid)
+  end
+
 
 
   private

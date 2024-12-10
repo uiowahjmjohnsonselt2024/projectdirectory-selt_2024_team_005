@@ -57,7 +57,6 @@
     <orderEntry type="library" scope="PROVIDED" name="database_cleaner (v2.1.0, Remote: ruby-3.3.0-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="database_cleaner-active_record (v2.2.0, Remote: ruby-3.3.0-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="database_cleaner-core (v2.0.1, Remote: ruby-3.3.0-p0) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="date (v3.4.0, Remote: ruby-3.3.0-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="debug (v1.9.2, Remote: ruby-3.3.0-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.5.1, Remote: ruby-3.3.0-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="docile (v1.4.1, Remote: ruby-3.3.0-p0) [gem]" level="application" />

@@ -14,10 +14,7 @@ class MultiplayerChannel < ApplicationCable::Channel
     # Notify other players that a new player has joined
     ActionCable.server.broadcast("multiplayer_grid_#{character.grid_id}", {
       type: "player_joined",
-      character: {
-        character_name: character.character_name,
-        cell_id: character.cell_id
-      }
+      character: character.broadcast_data
     })
   end
 

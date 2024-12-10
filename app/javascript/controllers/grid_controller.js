@@ -167,19 +167,29 @@ export default class extends Controller {
             console.error("Current character not found for movement!");
             return;
         }
-        // Prevent movement if monster prompt is active or character is dead
-        const characterElement = this.currentCharacter;
 
+        const characterElement = this.currentCharacter;
         if (!characterElement) return;
 
+        // Prevent movement if monster prompt is active or character is dead
         const characterHp = parseInt(characterElement.getAttribute('data-character-hp'), 10);
+        console.log(`Current character HP: ${characterHp}, Type: ${typeof characterHp}`);
+
+        // Check if characterHp is NaN
+        if (isNaN(characterHp)) {
+            console.error("Character HP is NaN!", {
+                characterElement: characterElement,
+                hpAttribute: characterElement.getAttribute('data-character-hp')
+            });
+        }
+
         if (this.isMonsterPromptActive || this.isDisasterPromptActive || characterHp <= 0) {
             return;
         }
 
         const currentCell = characterElement.closest(".grid-cell");
         const currentCellId = parseInt(currentCell.getAttribute("data-cell-id"));
-
+        console.log(characterHp)
         let gridId = Math.floor(currentCellId / 10000);
         let remainder = currentCellId % 10000;
         let row = Math.floor(remainder / 100);
@@ -228,7 +238,8 @@ export default class extends Controller {
     }
 
     addCharacterToGrid(character) {
-        const { character_name, cell_id } = character;
+        const { character_name, cell_id, hp, exp, level } = character;
+        console.log(`Adding character: ${character_name}, HP: ${hp}, Type of HP: ${typeof hp}`);
         if (!character_name || !cell_id) {
             console.warn("Invalid character data:", character);
             return;
@@ -237,10 +248,10 @@ export default class extends Controller {
         // Avoid adding duplicate characters
         const existingCharacter = document.querySelector(`.character[data-character-id='${character_name}']`);
         if (existingCharacter) {
-            console.warn(`Character ${character_name} already exists in the grid.`);
+            console.log(`Character ${character_name} already exists in the grid.`);
             // If already exists, remove the old role before adding a new one
-            existingCharacter.remove();
-            // return;
+            // existingCharacter.remove();
+            return;
         }
 
         const cell = document.querySelector(`[data-cell-id='${cell_id}']`);
@@ -248,6 +259,9 @@ export default class extends Controller {
             const characterDiv = document.createElement("div");
             characterDiv.className = "character";
             characterDiv.dataset.characterId = character_name;
+            characterDiv.dataset.characterHp = hp;
+            characterDiv.dataset.characterExp = exp;
+            characterDiv.dataset.characterLevel = level;
             characterDiv.textContent = character_name;
             cell.appendChild(characterDiv);
         }
@@ -255,7 +269,7 @@ export default class extends Controller {
 
     moveOtherCharacter(character_name, newCellId) {
         if (character_name === document.body.dataset.currentCharacterName) {
-            console.warn("Attempted to move current user's character");
+            console.log("Attempted to move current user's character");
             return;
         }
 
@@ -341,7 +355,7 @@ export default class extends Controller {
                     // Show disaster prompt with the disaster message, damage, and current HP
                     this.showDisasterPrompt(data.disaster_message, 15, data.current_hp);
                 } else {
-                    console.warn("No disaster message found in response.");
+                    console.log("No disaster message found in response.");
                 }
             })
             .catch(error => {
