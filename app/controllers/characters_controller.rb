@@ -1,4 +1,5 @@
 # app/controllers/characters_controller.rb
+require "openai"
 class CharactersController < ApplicationController
   before_action :set_character
 
@@ -184,7 +185,53 @@ class CharactersController < ApplicationController
     # return response.ascii_monster
     #
     # For demonstration, returning a static ASCII:
-    ChatgptService.call("Returns ONLY the ASCII code to draw an RPG monster with #{terrain} and #{weather} weather. No explanations necessary.")
+    askai("Returns ONLY the ASCII code (15 lines at most) to draw an RPG monster with #{terrain} and #{weather} weather. No explanations necessary.")
+#     ascii = "
+#            ___
+#          .-'   `-.
+#         /         \
+#        |           |
+#        |   O   O   |
+#        |     ^     |
+#        |    '-'    |
+#         \         /
+#          `._   _.'
+#             `-'
+#            /   \
+#        ___|_____|___
+#      /    \   /    \
+#     /      \ /      \
+#    |   ____|____    |
+#    |  /          \   |
+#    | /            \  |
+#    |/______________\_|
+#    /  |  |    |  |  \
+#   /   |  |    |  |   \
+#  /____|__|____|__|____\
+#
+#    ~~~~~~~~~~~~~~~
+#    ~   ~ ~ ~ ~ ~ ~ ~
+#     ~ ~ ~ ~ ~ ~ ~ ~ ~
+#        ~ ~ ~ ~ ~ ~
+#
+# "
   end
+
+  def askai(prompt)
+    client = OpenAI::Client.new(
+      access_token: "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",
+      log_errors: true # Highly recommended in development, so you can see what errors OpenAI is returning. Not recommended in production because it could leak private data to your logs.
+    )
+    print("MODEL LIST:", client.models.list)
+    response = client.chat(
+      parameters: {
+        model: "gpt-4-turbo", # Required.
+        messages: [{ role: "user", content: prompt}], # Required.
+        temperature: 0.7,
+      }
+    )
+    response.dig("choices", 0, "message", "content")
+  end
+
 
 end

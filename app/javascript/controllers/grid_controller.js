@@ -303,7 +303,7 @@ export default class extends Controller {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json",
+                "Accept": "application/json",
                 "X-CSRF-Token": csrfToken,
             },
             body: JSON.stringify({ character: { cell_id: newCellId } }),
@@ -317,14 +317,13 @@ export default class extends Controller {
             .then((data) => {
                 console.log("Character position updated successfully", data);
                 if (data.monster) {
-                    // Monster encountered: show monster prompt first and do NOT check for disaster now.
-                    this.showMonsterPrompt(data.monster);
+                    // Monster encountered. Now we also expect weather and terrain in data
+                    this.showMonsterPrompt(data.monster, data.weather, data.terrain);
                     this.checkForDisaster(newCellId)
                 }
                 else {
                     // No monster encountered: now we can safely check for a disaster.
                     this.checkForDisaster(newCellId);
-                    // window.location.reload();
                 }
             })
             .catch((error) => {
@@ -373,12 +372,12 @@ export default class extends Controller {
 
         disasterPrompt.innerHTML = `
             <div class="disaster-popup">
-                <h2>Disaster Strikes!</h2>
-                <p><strong>${disasterMessage}</strong></p>
-                <p><strong>Damage Taken:</strong> ${damage} HP</p>
-                <p><strong>Better luck next time!</strong></p>
-                <button id="acknowledge-button">Accept</button>
-                <div id="disaster-error-message" style="color: red;"></div>
+              <h2>Disaster Strikes!</h2>
+              <p><strong>${disasterMessage}</strong></p>
+              <p><strong>Damage Taken:</strong> ${damage} HP</p>
+              <p><strong>Better luck next time!</strong></p>
+              <button id="acknowledge-button">Accept</button>
+              <div id="disaster-error-message" style="color: red;"></div>
             </div>
         `;
 
@@ -394,7 +393,7 @@ export default class extends Controller {
 
             // Reset the disaster prompt flag
             this.isDisasterPromptActive = false;
-            // window.location.reload();
+
             if (currentHP <= 0) {
                 this.displayGameOver();
             } else {
@@ -426,8 +425,7 @@ export default class extends Controller {
     }
 
 
-    showMonsterPrompt(monster){
-        // Set the flag to true to prevent character movement
+    showMonsterPrompt(monster, weather, terrain) {
         this.isMonsterPromptActive = true;
 
         // Create a modal or prompt to display the monster's stats
@@ -435,18 +433,33 @@ export default class extends Controller {
         monsterPrompt.classList.add("monster-prompt");
 
         monsterPrompt.innerHTML = `
-          <div class="monster-popup">
-            <h2>A wild monster appears!</h2>
-            <p><strong>ATK:</strong> ${monster.atk}</p>
-            <p><strong>DEF:</strong> ${monster.def}</p>
-            <p><strong>HP:</strong> ${monster.hp}</p>
-            <button id="fight-button">Fight</button>
-            <button id="bribe-button">Bribe the Monster and Run (10 shards)</button>
-            <div id="monster-error-message" style="color: red;"></div>
-          </div>
+            <div class="monster-popup">
+              <h2>A wild monster appears!</h2>
+              <p><strong>ATK:</strong> ${monster.atk}</p>
+              <p><strong>DEF:</strong> ${monster.def}</p>
+              <p><strong>HP:</strong> ${monster.hp}</p>
+              <pre id="monster-ascii" style="border:1px solid #ccc; padding:5px;"></pre>
+              <button id="fight-button" disabled>Fight</button>
+              <button id="bribe-button">Bribe the Monster and Run (10 shards)</button>
+              <div id="monster-error-message" style="color: red;"></div>
+            </div>
         `;
 
         document.body.appendChild(monsterPrompt);
+
+        // Fetch ASCII art before enabling the fight button
+        this.fetchMonsterASCII(weather, terrain)
+            .then(ascii => {
+                const asciiElement = document.getElementById("monster-ascii");
+                asciiElement.textContent = ascii;
+                // Enable the fight button now that ASCII is displayed
+                document.getElementById("fight-button").disabled = false;
+            })
+            .catch(error => {
+                const errorMessageDiv = document.getElementById("monster-error-message");
+                errorMessageDiv.textContent = "Failed to load monster ASCII.";
+                console.error(error);
+            });
 
         // Add event listeners to the buttons
         document.getElementById("fight-button").addEventListener("click", () => {
@@ -464,9 +477,8 @@ export default class extends Controller {
                             response.exp_to_level,
                             response.level
                         );
-                        // Remove the monster prompt
                         document.body.removeChild(monsterPrompt);
-                        // Keep the isMonsterPromptActive flag true during battle
+                        // Monster prompt can be cleared here after ASCII loading
                     } else {
                         // Handle error
                         const errorMessageDiv = document.getElementById("monster-error-message");
@@ -497,6 +509,7 @@ export default class extends Controller {
                         document.body.removeChild(monsterPrompt);
                         // Reset the flag when the prompt is dismissed
                         this.isMonsterPromptActive = false;
+                        this.updateShardBalance(-10);
                     } else {
                         // Display error message
                         const errorMessageDiv = document.getElementById("monster-error-message");
@@ -507,6 +520,31 @@ export default class extends Controller {
                     console.error("Error bribing the monster:", error);
                 });
         });
+    }
+
+    fetchMonsterASCII(weather, terrain) {
+        // Assume we have a route like: GET /characters/:username/monster_ascii?weather=...&terrain=...
+        // We'll need the characterName:
+        const characterName = document.querySelector(".character").getAttribute("data-character-id");
+        const url = `/characters/${characterName}/monster_ascii?weather=${encodeURIComponent(weather)}&terrain=${encodeURIComponent(terrain)}`;
+
+        return fetch(url, {
+            method: "GET",
+            headers: { "Accept": "application/json" }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch monster ASCII");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === "ok") {
+                    return data.ascii; // Return the ASCII string
+                } else {
+                    throw new Error(data.message || "Error generating ASCII");
+                }
+            });
     }
 
     bribeMonster(){
@@ -678,3 +716,4 @@ export default class extends Controller {
         this.isDisasterPromptActive = true;
     }
 }
+
