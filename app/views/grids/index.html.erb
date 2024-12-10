@@ -1,64 +1,147 @@
-<h1>All Maps</h1>
+<h1>Start the Journey</h1>
 
 <% if flash[:notice] %>
-  <div class="flash-notice">
-    <%= flash[:notice] %>
-  </div>
+  <div class="flash-notice"><%= flash[:notice] %></div>
 <% end %>
 
 <% if flash[:alert] %>
-  <div class="flash-alert">
-    <%= flash[:alert] %>
-  </div>
+  <div class="flash-alert"><%= flash[:alert] %></div>
 <% end %>
 
-
-<table class="grids-table">
-  <thead>
-  <tr>
-<!--    <th>Grid ID</th>-->
-    <th>Name</th>
-    <th>Operation</th>
-  </tr>
-  </thead>
-  <tbody>
+<div class="grid-container">
   <% @grids.each do |grid| %>
-    <tr>
-      <td><%= grid.name %></td>
-      <td>
-        <%= link_to 'View', grid_path(grid) %>
-        <%= button_to 'Go', go_to_grid_path(grid), method: :patch %>
-      </td>
-    </tr>
+    <div class="grid-card">
+      <div class="grid-circle">
+        <div class="grid-name"><%= grid.name %></div>
+        <div class="grid-actions">
+          <%= link_to 'View World', grid_path(grid), class: 'action-button view-button' %>
+          <%= button_to 'Teleport', go_to_grid_path(grid), method: :patch, class: 'action-button teleport-button' %>
+        </div>
+      </div>
+    </div>
   <% end %>
-  </tbody>
-</table>
+</div>
 
 
-<!-- Add some stylesheet -->
-<!--<style>-->
-<!--    .grids-table {-->
-<!--        width: 100%;-->
-<!--        border-collapse: collapse;-->
-<!--    }-->
+<!-- Styles -->
+<style>
+    :root {
+        --button-radius: 4px;
+        --primary-color: #007bff;
+        --primary-hover: #0056b3;
+        --success-color: #28a745;
+        --success-hover: #218838;
+        --notice-bg: #d4edda;
+        --notice-color: #155724;
+        --alert-bg: #f8d7da;
+        --alert-color: #721c24;
+    }
 
-<!--    .grids-table th, .grids-table td {-->
-<!--        border: 1px solid #ccc;-->
-<!--        padding: 8px;-->
-<!--        text-align: left;-->
-<!--    }-->
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
 
-<!--    .create-button {-->
-<!--        display: inline-block;-->
-<!--        margin-bottom: 20px;-->
-<!--        padding: 10px 15px;-->
-<!--        background-color: #007bff;-->
-<!--        color: white;-->
-<!--        text-decoration: none;-->
-<!--        border-radius: 4px;-->
-<!--    }-->
+    h1 {
+        text-align: center;
+        margin: 20px 0;
+        color: #343a40;
+    }
 
-<!--    .create-button:hover {-->
-<!--        background-color: #0056b3;-->
-<!--    }-->
-<!--</style>-->
+    .flash-notice, .flash-alert {
+        margin: 10px auto;
+        padding: 10px;
+        width: 80%;
+        text-align: center;
+        border-radius: var(--button-radius);
+    }
+
+    .flash-notice {
+        background-color: var(--notice-bg);
+        color: var(--notice-color);
+    }
+
+    .flash-alert {
+        background-color: var(--alert-bg);
+        color: var(--alert-color);
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        width: fit-content;
+        padding: 10px;
+        justify-content: center;
+    }
+
+    .grid-card {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .grid-card:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .grid-circle {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .grid-name {
+        font-size: 22px;
+        font-weight: bold;
+        color: #343a40;
+        margin-bottom: 15px;
+    }
+
+    .grid-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .action-button {
+        display: inline-block;
+        padding: 8px 16px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #fff;
+        border: none;
+        border-radius: var(--button-radius);
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .view-button {
+        background-color: var(--primary-color);
+    }
+
+    .view-button:hover {
+        background-color: var(--primary-hover);
+    }
+
+    .teleport-button {
+        background-color: var(--success-color);
+    }
+
+    .teleport-button:hover {
+        background-color: var(--success-hover);
+    }
+
+</style>

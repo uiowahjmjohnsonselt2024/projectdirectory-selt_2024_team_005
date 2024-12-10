@@ -10,6 +10,16 @@ class Character < ApplicationRecord
   before_save :set_hp_and_exp, if: :level_changed?
   before_save :set_default_equipment, if: :new_record?
 
+  def broadcast_data
+    attributes.slice(
+      "character_name",
+      "cell_id",
+      "health",
+      "experience",
+      "level",
+      )
+  end
+
   private
 
   def set_default_equipment
@@ -38,15 +48,5 @@ class Character < ApplicationRecord
 
   def calculate_exp_to_level(level)
     1180 * level
-  end
-
-  def broadcast_data
-    attributes.slice(
-      "character_name",
-      "cell_id",
-      "health",
-      "experience",
-      "level",
-    )
   end
 end
