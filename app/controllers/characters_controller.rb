@@ -11,13 +11,36 @@ class CharactersController < ApplicationController
         # Monster encountered
         monster = generate_monster
         session[:current_monster] = monster  # Store monster stats in session
-        render json: { status: "ok", cell_id: @character.cell_id, monster: monster }, status: :ok
+        render json: {
+          status: "ok",
+          cell_id: @character.cell_id,
+          monster: monster,
+          weather: cell.weather,
+          terrain: cell.terrain
+        }, status: :ok
       else
         # No monster encountered
         render json: { status: "ok", cell_id: @character.cell_id }, status: :ok
       end
     else
       render json: { status: "error", errors: @character.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  def get_monster_ascii
+    weather = params[:weather]
+    terrain = params[:terrain]
+
+    # Call an internal method that uses ChatGPT API to generate ASCII
+    ascii = generate_monster_ascii(weather, terrain)
+    print(ascii)
+
+    if ascii
+      # Store the ASCII in session for this encounter or just return it directly
+      session[:current_monster_ascii] = ascii
+      render json: { status: "ok", ascii: ascii }, status: :ok
+    else
+      render json: { status: "error", message: "Failed to generate ASCII" }, status: :unprocessable_entity
     end
   end
 
@@ -153,4 +176,15 @@ class CharactersController < ApplicationController
     hp = rand(10..20)  # Random HP between 10 and 20
     { atk: atk, def: def_stat, hp: hp }
   end
+
+  def generate_monster_ascii(weather, terrain)
+    # This method should call the ChatGPT API and return ASCII monster based on weather and terrain.
+    # prompt = "Given a weather condition '#{weather}' and terrain '#{terrain}', generate a single ASCII art monster..."
+    # response = ChatGPTApi.call(prompt)
+    # return response.ascii_monster
+    #
+    # For demonstration, returning a static ASCII:
+    ChatgptService.call("Returns ONLY the ASCII code to draw an RPG monster with #{terrain} and #{weather} weather. No explanations necessary.")
+  end
+
 end
