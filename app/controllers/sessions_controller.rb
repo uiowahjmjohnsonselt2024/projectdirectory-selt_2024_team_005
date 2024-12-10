@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
       redirect_to user_path(@user.username)  # Redirect to home page
     elsif !(@user && @user.authenticate(params[:password]))
       flash.now[:alert] = "Invalid username or password"
-      render :new  # Render the login form again
+      redirect_to login_path  # Render the login form again
     else
       flash[:notice] = "Unexpected error occurred"
     end
