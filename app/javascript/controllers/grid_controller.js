@@ -112,7 +112,8 @@ export default class extends Controller {
             .then((data) => {
                 console.log("Character position updated successfully", data);
                 if (data.monster) {
-                    this.showMonsterPrompt(data.monster);
+                    // Monster encountered. Now we also expect weather and terrain in data
+                    this.showMonsterPrompt(data.monster, data.weather, data.terrain);
                     this.checkForDisaster(newCellId)
                 } else {
                     this.checkForDisaster(newCellId);
@@ -190,7 +191,7 @@ export default class extends Controller {
         });
     }
 
-    showMonsterPrompt(monster) {
+    showMonsterPrompt(monster, weather, terrain) {
         this.isMonsterPromptActive = true;
 
         const monsterPrompt = document.createElement("div");
@@ -202,13 +203,28 @@ export default class extends Controller {
               <p><strong>ATK:</strong> ${monster.atk}</p>
               <p><strong>DEF:</strong> ${monster.def}</p>
               <p><strong>HP:</strong> ${monster.hp}</p>
-              <button id="fight-button">Fight</button>
+              <pre id="monster-ascii" style="border:1px solid #ccc; padding:5px;"></pre>
+              <button id="fight-button" disabled>Fight</button>
               <button id="bribe-button">Bribe the Monster and Run (10 shards)</button>
               <div id="monster-error-message" style="color: red;"></div>
             </div>
         `;
 
         document.body.appendChild(monsterPrompt);
+
+        // Fetch ASCII art before enabling the fight button
+        this.fetchMonsterASCII(weather, terrain)
+            .then(ascii => {
+                const asciiElement = document.getElementById("monster-ascii");
+                asciiElement.textContent = ascii;
+                // Enable the fight button now that ASCII is displayed
+                document.getElementById("fight-button").disabled = false;
+            })
+            .catch(error => {
+                const errorMessageDiv = document.getElementById("monster-error-message");
+                errorMessageDiv.textContent = "Failed to load monster ASCII.";
+                console.error(error);
+            });
 
         document.getElementById("fight-button").addEventListener("click", () => {
             console.log("Fight button clicked");
@@ -225,7 +241,7 @@ export default class extends Controller {
                             response.level
                         );
                         document.body.removeChild(monsterPrompt);
-                        // Keep isMonsterPromptActive true during the battle if needed until battle ends.
+                        // Monster prompt can be cleared here after ASCII loading
                     } else {
                         const errorMessageDiv = document.getElementById("monster-error-message");
                         errorMessageDiv.textContent = response.message;
@@ -258,6 +274,31 @@ export default class extends Controller {
                     console.error("Error bribing the monster:", error);
                 });
         });
+    }
+
+    fetchMonsterASCII(weather, terrain) {
+        // Assume we have a route like: GET /characters/:username/monster_ascii?weather=...&terrain=...
+        // We'll need the characterName:
+        const characterName = document.querySelector(".character").getAttribute("data-character-id");
+        const url = `/characters/${characterName}/monster_ascii?weather=${encodeURIComponent(weather)}&terrain=${encodeURIComponent(terrain)}`;
+
+        return fetch(url, {
+            method: "GET",
+            headers: { "Accept": "application/json" }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch monster ASCII");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === "ok") {
+                    return data.ascii; // Return the ASCII string
+                } else {
+                    throw new Error(data.message || "Error generating ASCII");
+                }
+            });
     }
 
     bribeMonster(){
