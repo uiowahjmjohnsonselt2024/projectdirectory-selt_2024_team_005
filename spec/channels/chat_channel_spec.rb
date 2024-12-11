@@ -27,4 +27,11 @@ RSpec.describe ChatChannel, type: :channel do
         expect(subscription).to have_stream_from("world_chat")
       end
     end
+
+  context 'when the subscription fails' do
+    it 'rejects the subscription if room_id is missing for room chat' do
+      subscribe(channel_type: 'room')
+      expect(subscription).to be_rejected
+    end
+  end
 end
