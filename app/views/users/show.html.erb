@@ -1,9 +1,11 @@
 <div class="profile">
 <h1>Hello <%= @user.username %>!</h1>
-<p>Current balance: <%= @user.shard_balance %> shards</p>
-
-<%= link_to 'Buy more shards', buy_shards_user_path(@user.username), class: 'buy-shards' %>
+  <h2><strong> Welcome to Shards of the Grid! We are pleased to have you. This is an interactive game where you can traverse worlds, fight monsters,
+    encounter disasters, improve your weaponry and skill, and enjoy the company of friends. Enjoy and beware of what is out in the unknown! </strong>
+  </h2>
+  <p> <strong>Current balance: </strong> <%= @user.shard_balance %> shards</p>
+<%= link_to 'Buy more shards', buy_shards_user_path(@user.username), class: 'shards-button' %>
   <br>
-  <%= link_to 'Shop in the Store',store_path(@user.username), class: 'buy-shards' %>
-<%= button_to 'Delete account', user_path(@user.username), method: :delete %>
+  <%= link_to 'Shop in the Store',store_path(@user.username), class: 'shards-button' %>
+<%= button_to 'Delete account', user_path(@user.username), method: :delete, class: 'delete-button' %>
 </div>
