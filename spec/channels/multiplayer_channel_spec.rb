@@ -68,5 +68,4 @@ RSpec.describe MultiplayerChannel, type: :channel do
       expect(subscription).to have_stream_from("multiplayer_grid_#{character.grid_id}")
     end
   end
-
 end

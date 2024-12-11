@@ -224,7 +224,7 @@ RSpec.describe UsersController, type: :controller do
         allow(Inventory).to receive(:maximum).with(:inv_id).and_return(0)
         mock_inventory = double('Inventory', inv_id: 1)
         allow(Inventory).to receive(:create!).and_return(mock_inventory)
-        mock_grid = double('Grid', grid_id: 1, cells: double('CellAssociation', order: [double('Cell', cell_id: 1)]))
+        mock_grid = double('Grid', grid_id: 1, cells: double('CellAssociation', order: [ double('Cell', cell_id: 1) ]))
         allow(Grid).to receive(:find).with(1).and_return(mock_grid)
         allow(Character).to receive(:create!)
 
@@ -252,7 +252,7 @@ RSpec.describe UsersController, type: :controller do
 
     context "when user save fails" do
       before do
-        mock_new_user = instance_double(User, username: 'newuser', email: 'test@example.com', shard_balance: 0, save: false, errors: double(full_messages: ["Something went wrong"]))
+        mock_new_user = instance_double(User, username: 'newuser', email: 'test@example.com', shard_balance: 0, save: false, errors: double(full_messages: [ "Something went wrong" ]))
         allow(User).to receive(:new).and_return(mock_new_user)
         allow(User).to receive(:exists?).and_return(false)
       end
@@ -264,5 +264,4 @@ RSpec.describe UsersController, type: :controller do
       end
     end
   end
-
 end

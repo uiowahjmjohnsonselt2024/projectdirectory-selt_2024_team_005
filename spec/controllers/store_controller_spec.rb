@@ -4,7 +4,7 @@ RSpec.describe StoreController, type: :controller do
   let(:mock_user) { double('User', username: 'testuser', shard_balance: 100) }
   let(:mock_character) { double('Character', username: 'testuser', inv_id: 1) }
   let(:mock_grid) { double('Grid', grid_id: 1, name: 'Test Grid', cost: 50) }
-  let(:mock_items) { [double('Item', item_id: 1, cost: 10, name: 'Test Item')] }
+  let(:mock_items) { [ double('Item', item_id: 1, cost: 10, name: 'Test Item') ] }
   let(:mock_inventory) { double('Inventory', inv_id: 1, add_item: true, save: true) }
 
   before do
@@ -15,7 +15,7 @@ RSpec.describe StoreController, type: :controller do
 
     # Stubbing Grid.find_by to accept the string as a parameter
     allow(Grid).to receive(:find_by).with(grid_id: "1").and_return(mock_grid)
-    allow(Grid).to receive(:all).and_return([mock_grid])
+    allow(Grid).to receive(:all).and_return([ mock_grid ])
 
     # Mock Inventory behavior
     allow(Inventory).to receive(:find).and_return(mock_inventory)
