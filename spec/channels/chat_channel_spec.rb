@@ -126,5 +126,4 @@ RSpec.describe ChatChannel, type: :channel do
       }.not_to have_broadcasted_to("world_chat")
     end
   end
-
 end
