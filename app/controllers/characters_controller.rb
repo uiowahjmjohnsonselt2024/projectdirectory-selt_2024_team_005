@@ -189,52 +189,6 @@ class CharactersController < ApplicationController
     end
   end
 
-=begin
-  def teleport
-    teleport_cost = params[:cost].to_i
-    target_cell_id = params[:cellId].to_i
-    target_cell = Cell.find_by(id: target_cell_id)
-
-    if @character.nil?
-      render json: { status: 'error', message: 'Character not found' }, status: :not_found
-      return
-    end
-
-    if target_cell.nil?
-      render json: { status: 'error', message: 'Target cell not found' }, status: :not_found
-      return
-    end
-
-    if @user.shard_balance < teleport_cost
-      render json: { status: 'error', message: 'Not enough shards' }, status: :bad_request
-      return
-    end
-
-    @user.shard_balance -= teleport_cost
-
-    if target_cell.grid_id != @character.grid_id
-      @character.grid_id = target_cell.grid_id
-    end
-    @character.cell_id = target_cell_id
-
-    disaster_message = check_for_disaster(target_cell)
-
-    if @user.save && @character.save
-      render json: {
-        status: 'ok',
-        shard_balance: @user.shard_balance,
-        new_cell_id: @character.cell_id,
-        new_grid_id: @character.grid_id,
-        disaster_message: disaster_message,
-        current_hp: @character.current_hp
-      }
-    else
-      render json: { status: 'error', message: 'Failed to update character' }, status: :unprocessable_entity
-    end
-  end
-=end
-
-
   private
   def calculate_new_exp_to_level(level)
     # Example: EXP required increases by 100 each level
