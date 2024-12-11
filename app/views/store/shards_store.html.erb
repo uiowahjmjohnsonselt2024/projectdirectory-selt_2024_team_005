@@ -9,7 +9,7 @@
       <p><%= item.category %></p>
       <p>Price: <%= item.cost%> shards</p>
       <%= form_with(url: buy_item_path(@user.username, item.id), method: :post, local: true) do |form| %>
-        <%= form.submit 'Buy Now', class: 'buy-button' %>
+        <%= form.submit 'Buy Now', class: 'shards-button' %>
       <% end %>
     </div>
   <% end %>
@@ -28,7 +28,7 @@
           <p>Price: <%= grid.cost %> shards</p>
 
           <%= form_with(url: buy_grid_path(username: @user.username, id: grid.id), method: :post, local: true) do |form| %>
-            <%= form.submit 'Buy Now', class: 'buy-button' %>
+            <%= form.submit 'Buy Now', class: 'shards-button' %>
           <% end %>
         </div>
       <% end %>

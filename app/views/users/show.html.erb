@@ -1,9 +1,18 @@
 <div class="profile">
 <h1>Hello <%= @user.username %>!</h1>
-<p>Current balance: <%= @user.shard_balance %> shards</p>
+  <h2><strong> Welcome to Shards of the Grid! We are pleased to have you. This is an interactive game where you can traverse worlds, fight monsters,
+    encounter disasters, improve your weaponry and skill, and enjoy the company of friends. Enjoy and beware of what is out in the unknown! </strong>
+  </h2>
+  <p> <strong>Current balance: </strong> <%= @user.shard_balance %> shards</p>
 
-<%= link_to 'Buy more shards', buy_shards_user_path(@user.username), class: 'buy-shards' %>
+  <p> <strong>KEY:</strong></p>
+  <p>1. To see the worlds you own, click on view. If you want to play in the world, click teleport.  </p>
+  <p>2. Click on another cell to have the option to teleport to it.</p>
+  <p>3. You cannot stop natural disasters, but the Catastrophe Ward lessens your chances of encountering natural disasters. </p>
+  <p>4. You can fight or run from monsters but beware running lowers your exp and fighting depends on your experience and weaponry</p>
+  <p>5. If you want to talk with people in other grids, turn on the 'Online Mode' </p>
+<%= link_to 'Buy more shards', buy_shards_user_path(@user.username), class: 'shards-button' %>
   <br>
-  <%= link_to 'Shop in the Store',store_path(@user.username), class: 'buy-shards' %>
-<%= button_to 'Delete account', user_path(@user.username), method: :delete %>
+  <%= link_to 'Shop in the Store',store_path(@user.username), class: 'shards-button' %>
+<%= button_to 'Delete account', user_path(@user.username), method: :delete, class: 'delete-button' %>
 </div>
