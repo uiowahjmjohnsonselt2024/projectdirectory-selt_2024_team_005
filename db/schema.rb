@@ -14,15 +14,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_09_195613) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "armors", primary_key: "armor_id", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
-    t.string "description", null: false
-    t.string "icon", null: false
-    t.integer "def_bonus", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "cells", primary_key: "cell_id", id: :serial, force: :cascade do |t|
     t.string "cell_loc", null: false
     t.float "mons_prob"
@@ -38,13 +29,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_09_195613) do
 
   create_table "characters", primary_key: "character_name", id: :string, force: :cascade do |t|
     t.string "username", null: false
-    t.integer "current_hp", null: false
-    t.integer "max_hp", null: false
-    t.integer "current_exp", null: false
-    t.integer "exp_to_level", null: false
+    t.integer "health", null: false
+    t.integer "experience", null: false
     t.integer "level", null: false
-    t.integer "weapon_item_id", null: false
-    t.integer "armor_item_id", null: false
     t.integer "grid_id", null: false
     t.integer "cell_id", null: false
     t.integer "inv_id", null: false
@@ -55,7 +42,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_09_195613) do
 
   create_table "grids", primary_key: "grid_id", id: :serial, force: :cascade do |t|
     t.string "name", null: false
-    t.integer "cost", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -68,13 +54,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_09_195613) do
   end
 
   create_table "items", primary_key: "item_id", id: :serial, force: :cascade do |t|
-    t.integer "itemable_id", null: false
-    t.string "itemable_type", null: false
+    t.string "name", null: false
+    t.string "category", null: false
     t.integer "cost", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_items_on_item_id", unique: true
-    t.index ["itemable_type", "itemable_id"], name: "index_items_on_itemable_type_and_itemable_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -85,15 +70,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_09_195613) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["username", "created_at"], name: "index_messages_on_username_and_created_at"
-  end
-
-  create_table "potions", primary_key: "potion_id", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
-    t.string "description", null: false
-    t.string "icon", null: false
-    t.integer "hp_regen", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "user_grid_visibilities", force: :cascade do |t|
