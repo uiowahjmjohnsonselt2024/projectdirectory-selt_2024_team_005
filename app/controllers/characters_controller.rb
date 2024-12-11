@@ -152,6 +152,8 @@ class CharactersController < ApplicationController
   def teleport
     teleport_cost = params[:cost].to_i
     new_cell_id = params[:cellId].to_i
+    new_grid_id = Cell.find_by(cell_id: new_cell_id).grid_id
+
 
     # Check if the character exists
     if @character.nil?
@@ -163,7 +165,8 @@ class CharactersController < ApplicationController
     if @user.shard_balance >= 5
       # Deduct the shards and update the cell_id
       @user.shard_balance -= 5
-      @character.cell_id = new_cell_id
+      @character.update(grid_id: new_grid_id, cell_id: new_cell_id)
+      #@character.cell_id = new_cell_id
       @user.save
 
       if @character.save
@@ -171,16 +174,65 @@ class CharactersController < ApplicationController
         render json: {
           status: "ok",
           shard_balance: @user.shard_balance,
+          new_grid_id: @character.grid_id,
           new_cell_id: @character.cell_id
+
         }
       else
         render json: { status: "error", message: "Failed to update character" }, status: :unprocessable_entity
+        return
       end
     elsif @user.shard_balance < 5
       flash[:notice] = "Not enough shards to teleport."
       render json: { status: "error", message: "Not enough shards" }, status: :bad_request
+      return
     end
   end
+
+=begin
+  def teleport
+    teleport_cost = params[:cost].to_i
+    target_cell_id = params[:cellId].to_i
+    target_cell = Cell.find_by(id: target_cell_id)
+
+    if @character.nil?
+      render json: { status: 'error', message: 'Character not found' }, status: :not_found
+      return
+    end
+
+    if target_cell.nil?
+      render json: { status: 'error', message: 'Target cell not found' }, status: :not_found
+      return
+    end
+
+    if @user.shard_balance < teleport_cost
+      render json: { status: 'error', message: 'Not enough shards' }, status: :bad_request
+      return
+    end
+
+    @user.shard_balance -= teleport_cost
+
+    if target_cell.grid_id != @character.grid_id
+      @character.grid_id = target_cell.grid_id
+    end
+    @character.cell_id = target_cell_id
+
+    disaster_message = check_for_disaster(target_cell)
+
+    if @user.save && @character.save
+      render json: {
+        status: 'ok',
+        shard_balance: @user.shard_balance,
+        new_cell_id: @character.cell_id,
+        new_grid_id: @character.grid_id,
+        disaster_message: disaster_message,
+        current_hp: @character.current_hp
+      }
+    else
+      render json: { status: 'error', message: 'Failed to update character' }, status: :unprocessable_entity
+    end
+  end
+=end
 
 
   private

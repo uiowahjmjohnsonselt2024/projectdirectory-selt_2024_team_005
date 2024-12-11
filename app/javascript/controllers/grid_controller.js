@@ -725,6 +725,7 @@ export default class extends Controller {
 
     handleTeleport(event, selectedCell) {
         const cellId = event.currentTarget.getAttribute("data-cell-id");
+        const gridId = document.body.getAttribute("data-room-id");
         const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
         const characterName = document.querySelector(".character").getAttribute("data-character-id");
         const teleportCost = 5; // Cost of teleportation in shards
@@ -737,7 +738,7 @@ export default class extends Controller {
                 Accept: "application/json",
                 "X-CSRF-Token": csrfToken,
             },
-            body: JSON.stringify({ cellId, cost: teleportCost }),
+            body: JSON.stringify({ cellId, cost: teleportCost, gridId }),
         })
             .then((response) => response.json())
             .then((data) => {
@@ -748,9 +749,11 @@ export default class extends Controller {
                     // Move the user to the new position on the grid (visually)
                     this.moveToCell(selectedCell);
 
+                    this.updateWorldView(data.new_grid_id);
+
 
                     // Optionally, you could show a success message or alert
-                    alert(`Teleportation successful! You have moved to cell ${data.new_cell_id}. Shards deducted.`);
+                    alert(`Teleportation successful! You have moved to cell ${data.new_cell_id} in world ${data.new_grid_id}. Shards deducted.`);
 
                     return data
                 } else {
@@ -768,6 +771,12 @@ export default class extends Controller {
             // });
 
     }
+
+    updateWorldView(newGridId) {
+        const worldContainer = document.querySelector(".world-container");
+        worldContainer.setAttribute("data-room-id", newGridId);
+    }
+
 
     moveToCell(selectedCell) {
         // Assuming the user’s current position is indicated by a special element (e.g., a user icon or a marker)
