@@ -1,5 +1,5 @@
 <h1>Start the Journey</h1>
-
+<h3 class="note">NOTE: You can only play in worlds you have teleported to</h3>
 <% if flash[:notice] %>
   <div class="flash-notice"><%= flash[:notice] %></div>
 <% end %>
@@ -145,5 +145,7 @@
         font-family: "Times New Roman", serif;
         background-color: var(--success-hover);
     }
-
+    .note {
+        text-align: center;
+    }
 </style>

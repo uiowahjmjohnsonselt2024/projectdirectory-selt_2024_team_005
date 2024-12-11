@@ -94,6 +94,7 @@
     transition: background-color 0.3s ease; /* Smooth transition on hover */
     margin-bottom: 10px;
     margin-top: 10px;
+    font-family: "Times New Roman", serif;
 }
 
 /* Hover effect */
@@ -126,6 +127,7 @@
 .delete-button:hover {
     background-color: darkred; /* Darker blue on hover */
     color: white; /* Keeps text color white on hover */
+    font-family: "Times New Roman", serif;
 }
 .delete-button:focus {
     outline: none; /* Removes the default focus outline */
