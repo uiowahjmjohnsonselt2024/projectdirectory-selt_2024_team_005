@@ -1,3 +1,4 @@
+# app/models/user.rb
 require "open_exchange_rates"
 class User < ApplicationRecord
   has_secure_password
