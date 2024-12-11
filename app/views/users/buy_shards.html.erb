@@ -1,9 +1,10 @@
+<!-- app/views/users/buy_shards>html.erb -->
 <h1>Buy Shards</h1>
-<h3>Shards are 1:1 backed by US Dollar. Exchange rate retrived from open exchange rates API and minute exchange errors apply. </h3>
+<h3>Shards are 1:0.75 pegged by the US Dollar. Exchange rate retrieved from open exchange rates API and minute exchange errors apply. Displayed value for reference only. </h3>
 
 <%= form_with url: process_payment_user_path(@user.username), method: :post, local: true do |f| %>
   <div>
-    <%= f.label :amount, "Enter Amount" %><br>
+    <%= f.label :amount, "Enter Currency Amount" %><br>
     <%= f.number_field :amount, step: 0.01, min: 0 %><br><br>
 
     <%= f.label :currency, "Select Currency" %><br>
@@ -42,22 +43,18 @@
             var currency = currencyField.value;
 
             if (currency) {
-                // Simulate exchange rates (should match those in the controller)
-                var exchangeRates = {
-                    'USD': 1.0,
-                    'EUR': 0.85,
-                    'GBP': 0.75,
-                    'JPY': 110.0,
-                    'AUD': 1.35,
-                    'CAD': 1.25,
-                    'CHF': 0.90,
-                    'CNY': 6.5,
-                    'SEK': 8.5,
-                    'NZD': 1.4
-                };
+                // Simulate exchange rates (these should correspond to the actual exchange rates from @exchange_rates)
+                // Here we assume @exchange_rates[currency] gives "how many units of currency = 1 USD".
+                // Example: If @exchange_rates['EUR'] = 0.85, it means 1 USD = 0.85 EUR.
                 var rate = exchangeRates[currency] || 1.0;
-                var amountInUSD = amount / rate;
-                var estimatedShards = Math.floor(amountInUSD); // Round to 2 decimal places
+
+                // Incorporate the 1:0.75 pegging.
+                // Originally: amountInUSD = amount / rate
+                // Now: 1 shard = 0.75 USD, so:
+                var amountInUSD = (amount / 0.75) / rate;
+
+                // Floor the resulting shards just as done in the controller
+                var estimatedShards = Math.floor(amountInUSD);
                 shardsDisplay.innerText = estimatedShards;
             } else {
                 shardsDisplay.innerText = '0';
