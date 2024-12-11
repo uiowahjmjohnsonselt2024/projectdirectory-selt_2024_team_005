@@ -19,4 +19,12 @@ RSpec.describe ChatChannel, type: :channel do
       end
     end
   end
+
+    context 'when subscribing to the world chat' do
+      it 'successfully subscribes to the world chat stream' do
+        subscribe(channel_type: 'world')
+        expect(subscription).to be_confirmed
+        expect(subscription).to have_stream_from("world_chat")
+      end
+    end
 end
