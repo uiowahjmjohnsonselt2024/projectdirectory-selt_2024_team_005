@@ -1,9 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe MultiplayerChannel, type: :channel do
-  let(:user) { User.create!(username: 'herky', email: 'herky@uiowa.edu', password_digest: '12345') }
+  let(:user) { User.create!(username: 'Herky', email: 'herky@uiowa.edu', password_digest: '12345') }
   let(:grid) { Grid.create!(id: 1, name: 'Europa') }
-  let(:character) { Character.create!(username: user.username, character_name: 'Herky', level: 1, grid_id: grid.id, cell_id: 1, online_status: false) }
+  let(:cell) { Cell.create!(cell_loc: "R0C1", grid_id: grid.id)}
+  let(:inventory) { Inventory.create!(inv_id: 1) }
+  let(:character) { Character.create!(username: user.username, character_name: 'Herky', level: 1, grid_id: grid.id, inv_id: 1, online_status: false, cell_id: 1) }
 
   before do
     stub_connection(current_user: user)
