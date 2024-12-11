@@ -143,7 +143,13 @@ export default class extends Controller {
                 this.detailsTarget.innerHTML = `
           <p><strong>Weather:</strong> ${data.weather}</p>
           <p><strong>Terrain:</strong> ${data.terrain}</p>
+           <button class="teleport-btn" data-cell-id="${cellId}">Teleport</button>
+           <p><strong>NOTE:</storng> Teleporting costs 5 shards.</p>
         `;
+
+                // Add event listener for teleport button
+                const teleportButton = this.detailsTarget.querySelector(".teleport-btn");
+                teleportButton.addEventListener("click", (e) => this.handleTeleport(e, cell));
 
                 // Call the "highlightSelectedCell" method to highlight the selected cell
                 this.highlightSelectedCell(cell);
@@ -583,6 +589,7 @@ export default class extends Controller {
         } else {
             console.error("No shard-balance element found!");
         }
+        window.location.reload();
     }
 
     // app/javascript/controllers/grid_controller.js
@@ -715,5 +722,68 @@ export default class extends Controller {
         this.isMonsterPromptActive = true;
         this.isDisasterPromptActive = true;
     }
+
+    handleTeleport(event, selectedCell) {
+        const cellId = event.currentTarget.getAttribute("data-cell-id");
+        const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+        const characterName = document.querySelector(".character").getAttribute("data-character-id");
+        const teleportCost = 5; // Cost of teleportation in shards
+
+        // Perform the teleport action via an API request
+        return fetch(`/characters/${characterName}/teleport`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                "X-CSRF-Token": csrfToken,
+            },
+            body: JSON.stringify({ cellId, cost: teleportCost }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.status === "ok") {
+                    // Successfully teleported, update the shard balance
+                    this.updateShardBalance(-5);
+
+                    // Move the user to the new position on the grid (visually)
+                    this.moveToCell(selectedCell);
+
+
+                    // Optionally, you could show a success message or alert
+                    alert(`Teleportation successful! You have moved to cell ${data.new_cell_id}. Shards deducted.`);
+
+                    return data
+                } else {
+                    throw new Error("Teleportation failed");
+                }
+
+            })
+            .finally(() => {
+                // After everything is done, reload the page
+                window.location.reload();
+            })
+            // .catch((error) => {
+            //     console.error("Error teleporting:", error);
+            //     alert("Teleportation failed. Please try again later.");
+            // });
+
+    }
+
+    moveToCell(selectedCell) {
+        // Assuming the user’s current position is indicated by a special element (e.g., a user icon or a marker)
+        const user = document.querySelector(".user-icon"); // Example user element
+
+        // Get the target cell's position
+        const targetRect = selectedCell.getBoundingClientRect();
+        const userRect = user.getBoundingClientRect();
+
+        // Animate or immediately move the user to the target position
+        user.style.transition = "transform 0.5s ease";
+        user.style.transform = `translate(${targetRect.left - userRect.left}px, ${targetRect.top - userRect.top}px)`;
+
+        // You might also want to update the user's grid position in your game state
+        user.dataset.cellId = selectedCell.getAttribute("data-cell-id");
+    }
+
 }
 
