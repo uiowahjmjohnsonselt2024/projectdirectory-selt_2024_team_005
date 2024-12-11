@@ -23,7 +23,7 @@
     background-repeat: no-repeat;
     height: 100vh;
     margin: 0;
-    font-family: "Courier New", sans-serif;
+    font-family: "papyrus", sans-serif;
     color: white;
 }
 .main_header {
@@ -82,7 +82,7 @@
     background-color: #0056b3;
 }
 
-.buy-shards {
+.shards-button {
     display: inline-block; /* Makes the link behave like a block element */
     padding: 10px 20px; /* Adds padding around the text */
     background-color: #007bff; /* Bootstrap's primary color */
@@ -93,16 +93,52 @@
     text-align: center; /* Centers the text inside the button */
     transition: background-color 0.3s ease; /* Smooth transition on hover */
     margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 /* Hover effect */
-.buy-shards:hover {
+.shards-button:hover {
     background-color: #0056b3; /* Darker blue on hover */
     color: white; /* Keeps text color white on hover */
 }
 
+.shards-button:focus {
+    outline: none; /* Removes the default focus outline */
+}
+
 /* Active state (when the button is clicked) */
-.buy-shards:active {
+.shards-button:active {
+    background-color: #003366; /* Even darker blue on click */
+    color: white; /* Keeps text color white */
+}
+
+.delete-button {
+    display: inline-block; /* Makes the link behave like a block element */
+    padding: 10px 20px; /* Adds padding around the text */
+    background-color: red; /* Bootstrap's primary color */
+    color: white; /* Text color */
+    text-decoration: none; /* Removes the default underline */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Adjust font size */
+    text-align: center; /* Centers the text inside the button */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-family: "papyrus", sans-serif;
+}
+
+/* Hover effect */
+.delete-button:hover {
+    background-color: darkred; /* Darker blue on hover */
+    color: white; /* Keeps text color white on hover */
+}
+
+.delete-button:focus {
+    outline: none; /* Removes the default focus outline */
+}
+
+/* Active state (when the button is clicked) */
+.shards-button:active {
     background-color: #003366; /* Even darker blue on click */
     color: white; /* Keeps text color white */
 }
@@ -190,4 +226,18 @@
     border-radius: 8px;      /* Optional: Round the corners */
     background-color: #f9f9f9;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add some shadow for a nicer effect */
+}
+
+.profile {
+    /*background-image: url('sotg.jpg');*/
+    background-color: #4b4b4b;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+
+    padding: 10px;
+    padding-bottom: 100px;
+    font-family: "papyrus", sans-serif;
+    color: white;
 }
