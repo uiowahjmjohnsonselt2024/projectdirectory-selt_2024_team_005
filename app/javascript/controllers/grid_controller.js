@@ -589,7 +589,7 @@ export default class extends Controller {
         } else {
             console.error("No shard-balance element found!");
         }
-        window.location.reload();
+         window.location.reload();
     }
 
     // app/javascript/controllers/grid_controller.js
@@ -753,27 +753,27 @@ export default class extends Controller {
 
     updateUIAfterTeleport(selectedCell){
         this.updateShardBalance(-5);
-        this.moveToCell(selectedCell);
+        // this.moveToCell(selectedCell);
 
 
 
     }
 
-    moveToCell(selectedCell) {
-        // Assuming the user’s current position is indicated by a special element (e.g., a user icon or a marker)
-        const user = document.querySelector(".user-icon"); // Example user element
-
-        // Get the target cell's position
-        const targetRect = selectedCell.getBoundingClientRect();
-        const userRect = user.getBoundingClientRect();
-
-        // Animate or immediately move the user to the target position
-        user.style.transition = "transform 0.5s ease";
-        user.style.transform = `translate(${targetRect.left - userRect.left}px, ${targetRect.top - userRect.top}px)`;
-
-        // You might also want to update the user's grid position in your game state
-        user.dataset.cellId = selectedCell.getAttribute("data-cell-id");
-    }
+    // moveToCell(selectedCell) {
+    //     // Assuming the user’s current position is indicated by a special element (e.g., a user icon or a marker)
+    //     const user = document.querySelector(".user-icon"); // Example user element
+    //
+    //     // Get the target cell's position
+    //     const targetRect = selectedCell.getBoundingClientRect();
+    //     const userRect = user.getBoundingClientRect();
+    //
+    //     // Animate or immediately move the user to the target position
+    //     user.style.transition = "transform 0.5s ease";
+    //     user.style.transform = `translate(${targetRect.left - userRect.left}px, ${targetRect.top - userRect.top}px)`;
+    //
+    //     // You might also want to update the user's grid position in your game state
+    //     user.dataset.cellId = selectedCell.getAttribute("data-cell-id");
+    // }
 
 }
 
