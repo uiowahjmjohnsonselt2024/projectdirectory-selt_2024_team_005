@@ -11,7 +11,7 @@ RSpec.describe Grid, type: :model do
         disaster_prob: 0.15,
         weather: instance_of(String),
         terrain: instance_of(String),
-        has_store: satisfy { |value| [true, false].include?(value) },
+        has_store: satisfy { |value| [ true, false ].include?(value) },
         grid_id: grid.grid_id,
         created_at: instance_of(ActiveSupport::TimeWithZone),
         updated_at: instance_of(ActiveSupport::TimeWithZone)
@@ -45,5 +45,4 @@ RSpec.describe Grid, type: :model do
       end
     end
   end
-
 end

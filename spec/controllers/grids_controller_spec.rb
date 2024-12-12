@@ -18,13 +18,13 @@ RSpec.describe GridsController, type: :controller do
     let(:user_grid_visibility) { instance_double(UserGridVisibility, visibility: 6) }
 
     before do
-      allow(Grid).to receive(:all).and_return([grid])
+      allow(Grid).to receive(:all).and_return([ grid ])
       allow(UserGridVisibility).to receive(:find_by).and_return(user_grid_visibility)
     end
 
     it 'assigns grids visible to the user' do
       get :index
-      expect(assigns(:grids)).to eq([grid])
+      expect(assigns(:grids)).to eq([ grid ])
     end
   end
 
@@ -49,14 +49,14 @@ RSpec.describe GridsController, type: :controller do
 
     before do
       allow(Grid).to receive(:find_by).and_return(grid)
-      allow(grid.cells).to receive(:where).and_return(double(:relation, order: [cell]))
+      allow(grid.cells).to receive(:where).and_return(double(:relation, order: [ cell ]))
     end
 
     it 'assigns grid details and cells' do
       get :show, params: { id: 1 }
       expect(assigns(:grid)).to eq(grid)
-      expect(assigns(:cells)).to eq([cell])
-      expect(assigns(:grid_matrix)).to eq([[cell]])
+      expect(assigns(:cells)).to eq([ cell ])
+      expect(assigns(:grid_matrix)).to eq([ [ cell ] ])
     end
   end
 
