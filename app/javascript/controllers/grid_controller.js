@@ -144,7 +144,7 @@ export default class extends Controller {
           <p><strong>Weather:</strong> ${data.weather}</p>
           <p><strong>Terrain:</strong> ${data.terrain}</p>
            <button class="teleport-btn" data-cell-id="${cellId}">Teleport</button>
-           <p><strong>NOTE:</storng> Teleporting costs 5 shards.</p>
+           <p><strong>NOTE:</strong> Teleporting costs 5 shards.</p>
         `;
 
                 // Add event listener for teleport button
@@ -730,7 +730,7 @@ export default class extends Controller {
         const teleportCost = 5; // Cost of teleportation in shards
 
         // Perform the teleport action via an API request
-        return fetch(`/characters/${characterName}/teleport`, {
+        fetch(`/characters/${characterName}/teleport`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -744,27 +744,16 @@ export default class extends Controller {
                 if (data.status === "ok") {
                     // Helper function for refresher w/out page refreshing
                     this.updateUIAfterTeleport(selectedCell);
-                    // Move the user to the new position on the grid (visually)
-                    this.moveToCell(selectedCell);
-
-
-                    // Optionally, you could show a success message or alert
-                    alert(`Teleportation successful! You have moved to cell ${data.new_cell_id}. Shards deducted.`);
-
-                    return data
                 } else {
                     throw new Error("Teleportation failed");
                 }
 
             })
-            /*.finally(() => {
-                // After everything is done, reload the page
-                window.location.reload();
-            })*/
     }
 
     updateUIAfterTeleport(selectedCell){
         this.updateShardBalance(-5);
+        this.moveToCell(selectedCell);
 
 
 
