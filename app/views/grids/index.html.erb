@@ -15,7 +15,11 @@
         <div class="grid-name"><%= grid.name %></div>
         <div class="grid-actions">
           <%= link_to 'View World', grid_path(grid), class: 'action-button view-button' %>
-          <%= button_to 'Teleport', go_to_grid_path(grid), method: :patch, class: 'action-button teleport-button' %>
+          <%= button_to 'Teleport', go_to_grid_path(grid),
+                        method: :patch,
+                        class: 'action-button teleport-button' %>
+
+          <%#= button_to 'Teleport', go_to_grid_path(grid), method: :patch, class: 'action-button teleport-button' %>
         </div>
       </div>
     </div>

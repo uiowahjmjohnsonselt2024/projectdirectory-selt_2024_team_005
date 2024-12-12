@@ -12,7 +12,8 @@ export default class extends Controller {
 
         // Get current character by character-id
         const currentCharacterName = document.body.dataset.currentCharacterName;
-        this.currentCharacter = document.querySelector(`.character[data-character-id='${currentCharacterName}']`);
+        //this.currentCharacter = document.querySelector(`.character[data-character-id='${currentCharacterName}']`);
+        this.currentCharacter = "Hawkeye"
         if (!this.currentCharacter) {
             console.error("Current character not found for movement!");
         } else {
@@ -727,8 +728,10 @@ export default class extends Controller {
         const cellId = event.currentTarget.getAttribute("data-cell-id");
         const gridId = document.body.getAttribute("data-room-id");
         const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
-        const characterName = document.querySelector(".character").getAttribute("data-character-id");
+        //const characterName = document.querySelector(".character").getAttribute("data-character-id");
+        const characterName = "Hawkeye";
         const teleportCost = 5; // Cost of teleportation in shards
+        console.log("111111111111111111111111111111111111111111111111111111111111111111");
 
         // Perform the teleport action via an API request
         return fetch(`/characters/${characterName}/teleport`, {
@@ -742,6 +745,8 @@ export default class extends Controller {
         })
             .then((response) => response.json())
             .then((data) => {
+                console.log("222222222222222222222222222222222222");
+
                 if (data.status === "ok") {
                     // Successfully teleported, update the shard balance
                     this.updateShardBalance(-5);
@@ -749,12 +754,11 @@ export default class extends Controller {
                     // Move the user to the new position on the grid (visually)
                     this.moveToCell(selectedCell);
 
-                    this.updateWorldView(data.new_grid_id);
+                    this.updateWorldView(gridId);
 
 
                     // Optionally, you could show a success message or alert
                     alert(`Teleportation successful! You have moved to cell ${data.new_cell_id} in world ${data.new_grid_id}. Shards deducted.`);
-
                     return data
                 } else {
                     throw new Error("Teleportation failed");
@@ -763,6 +767,8 @@ export default class extends Controller {
             })
             .finally(() => {
                 // After everything is done, reload the page
+                console.log("333333333333333333333333333333333333333333333333");
+
                 window.location.reload();
             })
             // .catch((error) => {

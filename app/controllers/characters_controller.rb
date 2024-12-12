@@ -154,7 +154,6 @@ class CharactersController < ApplicationController
     new_cell_id = params[:cellId].to_i
     new_grid_id = Cell.find_by(cell_id: new_cell_id).grid_id
 
-
     # Check if the character exists
     if @character.nil?
       render json: { status: "error", message: "Character not found" }, status: :not_found
@@ -165,9 +164,19 @@ class CharactersController < ApplicationController
     if @user.shard_balance >= 5
       # Deduct the shards and update the cell_id
       @user.shard_balance -= 5
+      if new_grid_id != @character.grid_id
+        # Different grid: Run go_to method
+        go_to_result = go_to(new_grid_id) # Ensure this method returns a success/failure indicator
+        go_to(new_grid_id)
+        unless go_to_result[:status] == "ok"
+          render json: { status: "error", message: "Failed to transition to the new grid" }, status: :unprocessable_entity
+          raise ActiveRecord::Rollback
+        end
+      end
       @character.update(grid_id: new_grid_id, cell_id: new_cell_id)
       #@character.cell_id = new_cell_id
       @user.save
+
 
       if @character.save
         # Return updated data
