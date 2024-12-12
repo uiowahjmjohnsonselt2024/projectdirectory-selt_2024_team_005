@@ -1,5 +1,4 @@
 class InventoryController < GridsController
-  respond_to? :json
   before_action :set_character_and_inventory
 
   def use_item
@@ -13,10 +12,22 @@ class InventoryController < GridsController
     when "Armor"
       equip_armor(item)
     end
+
+    respond_to do |format|
+      format.js # Renders use_item.js.erb
+      format.json { render json: { success: true, current_hp: @character.current_hp, inventory: @inventory } }
+      format.html { redirect_to grids_path, notice: "#{item.name} used successfully." }
+    end
   end
 
   def discard_item
     @inventory.remove_item(params[:index].to_i)
+
+    respond_to do |format|
+      format.js # Renders use_item.js.erb
+      format.json { render json: { success: true, inventory: @inventory } }
+      format.html { redirect_to grids_path, notice: "Item discarded successfully." }
+    end
   end
 
   private
@@ -44,9 +55,8 @@ class InventoryController < GridsController
     @character.weapon_item_id = weapon.item_id
     @inventory.items[params[:index].to_i] = temp_weapon
 
-    if @character.save && @inventory.save
-      puts "#{weapon.name} equipped as weapon."
-    end
+    @character.save
+    @inventory.save
   end
 
   def equip_armor(item)
@@ -56,8 +66,7 @@ class InventoryController < GridsController
     @character.armor_item_id = armor.item_id
     @inventory.items[params[:index].to_i] = temp_armor
 
-    if @character.save && @inventory.save
-      puts "#{armor.name} equipped as armor."
-    end
+    @character.save
+    @inventory.save
   end
 end
