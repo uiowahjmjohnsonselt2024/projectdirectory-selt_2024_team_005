@@ -1,3 +1,4 @@
+# app/models/user.rb
 require "open_exchange_rates"
 class User < ApplicationRecord
   has_secure_password
@@ -34,9 +35,9 @@ class User < ApplicationRecord
   private
 
   def initialize_grid_visibilities
-    # puts "Initializing grid visibilities for #{self.username}"
     Grid.find_each do |grid|
-      user_grid_visibilities.create!(grid_id: grid.grid_id, visibility: 6)
+      visibility = (grid.name == "Earth") ? 6 : 0  # Set visibility to 6 for Earth, 0 for all other grids
+      user_grid_visibilities.create!(grid_id: grid.grid_id, visibility: visibility)
     end
   end
 end

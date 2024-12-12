@@ -1,3 +1,4 @@
+# app/controllers/users_controller.rb
 class UsersController < ApplicationController
   def show
     @user = User.find_by!(username: params[:username])
@@ -25,7 +26,9 @@ class UsersController < ApplicationController
     end
     # Currency exchange
     exchange_rate = @user.get_exchange_rate(@currency)
-    amount_in_usd = @amount / exchange_rate
+    # Previously: amount_in_usd = @amount / exchange_rate
+    # Now include the 0.75 USD peg: For each shard entered, it's worth 0.75 USD.
+    amount_in_usd = (@amount / 0.75) / exchange_rate
     shards_to_credit = amount_in_usd.floor
 
     # Validate credit card information (basic validation)
@@ -53,8 +56,7 @@ class UsersController < ApplicationController
       redirect_to buy_shards_user_path(@user.username) and return
     end
 
-    # Simulate payment processing (since we're not integrating an actual payment gateway)
-    # In a real application, you would integrate with a payment API here.
+    # Simulate payment processing
 
     # Update the user's shard balance
     @character = Character.find_by(username: params[:username])
@@ -74,6 +76,7 @@ class UsersController < ApplicationController
       redirect_to user_path(@user.username)
     end
   end
+
 
 
   def new

@@ -7,10 +7,44 @@
     <div class="item">
       <h2><%= item.itemable.name %></h2>
       <p><%= item.category %></p>
-      <p>Price: $<%= item.cost %></p>
+      <p>Price: <%= item.cost%> shards</p>
       <%= form_with(url: buy_item_path(@user.username, item.id), method: :post, local: true) do |form| %>
-        <%= form.submit 'Buy Now', class: 'buy-button' %>
+        <%= form.submit 'Buy Now', class: 'shards-button' %>
       <% end %>
     </div>
+  <% end %>
+</div>
+
+<h2>Available Grids for Purchase</h2>
+<div class="store-grids">
+  <% if @grids.present? %>
+    <% @grids.each do |grid| %>
+      <% # Check if the user already owns this grid (visibility = 0) %>
+      <% user_grid_visibility = UserGridVisibility.find_by(username: @user.username, grid_id: grid.grid_id) %>
+      <% if user_grid_visibility.nil? || user_grid_visibility.visibility == 0 %>
+        <!-- Grid is either not owned or visible for purchase -->
+        <div class="grid">
+          <h3><%= grid.name %></h3>
+          <p>Price: <%= grid.cost %> shards</p>
+
+          <%= form_with(url: buy_grid_path(username: @user.username, id: grid.id), method: :post, local: true) do |form| %>
+            <%= form.submit 'Buy Now', class: 'shards-button' %>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  <% else %>
+    <p>No grids available for purchase.</p>
+  <% end %>
+</div>
+
+<h2>Your Owned Grids</h2>
+<div class="owned-grids">
+  <% @user.user_grid_visibilities.each do |visibility| %>
+    <% if visibility.visibility >= 6 %> <!-- Show grids that are purchased -->
+      <div class="grid">
+        <h3><%= visibility.grid.name %></h3>
+      </div>
+    <% end %>
   <% end %>
 </div>

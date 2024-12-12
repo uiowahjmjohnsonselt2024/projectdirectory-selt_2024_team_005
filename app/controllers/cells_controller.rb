@@ -16,7 +16,7 @@ class CellsController < ApplicationController
 
     # Respond with the disaster message and any other necessary data (e.g., cell info)
     respond_to do |format|
-      format.json { render json: { disaster_message: disaster_message, cell: @cell } }
+      format.json { render json: { disaster_message: disaster_message, current_hp: @character.current_hp, cell: @cell } }
     end
   end
 
@@ -35,8 +35,6 @@ class CellsController < ApplicationController
     if disaster_ward_item
       disaster_threshold = disaster_threshold / 2.0
     end
-    puts disaster_threshold
-
     if rand < disaster_threshold
       damage = 15
       @character = Character.find_by(username: @user.username)

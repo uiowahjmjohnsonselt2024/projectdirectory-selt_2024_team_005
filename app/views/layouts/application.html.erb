@@ -4,7 +4,6 @@
     <title><%= content_for(:title) || "Shards Of The Grid With Saas Principles" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" cogit ntent="yes">
-    <%= javascript_include_tag 'application', 'data-turbo-track': 'reload' %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -24,7 +23,7 @@
     (controller_name == 'password_resets' && (action_name == 'new' || action_name == 'create' || action_name == 'edit') ||
     (controller_name == 'users' && (action_name == 'create' || action_name == 'new' || action_name == 'edit')) ) %>
     <header>
-      <h1 class="main_header">Group 5 Game</h1>
+      <h1 class="main_header"><strong>SHARDS OF THE GRID </strong></h1>
     </header>
   <% end %>
   <% unless (controller_name == 'sessions' && action_name == 'new') ||

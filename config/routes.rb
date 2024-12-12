@@ -42,14 +42,22 @@ Rails.application.routes.draw do
     post "buy", to: "store#buy_item", as: "buy_item"
   end
 
+  resources :store, only: [] do
+    post "buy_grid", on: :collection
+  end
+  post "store/:username/buy_grid/:id", to: "store#buy_grid", as: "buy_grid"
   # Character create and update
   post "create_character", to: "characters#create", as: "create_character"
   resources :characters, param: :username, only: [ :new, :create, :update ] do
     member do
       post "bribe_monster"
       post "fight_monster"
+      get "monster_ascii", to: "characters#get_monster_ascii"
     end
   end
+
+  post "characters/:username/teleport", to: "characters#teleport", as: "teleport_character"
+
 
 
 
@@ -57,6 +65,7 @@ Rails.application.routes.draw do
   resources :grids do
     member do
       patch :expand
+      patch "go_to"
     end
     resources :cells, only: [] do
       member do

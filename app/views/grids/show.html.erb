@@ -1,3 +1,4 @@
+<body class="chat-page" data-room-id="<%= @grid.name %>" data-current-character-name="<%= @character.character_name %>">
 <!-- app/views/grids/show.html.erb -->
 <h1 style="text-align: center;"><%= @grid.name %></h1>
 
@@ -9,7 +10,7 @@
       </h2>
       <p><strong>HP:</strong> <span id="character-current-hp"><%= @character.current_hp %></span> / <%= @character.max_hp %></p>
       <p><strong>EXP:</strong> <span id="character-current-exp"><%= @character.current_exp %></span> / <span id="character-exp-to-level"><%= @character.exp_to_level %></span></p>
-      <p><strong>Shards:</strong> <%= @user.shard_balance %></p>
+      <p><strong>Shards:</strong> <span id="shard-balance"><%= @user.shard_balance %></span></p>
 
       <div class="equipped-item">
         <%= image_tag(@weapon.icon, class: 'equipped-item-icon', style: "background-color: #{@weapon.rarity_color};") %>
@@ -71,7 +72,7 @@
       </div>
 
       <% if @visibility < Grid::GRID_SIZE %>
-        <%= button_to 'Expand (costs 10 shards)', expand_grid_path(@grid), method: :patch, class: 'expand-button' %>
+        <%= button_to 'Expand (costs 10 shards)', expand_grid_path(@grid), method: :patch, class: 'shards-button' %>
       <% else %>
         <p>Maximum grid size reached.</p>
       <% end %>
@@ -88,7 +89,9 @@
                  data-cell-id="<%= cell.id %>">
               <%= cell.cell_loc %>
               <% if @character && @character.cell_id == cell.cell_id %>
-                <div class="character" data-character-id="<%= @character.id %>" >
+                <div class="character"
+                     data-character-id="<%= @character.character_name %>"
+                     data-character-hp="<%= @character.current_hp %>">
                   <%= @character.character_name %>
                 </div>
               <% end %>
@@ -106,3 +109,170 @@
     </div>
   </div>
 </div>
+
+<div class="controls-container">
+  <div class="toggle-container">
+    <span>Online Mode</span>
+    <label class="switch">
+      <input type="checkbox" id="online-mode-toggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="chat-selector">
+    <label for="chat-type-selector">Chat Type:</label>
+    <select id="chat-type-selector" class="styled-select">
+      <option value="world">World Chat</option>
+      <option value="room">Room Chat</option>
+    </select>
+  </div>
+</div>
+
+<div id="messages" class="chat-messages">
+</div>
+
+<form id="chat-form" class="chat-form">
+  <input
+    type="text"
+    id="chat-input"
+    placeholder="Type your message..."
+    class="chat-input"
+    />
+  <button type="submit" class="chat-send-button">Send</button>
+</form>
+</body>
+
+<!-- Styles for Chat -->
+<style>
+    /* Chat Messages Area */
+    .chat-messages {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        padding: 10px;
+        height: 200px; /* Adjusted height */
+        overflow-y: scroll;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+    }
+
+    /* Chat Form */
+    .chat-form {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    /* Chat Input */
+    .chat-input {
+        flex: 1;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Chat Send Button */
+    .chat-send-button {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .chat-send-button:hover {
+        background-color: #218838;
+    }
+
+    .controls-container {
+        display: flex;
+        justify-content: space-between; /* Adjust spacing between elements */
+        align-items: center;
+        gap: 20px; /* Space between the toggle and selector */
+        margin-bottom: 20px;
+        flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    }
+
+    /* Toggle Button Styles */
+    .toggle-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 16px;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 26px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 26px;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+    }
+
+    input:checked + .slider {
+        background-color: #28a745;
+    }
+
+    input:checked + .slider:before {
+        transform: translateX(24px);
+    }
+
+    /* Chat Type Selector Styles */
+    .chat-selector {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 16px;
+    }
+
+    .styled-select {
+        appearance: none;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        padding: 8px 12px;
+        font-size: 14px;
+        background: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6"%3E%3Cpath fill="%23ccc" d="M0 0l5 6 5-6z"/%3E%3C/svg%3E') no-repeat right 10px center;
+        background-color: #f8f9fa;
+        background-size: 10px 6px;
+        width: 150px;
+        cursor: pointer;
+    }
+
+    .styled-select:hover {
+        border-color: #28a745;
+    }
+</style>
