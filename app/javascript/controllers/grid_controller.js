@@ -758,13 +758,14 @@ export default class extends Controller {
                 }
 
             })
-            .finally(() => {
+            /*.finally(() => {
                 // After everything is done, reload the page
                 window.location.reload();
-            })
+            })*/
     }
 
     updateUIAfterTeleport(selectedCell){
+
 
     }
 
