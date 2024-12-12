@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_25_052111) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_07_060056) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -68,9 +68,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_25_052111) do
   create_table "items", primary_key: "item_id", id: :serial, force: :cascade do |t|
     t.integer "itemable_id", null: false
     t.string "itemable_type", null: false
-    t.integer "cost", null: false
+    t.integer "cost", default: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "rarity", default: 1, null: false
+    t.integer "level", default: 1, null: false
     t.index ["item_id"], name: "index_items_on_item_id", unique: true
     t.index ["itemable_type", "itemable_id"], name: "index_items_on_itemable_type_and_itemable_id"
   end
