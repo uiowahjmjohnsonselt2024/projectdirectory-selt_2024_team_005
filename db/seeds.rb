@@ -19,23 +19,31 @@ end
 # @cell = Cell.find_or_create_by!(cell_id: 1, cell_loc: '1A', mons_prob: 0.3, disaster_prob: 0.3, weather: 'Sunny',
 #                                 terrain: 'desert', has_store: true, grid_id: @grid.grid_id)
 @first_cell = @grid.cells.order(:cell_id).first
-@wooden_sword = Weapon.find_or_create_by!(name: 'Wooden Sword', atk_bonus: 30)
-@leather_armor = Armor.find_or_create_by!(name: 'Leather Armor', def_bonus: 10)
-@health_potion_xs = Potion.find_or_create_by!(name: 'Health Potion XS', hp_regen: 10)
-@disaster_ward = Potion.find_or_create_by!(name: 'Catastrophe Ward', hp_regen: 5)
-@item1 = Item.find_or_create_by!(itemable: @wooden_sword, cost: 1)
-@item2 = Item.find_or_create_by!(itemable: @leather_armor, cost: 1)
-@item3 = Item.find_or_create_by!(itemable: @health_potion_xs, cost: 1)
-@item4 = Item.find_or_create_by!(itemable: @disaster_ward, cost: 10)
+@item1 = Item.find_or_create_by!(itemable: Weapon.create!(name: 'Wooden Sword', atk_bonus: 1), cost: 1) # default weapon
+@item2 = Item.find_or_create_by!(itemable: Armor.create!(name: 'Leather Armor', def_bonus: 1), cost: 1) # default armor
+@item3 = Item.find_or_create_by!(itemable: Potion.create!(name: 'Health Potion XS', hp_regen: 10), cost: 1) # basic potion
+@item4 = FactoryBot.create(:item, :weapon)
+@item5 = FactoryBot.create(:item, :weapon)
+@item6 = FactoryBot.create(:item, :weapon)
+@item7 = FactoryBot.create(:item, :armor)
+@item8 = FactoryBot.create(:item, :armor)
+@item9 = FactoryBot.create(:item, :armor)
+@item10 = FactoryBot.create(:item, :potion)
+@item11 = FactoryBot.create(:item, :potion)
+@item12 = FactoryBot.create(:item, :potion)
+@weapon1 = Weapon.create!(name: 'OP Sword', atk_bonus: 10)
+@item13 = Item.create(itemable: @weapon1, level: 50, rarity: 5)
 
-@inventory1 = Inventory.find_or_create_by!(inv_id: 1, items: [ @item1.item_id, @item2.item_id, @item3.item_id, @item4.item_id ])
+unless @item13.persisted?
+  puts @item13.errors.full_messages
+end
+
+@inventory1 = Inventory.find_or_create_by!(inv_id: 1, items: [ @item4.item_id, @item5.item_id, @item7.item_id, @item10.item_id ])
 # Tips: We can't directly specify the cell_id as @cell.cell_id, cause cells are generated after creating grid
 # For now just set it as 1000 for simple, this should be modified as we need store characters last location
-@character1 = Character.find_or_create_by!(username: @user.username, character_name: 'Hawkeye', level: 1, grid_id: @grid.grid_id,
-                                           cell_id: @first_cell.cell_id, inv_id: @inventory1.inv_id) do |character|
-  character.current_hp = character.max_hp
-  character.current_exp = 0
-end
+@character1 = Character.find_or_create_by!(username: @user.username, character_name: 'Hawkeye', level: 50, grid_id: @grid.grid_id,
+                                           cell_id: @first_cell.cell_id, inv_id: @inventory1.inv_id, current_hp: 400)
+@character1.update(current_hp: 3000)
 
 @inventory2 = Inventory.find_or_create_by!(inv_id: 2, items: [ @item1.item_id, @item2.item_id ])
 @user2 = User.find_or_create_by!(username: 'abcd2', email: 'student2@uiowa.edu') do |user|
