@@ -16,7 +16,7 @@ class InventoryController < GridsController
     respond_to do |format|
       format.js # Renders use_item.js.erb
       format.json { render json: { success: true, current_hp: @character.current_hp, inventory: @inventory } }
-      format.html { redirect_to grids_path, notice: "#{item.name} used successfully." }
+      format.html { redirect_to use_item_inventory_index_path }
     end
   end
 
@@ -26,7 +26,7 @@ class InventoryController < GridsController
     respond_to do |format|
       format.js # Renders use_item.js.erb
       format.json { render json: { success: true, inventory: @inventory } }
-      format.html { redirect_to grids_path, notice: "Item discarded successfully." }
+      format.html { redirect_to discard_item_inventory_index_path }
     end
   end
 
