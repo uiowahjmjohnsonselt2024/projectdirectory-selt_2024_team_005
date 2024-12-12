@@ -122,6 +122,8 @@ class CharactersController < ApplicationController
         @character.exp_to_level = calculate_new_exp_to_level(@character.level)
         level_ups += 1
       end
+      # Possible shards given to player
+      @user.shard_balance += rand(1..5)
       @character.current_hp = character_hp
       @character.save
     elsif character_hp <= 0 && monster_hp > 0
@@ -145,6 +147,7 @@ class CharactersController < ApplicationController
       level_ups: level_ups,
       current_exp: @character.current_exp,
       exp_to_level: @character.exp_to_level,
+      shard_balance: @user.shard_balance,
       level: @character.level
     }, status: :ok
   end
@@ -188,7 +191,6 @@ class CharactersController < ApplicationController
     # Example: EXP required increases by 100 each level
     level * 100
   end
-
   def set_character
     @user = User.find_by(username: session[:username])
     if @user.nil?

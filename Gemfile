@@ -45,7 +45,7 @@ gem "thruster", require: false
 
 # For GPT
 # gem "httparty", require: false
-gem "ruby-openai", require: false
+gem "ruby-openai", require: true
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
