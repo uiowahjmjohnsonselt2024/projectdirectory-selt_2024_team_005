@@ -743,7 +743,7 @@ export default class extends Controller {
             .then((data) => {
                 if (data.status === "ok") {
                     // Successfully teleported, update the shard balance
-                    this.updateShardBalance(-5);
+                    this.updateShardBalance(-teleportCost);
 
                     // Move the user to the new position on the grid (visually)
                     this.moveToCell(selectedCell);
@@ -762,10 +762,9 @@ export default class extends Controller {
                 // After everything is done, reload the page
                 window.location.reload();
             })
-            // .catch((error) => {
-            //     console.error("Error teleporting:", error);
-            //     alert("Teleportation failed. Please try again later.");
-            // });
+    }
+
+    updateUIAfterTeleport(selectedCell){
 
     }
 
