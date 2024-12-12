@@ -742,9 +742,8 @@ export default class extends Controller {
             .then((response) => response.json())
             .then((data) => {
                 if (data.status === "ok") {
-                    // Successfully teleported, update the shard balance
-                    this.updateShardBalance(-teleportCost);
-
+                    // Helper function for refresher w/out page refreshing
+                    this.updateUIAfterTeleport(selectedCell);
                     // Move the user to the new position on the grid (visually)
                     this.moveToCell(selectedCell);
 
@@ -765,6 +764,8 @@ export default class extends Controller {
     }
 
     updateUIAfterTeleport(selectedCell){
+        this.updateShardBalance(-5);
+
 
 
     }
