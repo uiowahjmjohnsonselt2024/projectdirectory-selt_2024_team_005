@@ -13,8 +13,8 @@ class Character < ApplicationRecord
   private
 
   def set_default_equipment
-    self.weapon_item_id ||= Item.find_by(itemable_type: "Weapon", itemable_id: 1).id
-    self.armor_item_id ||= Item.find_by(itemable_type: "Armor", itemable_id: 1).id
+    self.weapon_item_id ||= Item.find_by(itemable_type: "Weapon", itemable_id: 1).item_id
+    self.armor_item_id ||= Item.find_by(itemable_type: "Armor", itemable_id: 1).item_id
   end
 
   def take_disaster_damage(amount)

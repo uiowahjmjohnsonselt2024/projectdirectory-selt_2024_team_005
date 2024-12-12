@@ -1,7 +1,13 @@
 class Armor < ApplicationRecord
   has_one :item, as: :itemable
 
-  after_initialize :set_default_description, if: :new_record?
+  before_save :set_default_description, if: :new_record?
+
+  def update_def_bonus
+    self.def_bonus *= item.level * item.rarity
+    self.description = "DEF +#{self.def_bonus}"
+    save!
+  end
 
   private
 

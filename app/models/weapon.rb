@@ -1,7 +1,13 @@
 class Weapon < ApplicationRecord
   has_one :item, as: :itemable
 
-  after_initialize :set_default_description, if: :new_record?
+  before_save :set_default_description, if: :new_record?
+
+  def update_atk_bonus
+    self.atk_bonus *= item.level * item.rarity
+    self.description = "ATK +#{self.atk_bonus}"
+    save!
+  end
 
   private
 
