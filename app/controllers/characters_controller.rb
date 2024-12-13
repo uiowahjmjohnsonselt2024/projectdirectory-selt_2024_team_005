@@ -35,6 +35,8 @@ class CharactersController < ApplicationController
 
     # Call an internal method that uses ChatGPT API to generate ASCII
     ascii = generate_monster_ascii(weather, terrain)
+
+
     print(ascii)
 
     if ascii
@@ -219,41 +221,43 @@ class CharactersController < ApplicationController
     # return response.ascii_monster
     #
     # For demonstration, returning a static ASCII:
-    askai("Returns ONLY the ASCII code (15 lines at most) to draw an RPG monster with #{terrain} and #{weather} weather. No explanations necessary.")
-    #     ascii = "
-    #            ___
-    #          .-'   `-.
-    #         /         \
-    #        |           |
-    #        |   O   O   |
-    #        |     ^     |
-    #        |    '-'    |
-    #         \         /
-    #          `._   _.'
-    #             `-'
-    #            /   \
-    #        ___|_____|___
-    #      /    \   /    \
-    #     /      \ /      \
-    #    |   ____|____    |
-    #    |  /          \   |
-    #    | /            \  |
-    #    |/______________\_|
-    #    /  |  |    |  |  \
-    #   /   |  |    |  |   \
-    #  /____|__|____|__|____\
-    #
-    #    ~~~~~~~~~~~~~~~
-    #    ~   ~ ~ ~ ~ ~ ~ ~
-    #     ~ ~ ~ ~ ~ ~ ~ ~ ~
-    #        ~ ~ ~ ~ ~ ~
-    #
-    # "
+    # ascii = askai("Returns ONLY the ASCII code (15 lines at most) to draw an RPG monster with #{terrain} and #{weather} weather. No explanations necessary.")
+        ascii = "
+               ___
+             .-'   `-.
+            /         \
+           |           |
+           |   O   O   |
+           |     ^     |
+           |    '-'    |
+            \         /
+             `._   _.'
+                `-'
+               /   \
+           ___|_____|___
+         /    \   /    \
+        /      \ /      \
+       |   ____|____    |
+       |  /          \   |
+       | /            \  |
+       |/______________\_|
+       /  |  |    |  |  \
+      /   |  |    |  |   \
+     /____|__|____|__|____\
+
+       ~~~~~~~~~~~~~~~
+       ~   ~ ~ ~ ~ ~ ~ ~
+        ~ ~ ~ ~ ~ ~ ~ ~ ~
+           ~ ~ ~ ~ ~ ~
+
+    "
+    return ascii
   end
 
   def askai(prompt)
+    api_key=" "
     client = OpenAI::Client.new(
-      access_token: ENV["OPENAI_KEY"],
+      access_token: api_key,
       log_errors: true # Highly recommended in development, so you can see what errors OpenAI is returning. Not recommended in production because it could leak private data to your logs.
     )
     print("MODEL LIST:", client.models.list)

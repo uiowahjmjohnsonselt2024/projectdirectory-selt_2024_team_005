@@ -1,3 +1,4 @@
+require "openai"
 class CellsController < ApplicationController
   before_action :set_cell, only: [ :show, :update ]
   before_action :set_user
@@ -20,7 +21,50 @@ class CellsController < ApplicationController
     end
   end
 
+  def generate_image
+    @cell = Cell.find(params[:id])
+
+    image_url = generate_cell_image(@cell)
+
+    if image_url
+      render json: { image_url: image_url }
+    else
+      render json: { error: "Image generation failed" }, status: :unprocessable_entity
+    end
+  end
+
   private
+
+  def generate_cell_image(cell)
+    api_key=" "
+    client = OpenAI::Client.new(
+      access_token: api_key,
+      log_errors: true # Highly recommended in development, so you can see what errors OpenAI is returning. Not recommended in production because it could leak private data to your logs.
+    )
+    prompt = "A detailed fantasy map of a location with #{cell.terrain} terrain and #{cell.weather} weather."
+    puts prompt
+
+    begin
+      response = client.images.generate(
+        parameters: {
+          prompt: prompt,
+          n: 1,
+          size: "512x512"
+        }
+      )
+      if response["data"] && response["data"].any?
+        return response["data"].first["url"]
+      else
+        Rails.logger.error "No image data returned from OpenAI."
+        return nil
+      end
+    rescue => e
+      Rails.logger.error "Error generating image: #{e.message}"
+      return nil
+    end
+    "https://example.com/generated_image_for_cell_#{cell.id}.png"
+  end
+
   def check_for_disaster(cell)
     disaster_threshold = cell[:disaster_prob]
     @character = Character.find_by(username: @user.username)
@@ -44,6 +88,7 @@ class CellsController < ApplicationController
       "A disaster has occurred! <br> You lost #{damage} HP due to the disaster."
     end
   end
+
   def set_user
     @user = User.find_by(username: session[:username])
   end

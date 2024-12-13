@@ -145,11 +145,31 @@ export default class extends Controller {
           <p><strong>Terrain:</strong> ${data.terrain}</p>
            <button class="teleport-btn" data-cell-id="${cellId}">Teleport</button>
            <p><strong>NOTE:</storng> Teleporting costs 5 shards.</p>
+           <div id="generated-image-container">
+            <p>Loading image...</p>
+          </div>
         `;
 
                 // Add event listener for teleport button
                 const teleportButton = this.detailsTarget.querySelector(".teleport-btn");
                 teleportButton.addEventListener("click", (e) => this.handleTeleport(e, cell));
+
+                // Fetch the generated image for the cell
+                fetch(`/cells/${cellId}/generate_image`)
+                    .then(imageResponse => imageResponse.json())
+                    .then(imageData => {
+                        const imageContainer = this.detailsTarget.querySelector("#generated-image-container");
+                        if (imageData.image_url) {
+                            imageContainer.innerHTML = `<img src="${imageData.image_url}" alt="Generated Cell Image">`;
+                        } else {
+                            imageContainer.innerHTML = `<p>Image could not be generated.</p>`;
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error generating image:", error);
+                        const imageContainer = this.detailsTarget.querySelector("#generated-image-container");
+                        imageContainer.innerHTML = `<p>Error generating image.</p>`;
+                    });
 
                 // Call the "highlightSelectedCell" method to highlight the selected cell
                 this.highlightSelectedCell(cell);
