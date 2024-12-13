@@ -64,7 +64,7 @@ Rails.application.routes.draw do
   # Grid and Cell routes
   resources :grids do
     member do
-      patch :expand
+      post :expand
       patch "go_to"
     end
     resources :cells, only: [] do
