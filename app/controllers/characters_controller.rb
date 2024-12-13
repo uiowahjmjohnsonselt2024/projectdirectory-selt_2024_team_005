@@ -110,6 +110,8 @@ class CharactersController < ApplicationController
     # Initialize variables
     exp_gain = 0
     level_ups = 0
+    shard_reward = 0
+
 
     # Determine outcome and update character's stats accordingly
     if character_hp > 0 && monster_hp <= 0
@@ -117,6 +119,8 @@ class CharactersController < ApplicationController
       # Calculate EXP gain
       exp_gain = monster_atk * monster_def
       @character.current_exp += exp_gain
+      shard_reward = 1 + (monster_atk + monster_def) / 15
+
       # Level up if necessary
       while @character.current_exp >= @character.exp_to_level
         @character.current_exp -= @character.exp_to_level
@@ -124,8 +128,11 @@ class CharactersController < ApplicationController
         @character.exp_to_level = calculate_new_exp_to_level(@character.level)
         level_ups += 1
       end
+      # Possible shards given to player after a winning battle
+      @user.shard_balance += shard_reward
       @character.current_hp = character_hp
       @character.save
+      @user.save
     elsif character_hp <= 0 && monster_hp > 0
       outcome = "lose"
       @character.current_hp = 0
@@ -144,6 +151,7 @@ class CharactersController < ApplicationController
       outcome: outcome,
       battle_log: battle_log,
       exp_gain: exp_gain,
+      shard_reward: shard_reward,
       level_ups: level_ups,
       current_exp: @character.current_exp,
       exp_to_level: @character.exp_to_level,
