@@ -49,7 +49,6 @@ class CellsController < ApplicationController
 =end
 
 
-
     # api_key=" "
     client = OpenAI::Client.new(
       access_token: api_key,
