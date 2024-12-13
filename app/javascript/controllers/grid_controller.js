@@ -269,8 +269,8 @@ export default class extends Controller {
             .then(response => response.json())
             .then(data => {
                 const gridContainer = document.getElementById("grid-container");
-                if (gridContainer && data.background_image_url) {
-                    gridContainer.style.backgroundImage = `url('${"test-grid-background.jpg"}')`;
+                if (gridContainer && data.image_url) {
+                    gridContainer.style.backgroundImage = `url('${data.image_url}')`;
                     gridContainer.style.backgroundSize = "cover";
                     gridContainer.style.backgroundPosition = "center";
                 }
