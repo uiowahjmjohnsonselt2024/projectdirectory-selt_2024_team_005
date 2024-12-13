@@ -41,6 +41,7 @@
 }
 
 .grid {
+    /* background-image: url("test-grid-background.jpg"); */
     display: grid;
     gap: 1px;
     padding: 10px;

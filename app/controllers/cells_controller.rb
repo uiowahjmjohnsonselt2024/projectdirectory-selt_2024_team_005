@@ -36,6 +36,7 @@ class CellsController < ApplicationController
   private
 
   def generate_cell_image(cell)
+    return helpers.asset_url("test-grid-background.jpg")
 
 
 =begin
