@@ -1,4 +1,4 @@
-class UpdateItemsTable < ActiveRecord::Migration[7.2]
+class UpdateItemsTableForPolymorphic < ActiveRecord::Migration[7.2]
   def change
     remove_column :items, :name, :string
     remove_column :items, :category, :string
