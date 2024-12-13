@@ -36,7 +36,7 @@ class Grid < ApplicationRecord
         cells_in_grid << {
           cell_id: cell_id,
           cell_loc: cell_loc,
-          mons_prob: 0.18,
+          mons_prob: 0.99,
           disaster_prob: 0.15,
           weather: weather,
           terrain: terrain,

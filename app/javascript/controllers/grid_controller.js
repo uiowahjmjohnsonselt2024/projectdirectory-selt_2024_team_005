@@ -585,7 +585,7 @@ export default class extends Controller {
                         document.body.removeChild(monsterPrompt);
                         // Reset the flag when the prompt is dismissed
                         this.isMonsterPromptActive = false;
-                        this.updateShardBalance(-10);
+                        this.updateShardBalanceTeleport(-10);
                     } else {
                         // Display error message
                         const errorMessageDiv = document.getElementById("monster-error-message");
@@ -638,7 +638,7 @@ export default class extends Controller {
             .then((response) => response.json())
             .then((data) => {
                 if (data.status === "ok") {
-                    this.updateShardBalance(data.shard_balance);
+                    // this.updateShardBalanceTeleport(-10);
                     return data;
                 } else {
                     throw new Error("Failed to bribe the monster");
@@ -650,17 +650,18 @@ export default class extends Controller {
             });
     }
 
-    updateShardBalance(newBalance) {
-        console.log("updateShardBalance called with:", newBalance);
-        const shardBalanceElement = document.getElementById("shard-balance");
-        if (shardBalanceElement) {
-            shardBalanceElement.textContent = newBalance;
-            console.log("Shard balance updated without reloading the page.");
-        } else {
-            console.error("No shard-balance element found!");
-        }
-        window.location.reload();
-    }
+    // unused currently but keeping because had been in functionality
+    // updateShardBalance(newBalance) {
+    //     console.log("updateShardBalance called with:", newBalance);
+    //     const shardBalanceElement = document.getElementById("shard-balance");
+    //     if (shardBalanceElement) {
+    //         shardBalanceElement.textContent = newBalance;
+    //         console.log("Shard balance updated without reloading the page.");
+    //     } else {
+    //         console.error("No shard-balance element found!");
+    //     }
+    //     // window.location.reload();
+    // }
 
     // app/javascript/controllers/grid_controller.js
     fightMonster() {
@@ -813,11 +814,11 @@ export default class extends Controller {
             .then((data) => {
                 if (data.status === "ok") {
                     // Successfully teleported, update the shard balance
-                    this.updateShardBalance(-5);
+                    this.updateShardBalanceTeleport(-5);
 
                     // Move the user to the new position on the grid (visually)
                     // this.moveToCell(selectedCell);
-
+                    this.updateUIAfterTeleport(data.new_cell_id);
 
                     // Optionally, you could show a success message or alert
                     // alert(`Teleportation successful! You have moved to cell ${data.new_cell_id}. Shards deducted.`);
@@ -851,6 +852,53 @@ export default class extends Controller {
     //     // You might also want to update the user's grid position in your game state
     //     user.dataset.cellId = selectedCell.getAttribute("data-cell-id");
     // }
+
+    updateUIAfterTeleport(newCellId) {
+        const characterElement = document.querySelector('.character');
+
+        if (characterElement) {
+            // Update the character's position visually by moving to the new cell
+            const newCellElement = document.querySelector(`[data-cell-id="${newCellId}"]`);
+
+            if (newCellElement) {
+                // Move the character element to the new cell
+                newCellElement.appendChild(characterElement);
+
+                // Update the character's data attribute to reflect the new cell location
+                characterElement.setAttribute('data-current-cell', newCellId);
+
+                console.log(`Character successfully moved to cell ${newCellId}`);
+            } else {
+                console.error(`Cell with id ${newCellId} not found!`);
+            }
+        } else {
+            console.error("Character element not found!");
+        }
+    }
+
+    updateShardBalanceTeleport(delta) {
+        console.log("updateShardBalance called with delta:", delta);
+
+        const shardBalanceElement = document.getElementById("shard-balance");
+
+        if (shardBalanceElement) {
+            // Parse the current shard balance and apply the delta
+            let currentBalance = parseInt(shardBalanceElement.textContent, 10);
+
+            if (isNaN(currentBalance)) {
+                console.error("Current shard balance is invalid.");
+                return;
+            }
+
+            // Update the balance
+            const newBalance = currentBalance + delta;
+            shardBalanceElement.textContent = newBalance;
+
+            console.log(`Shard balance updated to ${newBalance} without reloading the page.`);
+        } else {
+            console.error("No shard-balance element found!");
+        }
+    }
 
 }
 
