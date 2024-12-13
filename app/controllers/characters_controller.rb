@@ -223,13 +223,13 @@ class CharactersController < ApplicationController
   end
 
   def generate_monster_ascii(weather, terrain)
-    # This method should call the ChatGPT API and return ASCII monster based on weather and terrain.
-    # prompt = "Given a weather condition '#{weather}' and terrain '#{terrain}', generate a single ASCII art monster..."
-    # response = ChatGPTApi.call(prompt)
-    # return response.ascii_monster
-    #
-    # For demonstration, returning a static ASCII:
-    # ascii = askai("Returns ONLY the ASCII code (15 lines at most) to draw an RPG monster with #{terrain} and #{weather} weather. No explanations necessary.")
+        # This method should call the ChatGPT API and return ASCII monster based on weather and terrain.
+        # prompt = "Given a weather condition '#{weather}' and terrain '#{terrain}', generate a single ASCII art monster..."
+        # response = ChatGPTApi.call(prompt)
+        # return response.ascii_monster
+        #
+        # For demonstration, returning a static ASCII:
+        # ascii = askai("Returns ONLY the ASCII code (15 lines at most) to draw an RPG monster with #{terrain} and #{weather} weather. No explanations necessary.")
         ascii = "
                ___
              .-'   `-.
@@ -259,7 +259,7 @@ class CharactersController < ApplicationController
            ~ ~ ~ ~ ~ ~
 
     "
-    return ascii
+    ascii
   end
 
   def askai(prompt)
