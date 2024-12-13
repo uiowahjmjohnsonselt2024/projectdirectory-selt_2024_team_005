@@ -6,6 +6,6 @@ class UpdateItemsForPolymorphic < ActiveRecord::Migration[7.2]
     add_column :items, :itemable_id, :integer, null: false
     add_column :items, :itemable_type, :string, null: false
 
-    add_index :items, [:itemable_type, :itemable_id], name: "index_items_on_itemable_type_and_itemable_id"
+    add_index :items, [ :itemable_type, :itemable_id ], name: "index_items_on_itemable_type_and_itemable_id"
   end
 end

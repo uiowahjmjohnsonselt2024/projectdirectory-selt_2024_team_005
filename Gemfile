@@ -51,10 +51,10 @@ gem "ruby-openai", require: false
 # gem "image_processing", "~> 1.2"
 
 # Create table entries for testing
-gem 'factory_bot_rails'
+gem "factory_bot_rails"
 
 # Generate random names for items
-gem 'faker'
+gem "faker"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

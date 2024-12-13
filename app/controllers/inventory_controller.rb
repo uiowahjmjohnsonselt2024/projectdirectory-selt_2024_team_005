@@ -40,7 +40,7 @@ class InventoryController < GridsController
   def use_potion(item)
     potion = item.itemable
 
-    @character.current_hp = [@character.max_hp, @character.current_hp + potion.hp_regen].min
+    @character.current_hp = [ @character.max_hp, @character.current_hp + potion.hp_regen ].min
 
     @inventory.remove_item(params[:index].to_i)
 

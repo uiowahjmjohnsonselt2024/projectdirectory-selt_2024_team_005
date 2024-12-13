@@ -9,7 +9,7 @@ describe InventoryController, type: :controller do
   let(:item3) { create(:item, itemable: create(:weapon, name: 'Iron Sword', atk_bonus: 5)) }
   let(:item4) { create(:item, itemable: create(:armor, name: 'Bronze Armor', def_bonus: 4)) }
   let(:item5) { create(:item, itemable: create(:potion, name: 'Health Potion XS', hp_regen: 10)) }
-  let(:inventory) { create(:inventory, items: [item3.item_id, item4.item_id, item5.item_id]) }
+  let(:inventory) { create(:inventory, items: [ item3.item_id, item4.item_id, item5.item_id ]) }
   let(:user) { create(:user, username: 'fake_user', email: 'fake_user@uiowa.edu', password: '54321') }
   let(:character) do
     create(:character,
@@ -38,7 +38,7 @@ describe InventoryController, type: :controller do
       end
       it 'replenishes character HP' do
         character.reload
-        expect(character.current_hp).to eq([character.max_hp, character.current_hp + item5.hp_regen].min)
+        expect(character.current_hp).to eq([ character.max_hp, character.current_hp + item5.hp_regen ].min)
       end
 
       it 'removes the item from the inventory' do
@@ -83,7 +83,7 @@ describe InventoryController, type: :controller do
     it 'should remove the item from the character\s inventory' do
       post :discard_item, params: { index: 0 }
       inventory.reload
-      expect(inventory.items).to eq( [item4.item_id, item5.item_id, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil] )
+      expect(inventory.items).to eq([ item4.item_id, item5.item_id, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ])
     end
   end
 end

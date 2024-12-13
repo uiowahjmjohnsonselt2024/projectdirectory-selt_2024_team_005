@@ -43,11 +43,11 @@ class Item < ApplicationRecord
 
   def update_itemable_attributes
     case itemable_type
-    when 'Weapon'
+    when "Weapon"
       itemable.update_atk_bonus
-    when 'Armor'
+    when "Armor"
       itemable.update_def_bonus
-    when 'Potion'
+    when "Potion"
       itemable.update_hp_regen
     end
   end
