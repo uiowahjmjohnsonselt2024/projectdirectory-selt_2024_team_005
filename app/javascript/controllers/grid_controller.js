@@ -260,7 +260,22 @@ export default class extends Controller {
             if (this.isOnlineMode && this.multiplayerChannel) {
                 this.multiplayerChannel.perform("update_position", { cell_id: newCellId });
             }
+            this.updateGridBackground(newCellId);
         }
+    }
+
+    updateGridBackground(cellId){
+        fetch(`/grid_background/${cellId}`)
+            .then(response => response.json())
+            .then(data => {
+                const gridContainer = document.getElementById("grid-container");
+                if (gridContainer && data.background_image_url) {
+                    gridContainer.style.backgroundImage = `url('${"projectdirectory-selt_2024_team_005/assets/stylesheets/test-grid-background.jpg"}')`;
+                    gridContainer.style.backgroundSize = "cover";
+                    gridContainer.style.backgroundPosition = "center";
+                }
+            })
+            .catch(error => console.error("Failed to fetch background image:", error));
     }
 
     addCharacterToGrid(character) {
