@@ -880,27 +880,21 @@ export default class extends Controller {
 
     updateShardBalanceTeleport(delta) {
         console.log("updateShardBalance called with delta:", delta);
-
         const shardBalanceElement = document.getElementById("shard-balance");
-
         if (shardBalanceElement) {
             // Parse the current shard balance and apply the delta
             let currentBalance = parseInt(shardBalanceElement.textContent, 10);
-
             if (isNaN(currentBalance)) {
                 console.error("Current shard balance is invalid.");
                 return;
             }
-
             // Update the balance
             const newBalance = currentBalance + delta;
             shardBalanceElement.textContent = newBalance;
-
             console.log(`Shard balance updated to ${newBalance} without reloading the page.`);
         } else {
             console.error("No shard-balance element found!");
         }
     }
-
 }
 
