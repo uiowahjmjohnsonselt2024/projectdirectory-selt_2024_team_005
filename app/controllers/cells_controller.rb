@@ -36,6 +36,9 @@ class CellsController < ApplicationController
   private
 
   def generate_cell_image(cell)
+
+
+=begin
     api_key=" "
     client = OpenAI::Client.new(
       access_token: api_key,
@@ -63,6 +66,7 @@ class CellsController < ApplicationController
       return nil
     end
     "https://example.com/generated_image_for_cell_#{cell.id}.png"
+=end
   end
 
   def check_for_disaster(cell)
