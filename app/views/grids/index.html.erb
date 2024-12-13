@@ -9,7 +9,7 @@
 <% end %>
 
 <% if @user.current_grid_id == @grid.id %>
-  <div id="grid-container" style="background-image: url('<%= "test-grid-background.jpg" %>');">
+  <div id="grid-container" style="background-image: url('<%= data.image_url %>');">
 <% else %>
   <div id="grid-container">
   </div>
@@ -165,5 +165,13 @@
         border: 2px solid #ccc;
         margin-top: 10px;
     }
+
+    #grid-container {
+        width: 100%; /* Adjust as necessary */
+        height: 100%; /* Adjust as necessary */
+        background-size: cover;
+        background-position: center;
+    }
+
 
 </style>

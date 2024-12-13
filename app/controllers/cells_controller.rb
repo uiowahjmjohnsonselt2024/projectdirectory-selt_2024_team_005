@@ -53,7 +53,7 @@ class CellsController < ApplicationController
       access_token: api_key,
       log_errors: true # Highly recommended in development, so you can see what errors OpenAI is returning. Not recommended in production because it could leak private data to your logs.
     )
-    prompt = "A detailed fantasy setting of a location with #{cell.terrain} terrain and #{cell.weather} weather from a first person perspective."
+    prompt = "A detailed fantasy setting of a location with #{cell.terrain} terrain and #{cell.weather} weather from a wide first person perspective."
     puts prompt
 
     begin

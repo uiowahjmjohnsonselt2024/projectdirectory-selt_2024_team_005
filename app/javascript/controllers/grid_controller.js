@@ -241,8 +241,10 @@ export default class extends Controller {
                 return;
         }
 
+
         const newCellId = gridId * 10000 + row * 100 + col;
         const newCell = document.querySelector(`[data-cell-id='${newCellId}']`);
+
 
         // Check
         if (newCellId === currentCellId) {
@@ -261,15 +263,70 @@ export default class extends Controller {
                 this.multiplayerChannel.perform("update_position", { cell_id: newCellId });
             }
             this.updateGridBackground(newCellId);
+
         }
     }
 
     updateGridBackground(cellId){
-        fetch(`/cells/${cellId}/generate_image`)
+
+        fetch(`/cells/${cellId}`)
             .then(response => response.json())
             .then(data => {
+                this.detailsTarget.innerHTML = `
+          <p><strong>Weather:</strong> ${data.weather}</p>
+          <p><strong>Terrain:</strong> ${data.terrain}</p>
+           <button class="teleport-btn" data-cell-id="${cellId}">Teleport</button>
+           <p><strong>NOTE:</storng> Teleporting costs 5 shards.</p>
+           <div id="generated-image-container">
+            <p>Loading image...</p>
+          </div>
+        `;
+                document.addEventListener("keydown", (e) => this.moveCharacter(e));
+
+                // Fetch the generated image for the cell
+                fetch(`/cells/${cellId}/generate_image`)
+                    .then(imageResponse => imageResponse.json())
+                    .then(imageData => {
+                        const imageContainer = this.detailsTarget.querySelector("#grid-container");
+                        if (imageData.image_url) {
+                            imageContainer.innerHTML = `<img src="${imageData.image_url}" alt="Generated Cell Image">`;
+                        } else {
+                            imageContainer.innerHTML = `<p>Image could not be generated.</p>`;
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error generating image:", error);
+                        const imageContainer = this.detailsTarget.querySelector("#generated-image-container");
+                        imageContainer.innerHTML = `<p>Error generating image.</p>`;
+                    });
+            })
+
+        /*fetch(`/cells/${cellId}/generate_image`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("Response data: ", data);
+
                 const gridContainer = document.getElementById("grid-container");
-                if (gridContainer && data.image_url) {
+                if (data.image_url) {
+                    gridContainer.style.backgroundImage = `url('${data.image_url}')`;
+                    gridContainer.style.backgroundSize = "cover";
+                    gridContainer.style.backgroundPosition = "center";
+
+                } else {
+                    console.error("No image url provided", data);
+                }
+            })
+            .catch((error) => {
+                console.error("Error generating image:", error);
+            });*/
+
+
+        /*fetch(`/cells/${cellId}/generate_image`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("Response data: ", data);
+                const gridContainer = document.getElementById("grid-container");
+                if (gridContainer && data.image_url && data.image_url.startsWith('http')) {
                     gridContainer.style.backgroundImage = `url('${data.image_url}')`;
                     gridContainer.style.backgroundSize = "cover";
                     gridContainer.style.backgroundPosition = "center";
@@ -278,7 +335,7 @@ export default class extends Controller {
                     console.error("No image url provided", data);
                 }
             })
-            .catch(error => console.error("Failed to fetch background image:", error));
+            .catch(error => console.error("Failed to fetch background image:", error));*/
     }
 
     addCharacterToGrid(character) {
