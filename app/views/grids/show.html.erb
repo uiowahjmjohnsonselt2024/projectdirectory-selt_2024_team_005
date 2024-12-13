@@ -13,16 +13,16 @@
       <p><strong>Shards:</strong> <span id="shard-balance"><%= @user.shard_balance %></span></p>
 
       <div class="equipped-item">
-        <%= image_tag(@weapon.icon, class: 'equipped-item-icon') %>
+        <%= image_tag(@weapon.icon, class: 'equipped-item-icon', style: "background-color: #{@weapon.rarity_color};") %>
         <div class="item-details">
-          <p class="item-name"><%= @weapon.name %></p>
+          <p class="item-name"><%= @weapon.name %> - Lv <%= @weapon.level %></p>
           <p class="item-stat">ATK: <%= @weapon.atk_bonus %></p>
         </div>
       </div>
       <div class="equipped-item">
-        <%= image_tag(@armor.icon, class: 'equipped-item-icon') %>
+        <%= image_tag(@armor.icon, class: 'equipped-item-icon', style: "background-color: #{@armor.rarity_color};") %>
         <div class="item-details">
-          <p class="item-name"><%= @armor.name %></p>
+          <p class="item-name"><%= @armor.name %> - Lv <%= @armor.level %></p>
           <p class="item-stat">DEF: <%= @armor.def_bonus %></p>
         </div>
       </div>
@@ -30,8 +30,9 @@
       <h3>Inventory</h3>
       <div class="inventory-grid" data-controller="inventory-grid">
         <% @inventory.items.each_with_index do |item_id, index| %>
-          <% item = @inventory.items[index] ? Item.find(@inventory.items[index]).itemable : nil %>
+          <% item = @inventory.items[index] ? Item.find(@inventory.items[index]) : nil %>
           <div class="inventory-item <%= 'empty-slot' if item.nil? %>"
+               style="<%= "background-color:  #{item.rarity_color}" if item %>"
                data-action="
                  click->inventory-grid#select
                  mouseenter->inventory-grid#hover
@@ -41,14 +42,25 @@
                data-target="inventory-grid.slot">
 
             <div class="popover-menu" data-target="inventory-grid.popover" style="display: none;">
-              <div class="popover-buttons">
-                <button class="popover-button use-button">Use</button>
-                <button class="popover-button discard-button">Discard</button>
-              </div>
+              <% if item %>
+                <div class="popover-buttons">
+                  <%= form_with url: use_item_inventory_index_path, method: :post, class: "popover-form", remote: true do %>
+                    <%= hidden_field_tag :index, index %>
+                    <button type="submit" class="popover-button use-button <%= 'disabled' if @character.level < item.level %>" <%= 'disabled' if @character.level < item.level %>>
+                      Use
+                    </button>
+                  <% end %>
+                  <%= form_with url: discard_item_inventory_index_path, method: :post, class: "popover-form", remote: true do %>
+                    <%= hidden_field_tag :index, index %>
+                    <button type="submit" class="popover-button discard-button">Discard</button>
+                  <% end %>
+                </div>
+              <% end %>
             </div>
 
             <div class="hover-popover" data-target="inventory-grid.hoverPopover" style="display: none;">
-              <p><%= item&.name %></p>
+              <p style="color: <%= item&.rarity_color %>"><%= item&.rarity_name %></p>
+              <p><%= item&.name %> - Lv <%= item&.level %></p>
               <p><%= item&.description %></p>
             </div>
 

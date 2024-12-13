@@ -2,12 +2,11 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe PasswordResetsController, type: :controller do
-  before do
-    @fake_user = User.create!(username: 'fake_user', email: 'fake_user@uiowa.edu', password: '54321')
-  end
+  let(:fake_user) { create(:user, username: 'fake_user', email: 'fake_user@uiowa.edu', password: '54321') }
+
   describe 'submitting an email' do
     it 'should call PasswordMailer if there exists a user associated with the email' do
-      allow(User).to receive(:find_by).and_return (@fake_user)
+      allow(User).to receive(:find_by).and_return (fake_user)
       expect(PasswordMailer).to receive_message_chain(:with, :reset, :deliver_later)
       post :create, params: { email: 'fake_user@uiowa.edu' }
     end
@@ -22,17 +21,17 @@ describe PasswordResetsController, type: :controller do
   end
   describe 'resetting password' do
     before do
-      allow(User).to receive(:find_signed!).and_return (@fake_user)
+      allow(User).to receive(:find_signed!).and_return (fake_user)
     end
     it 'should update the user\'s password' do
-      expect(@fake_user).to receive(:update).and_return (true)
+      expect(fake_user).to receive(:update).and_return (true)
       post :update, params: {
         token: 'valid_token',
         user: { password: '12345', password_confirmation: '12345' }
       }
     end
     it 'should redirect the user back to the login page after successful password reset' do
-      allow(@fake_user).to receive(:update).and_return (true)
+      allow(fake_user).to receive(:update).and_return (true)
       post :update, params: {
         token: 'valid_token',
         user: { password: '12345', password_confirmation: '12345' }
@@ -40,7 +39,7 @@ describe PasswordResetsController, type: :controller do
       expect(response).to redirect_to(root_path)
     end
     it 'should flash a notice notifying the user their password has been reset' do
-      allow(@fake_user).to receive(:update).and_return (true)
+      allow(fake_user).to receive(:update).and_return (true)
       post :update, params: {
         token: 'valid_token',
         user: { password: '12345', password_confirmation: '12345' }
