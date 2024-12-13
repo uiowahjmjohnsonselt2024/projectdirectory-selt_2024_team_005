@@ -816,12 +816,12 @@ export default class extends Controller {
                     this.updateShardBalance(-5);
 
                     // Move the user to the new position on the grid (visually)
-                    this.moveToCell(selectedCell);
+                    // this.moveToCell(selectedCell);
 
 
                     // Optionally, you could show a success message or alert
-                    alert(`Teleportation successful! You have moved to cell ${data.new_cell_id}. Shards deducted.`);
-
+                    // alert(`Teleportation successful! You have moved to cell ${data.new_cell_id}. Shards deducted.`);
+                    //
                     return data
                 } else {
                     throw new Error("Teleportation failed");
@@ -830,26 +830,27 @@ export default class extends Controller {
             })
             .finally(() => {
                 // After everything is done, reload the page
-                window.location.reload();
+                // window.location.reload();
             })
 
     }
 
-    moveToCell(selectedCell) {
-        // Assuming the user’s current position is indicated by a special element (e.g., a user icon or a marker)
-        const user = document.querySelector(".user-icon"); // Example user element
 
-        // Get the target cell's position
-        const targetRect = selectedCell.getBoundingClientRect();
-        const userRect = user.getBoundingClientRect();
-
-        // Animate or immediately move the user to the target position
-        user.style.transition = "transform 0.5s ease";
-        user.style.transform = `translate(${targetRect.left - userRect.left}px, ${targetRect.top - userRect.top}px)`;
-
-        // You might also want to update the user's grid position in your game state
-        user.dataset.cellId = selectedCell.getAttribute("data-cell-id");
-    }
+    // moveToCell(selectedCell) {
+    //     // Assuming the user’s current position is indicated by a special element (e.g., a user icon or a marker)
+    //     const user = document.querySelector(".user-icon"); // Example user element
+    //
+    //     // Get the target cell's position
+    //     const targetRect = selectedCell.getBoundingClientRect();
+    //     const userRect = user.getBoundingClientRect();
+    //
+    //     // Animate or immediately move the user to the target position
+    //     user.style.transition = "transform 0.5s ease";
+    //     user.style.transform = `translate(${targetRect.left - userRect.left}px, ${targetRect.top - userRect.top}px)`;
+    //
+    //     // You might also want to update the user's grid position in your game state
+    //     user.dataset.cellId = selectedCell.getAttribute("data-cell-id");
+    // }
 
 }
 
