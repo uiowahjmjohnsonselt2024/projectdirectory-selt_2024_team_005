@@ -313,59 +313,6 @@ export default class extends Controller {
             });
     }
 
-
-
-
-    /*updateGridBackgroundImage(imageUrl) {
-
-        const gridContainer = document.getElementById(".grid-container");
-
-        if (gridContainer) {
-            gridContainer.style.backgroundImage = `url('${imageUrl}')`;
-            gridContainer.style.backgroundSize = "cover";
-            gridContainer.style.backgroundPosition = "center";
-        } else {
-            console.error("Grid container not found for background update.");
-        }
-    }*/
-
-
-    /*fetch(`/cells/${cellId}/generate_image`)
-        .then(response => response.json())
-        .then(data => {
-            console.log("Response data: ", data);
-
-            const gridContainer = document.getElementById("grid-container");
-            if (data.image_url) {
-                gridContainer.style.backgroundImage = `url('${data.image_url}')`;
-                gridContainer.style.backgroundSize = "cover";
-                gridContainer.style.backgroundPosition = "center";
-
-            } else {
-                console.error("No image url provided", data);
-            }
-        })
-        .catch((error) => {
-            console.error("Error generating image:", error);
-        });*/
-
-
-        /*fetch(`/cells/${cellId}/generate_image`)
-            .then(response => response.json())
-            .then(data => {
-                console.log("Response data: ", data);
-                const gridContainer = document.getElementById("grid-container");
-                if (gridContainer && data.image_url && data.image_url.startsWith('http')) {
-                    gridContainer.style.backgroundImage = `url('${data.image_url}')`;
-                    gridContainer.style.backgroundSize = "cover";
-                    gridContainer.style.backgroundPosition = "center";
-                }
-                else{
-                    console.error("No image url provided", data);
-                }
-            })
-            .catch(error => console.error("Failed to fetch background image:", error));*/
-
     addCharacterToGrid(character) {
         const { character_name, cell_id, hp, exp, level } = character;
         console.log(`Adding character: ${character_name}, HP: ${hp}, Type of HP: ${typeof hp}`);
@@ -885,10 +832,6 @@ export default class extends Controller {
                 // After everything is done, reload the page
                 window.location.reload();
             })
-            // .catch((error) => {
-            //     console.error("Error teleporting:", error);
-            //     alert("Teleportation failed. Please try again later.");
-            // });
 
     }
 

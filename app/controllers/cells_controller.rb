@@ -36,18 +36,6 @@ class CellsController < ApplicationController
   private
 
   def generate_cell_image(cell)
-=begin
-    grid = Grid.find_by(grid_id: params[:id])
-    if grid
-      # Replace this with actual logic to fetch the background image URL for the grid
-      background_image_url = helpers.asset_path("test-grid-background.jpg")
-      return background_image_url
-    else
-      return nil
-    end
-    #return helpers.asset_url("test-grid-background.jpg")
-=end
-
     # Insert api key here when not pushing
     client = OpenAI::Client.new(
       access_token: api_key,
