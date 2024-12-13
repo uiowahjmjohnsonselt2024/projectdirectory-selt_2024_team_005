@@ -1,0 +1,5 @@
+// Update the inventory display
+$('#inventory').html('<%= j render(@inventory) %>');
+
+// Optionally, update the character's HP display
+$('#character_hp').text('<%= @character.current_hp %>');
