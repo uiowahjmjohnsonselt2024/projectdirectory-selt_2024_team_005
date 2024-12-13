@@ -25,18 +25,6 @@ class GridsController < ApplicationController
     end
   end
 
-  def background
-    grid = Grid.find_by(id: params[:id])
-
-    if grid
-      # Replace this with actual logic to fetch the background image URL for the grid
-      background_image_url = helpers.asset_path("test-grid-background.jpg")
-      render json: { background_image_url: background_image_url }, status: :ok
-    else
-      render json: { error: "Grid not found" }, status: :not_found
-    end
-  end
-
 
   def destroy
     @grid = Grid.find_by(grid_id: params[:id])

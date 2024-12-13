@@ -76,6 +76,7 @@ Rails.application.routes.draw do
 
   resources :cells, only: [:show] do
     member do
+      get :background
       get "generate_image"
     end
   end

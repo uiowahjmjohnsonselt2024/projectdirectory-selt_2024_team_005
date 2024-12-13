@@ -265,7 +265,7 @@ export default class extends Controller {
     }
 
     updateGridBackground(cellId){
-        fetch(`/grid_background/${cellId}`)
+        fetch(`/cells/${cellId}/background`)
             .then(response => response.json())
             .then(data => {
                 const gridContainer = document.getElementById("grid-container");
