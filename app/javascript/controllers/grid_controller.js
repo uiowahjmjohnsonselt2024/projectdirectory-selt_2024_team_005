@@ -271,13 +271,14 @@ export default class extends Controller {
         fetch(`/cells/${cellId}`)
             .then(response => response.json())
             .then(data => {
-                const gridContainer = document.querySelector(".grid-container"); // Get the grid container
+                const gridElement = document.querySelector(".grid");  // Get the grid element
 
-                if (gridContainer) {
-                    // Set the background image
-                    gridContainer.style.backgroundImage = `url('${data.image_url}')`;
+                if (gridElement) {
+                    // Set the background image of the grid element correctly
+                    gridElement.style.backgroundImage = `url('${data.image_url}')`;
                 }
-                // Set new grid details
+
+                // Update the UI with other cell information
                 this.detailsTarget.innerHTML = `
                 <p><strong>Weather:</strong> ${data.weather}</p>
                 <p><strong>Terrain:</strong> ${data.terrain}</p>
@@ -292,29 +293,28 @@ export default class extends Controller {
                 fetch(`/cells/${cellId}/generate_image`)
                     .then(imageResponse => imageResponse.json())
                     .then(imageData => {
-                        console.log(document.getElementById(".grid-container"));
-
-                        const imageContainer = this.detailsTarget.querySelector(".grid-container");
+                        const imageContainer = this.detailsTarget.querySelector("#generated-image-container");
 
                         if (imageData.image_url) {
+                            // Insert the generated image into the container (for displaying the image elsewhere)
                             imageContainer.innerHTML = `<img src="${imageData.image_url}" alt="Generated Cell Image">`;
-                            this.updateGridBackgroundImage(imageData.image_url);
                         } else {
                             imageContainer.innerHTML = `<p>Image could not be generated.</p>`;
                         }
                     })
                     .catch((error) => {
                         console.error("Error generating image:", error);
-                        const imageContainer = this.detailsTarget.querySelector(".grid-container");
+                        const imageContainer = this.detailsTarget.querySelector("#generated-image-container");
                         imageContainer.innerHTML = `<p>Error generating image.</p>`;
                     });
-
             })
             .catch((error) => {
-                console.error("Failed to fetch grid details:", error);
-                this.detailsTarget.innerHTML = `<p>Error loading cell details.</p>`;
+                console.error("Failed to fetch cell data:", error);
             });
     }
+
+
+
 
     /*updateGridBackgroundImage(imageUrl) {
 

@@ -8,15 +8,6 @@
   <div class="flash-alert"><%= flash[:alert] %></div>
 <% end %>
 
-<% if @user.current_grid_id == @grid.id %>
-  <div id="grid-container" style="background-image: url('<%= data.image_url %>');">
-<% else %>
-  <div id="grid-container">
-  </div>
-<% end %>
-<!-- Grid content -->
-</div>
-
 
 <div class="grid-container">
   <% @grids.each do |grid| %>
@@ -85,9 +76,6 @@
         width: fit-content;
         padding: 10px;
         justify-content: center;
-        background-size: cover;   /* Ensures the background image covers the entire container */
-        background-position: center; /* Centers the background image */
-        background-repeat: no-repeat; /* Prevents the background from repeating */
     }
 
     .grid-card {
@@ -167,13 +155,6 @@
         height: auto;
         border: 2px solid #ccc;
         margin-top: 10px;
-    }
-
-    #grid-container img {
-        width: 100%; /* Adjust as necessary */
-        height: 100%; /* Adjust as necessary */
-        background-size: cover;
-        background-position: center;
     }
 
 
