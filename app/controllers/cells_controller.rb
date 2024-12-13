@@ -48,7 +48,7 @@ class CellsController < ApplicationController
     #return helpers.asset_url("test-grid-background.jpg")
 =end
 
-    #insert api key here when not pushing
+    # Insert api key here when not pushing
     client = OpenAI::Client.new(
       access_token: api_key,
       log_errors: true # Highly recommended in development, so you can see what errors OpenAI is returning. Not recommended in production because it could leak private data to your logs.
