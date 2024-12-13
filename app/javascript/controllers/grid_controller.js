@@ -274,6 +274,9 @@ export default class extends Controller {
                     gridContainer.style.backgroundSize = "cover";
                     gridContainer.style.backgroundPosition = "center";
                 }
+                else{
+                    console.error("No image url provided", data);
+                }
             })
             .catch(error => console.error("Failed to fetch background image:", error));
     }

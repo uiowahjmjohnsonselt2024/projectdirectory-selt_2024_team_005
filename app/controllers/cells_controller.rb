@@ -36,24 +36,25 @@ class CellsController < ApplicationController
   private
 
   def generate_cell_image(cell)
+=begin
     grid = Grid.find_by(grid_id: params[:id])
     if grid
       # Replace this with actual logic to fetch the background image URL for the grid
       background_image_url = helpers.asset_path("test-grid-background.jpg")
-      render json: { background_image_url: background_image_url }, status: :ok
+      return background_image_url
     else
-      render json: { error: "Grid not found" }, status: :not_found
+      return nil
     end
     #return helpers.asset_url("test-grid-background.jpg")
+=end
 
 
-=begin
-    api_key=" "
+    # api_key=" "
     client = OpenAI::Client.new(
       access_token: api_key,
       log_errors: true # Highly recommended in development, so you can see what errors OpenAI is returning. Not recommended in production because it could leak private data to your logs.
     )
-    prompt = "A detailed fantasy map of a location with #{cell.terrain} terrain and #{cell.weather} weather."
+    prompt = "A detailed fantasy setting of a location with #{cell.terrain} terrain and #{cell.weather} weather."
     puts prompt
 
     begin
@@ -75,7 +76,6 @@ class CellsController < ApplicationController
       return nil
     end
     "https://example.com/generated_image_for_cell_#{cell.id}.png"
-=end
   end
 
   def check_for_disaster(cell)
