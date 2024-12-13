@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_09_195613) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_13_021902) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -39,18 +39,18 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_09_195613) do
   create_table "characters", primary_key: "character_name", id: :string, force: :cascade do |t|
     t.string "username", null: false
     t.integer "current_hp", null: false
-    t.integer "max_hp", null: false
     t.integer "current_exp", null: false
-    t.integer "exp_to_level", null: false
     t.integer "level", null: false
-    t.integer "weapon_item_id", null: false
-    t.integer "armor_item_id", null: false
     t.integer "grid_id", null: false
     t.integer "cell_id", null: false
     t.integer "inv_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "online_status"
+    t.integer "max_hp", null: false
+    t.integer "exp_to_level", null: false
+    t.integer "weapon_item_id", null: false
+    t.integer "armor_item_id", null: false
   end
 
   create_table "grids", primary_key: "grid_id", id: :serial, force: :cascade do |t|
@@ -68,13 +68,13 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_09_195613) do
   end
 
   create_table "items", primary_key: "item_id", id: :serial, force: :cascade do |t|
-    t.integer "itemable_id", null: false
-    t.string "itemable_type", null: false
     t.integer "cost", default: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "rarity", default: 1, null: false
     t.integer "level", default: 1, null: false
+    t.integer "itemable_id", null: false
+    t.string "itemable_type", null: false
     t.index ["item_id"], name: "index_items_on_item_id", unique: true
     t.index ["itemable_type", "itemable_id"], name: "index_items_on_itemable_type_and_itemable_id"
   end
