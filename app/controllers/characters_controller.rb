@@ -108,12 +108,15 @@ class CharactersController < ApplicationController
     # Initialize variables
     exp_gain = 0
     level_ups = 0
+    shard_reward = 0
+
 
     # Determine outcome and update character's stats accordingly
     if character_hp > 0 && monster_hp <= 0
       outcome = "win"
       # Calculate EXP gain
       exp_gain = monster_atk * monster_def
+      shard_reward = 1 + (monster_atk + monster_def) / 15
       @character.current_exp += exp_gain
       # Level up if necessary
       while @character.current_exp >= @character.exp_to_level
@@ -123,9 +126,10 @@ class CharactersController < ApplicationController
         level_ups += 1
       end
       # Possible shards given to player
-      @user.shard_balance += rand(1..5)
+      @user.shard_balance += shard_reward
       @character.current_hp = character_hp
       @character.save
+      @user.save
     elsif character_hp <= 0 && monster_hp > 0
       outcome = "lose"
       @character.current_hp = 0
@@ -147,6 +151,7 @@ class CharactersController < ApplicationController
       level_ups: level_ups,
       current_exp: @character.current_exp,
       exp_to_level: @character.exp_to_level,
+      shard_reward: shard_reward,
       shard_balance: @user.shard_balance,
       level: @character.level
     }, status: :ok
@@ -221,41 +226,43 @@ class CharactersController < ApplicationController
     # return response.ascii_monster
     #
     # For demonstration, returning a static ASCII:
-    askai("Returns ONLY the ASCII code (15 lines at most) to draw an RPG monster with #{terrain} and #{weather} weather. No explanations necessary.")
-    #     ascii = "
-    #            ___
-    #          .-'   `-.
-    #         /         \
-    #        |           |
-    #        |   O   O   |
-    #        |     ^     |
-    #        |    '-'    |
-    #         \         /
-    #          `._   _.'
-    #             `-'
-    #            /   \
-    #        ___|_____|___
-    #      /    \   /    \
-    #     /      \ /      \
-    #    |   ____|____    |
-    #    |  /          \   |
-    #    | /            \  |
-    #    |/______________\_|
-    #    /  |  |    |  |  \
-    #   /   |  |    |  |   \
-    #  /____|__|____|__|____\
-    #
-    #    ~~~~~~~~~~~~~~~
-    #    ~   ~ ~ ~ ~ ~ ~ ~
-    #     ~ ~ ~ ~ ~ ~ ~ ~ ~
-    #        ~ ~ ~ ~ ~ ~
-    #
-    # "
+    #askai("Returns ONLY the ASCII code (15 lines at most) to draw an RPG monster with #{terrain} and #{weather} weather. No explanations necessary.")
+        ascii = "
+               ___
+             .-'   `-.
+            /         \
+           |           |
+           |   O   O   |
+           |     ^     |
+           |    '-'    |
+            \         /
+             `._   _.'
+                `-'
+               /   \
+           ___|_____|___
+         /    \   /    \
+        /      \ /      \
+       |   ____|____    |
+       |  /          \   |
+       | /            \  |
+       |/______________\_|
+       /  |  |    |  |  \
+      /   |  |    |  |   \
+     /____|__|____|__|____\
+
+       ~~~~~~~~~~~~~~~
+       ~   ~ ~ ~ ~ ~ ~ ~
+        ~ ~ ~ ~ ~ ~ ~ ~ ~
+           ~ ~ ~ ~ ~ ~
+
+    "
   end
 
   def askai(prompt)
+    #api_key = "key"
     client = OpenAI::Client.new(
-      access_token: ENV["OPENAI_KEY"],
+      #access_token: ENV["OPENAI_KEY"],
+      access_token: api_key,
       log_errors: true # Highly recommended in development, so you can see what errors OpenAI is returning. Not recommended in production because it could leak private data to your logs.
     )
     print("MODEL LIST:", client.models.list)
