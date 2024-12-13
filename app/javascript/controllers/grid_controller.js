@@ -265,12 +265,12 @@ export default class extends Controller {
     }
 
     updateGridBackground(cellId){
-        fetch(`/cells/${cellId}/background`)
+        fetch(`/cells/${cellId}/generate_image`)
             .then(response => response.json())
             .then(data => {
                 const gridContainer = document.getElementById("grid-container");
                 if (gridContainer && data.background_image_url) {
-                    gridContainer.style.backgroundImage = `url('${"projectdirectory-selt_2024_team_005/assets/stylesheets/test-grid-background.jpg"}')`;
+                    gridContainer.style.backgroundImage = `url('${"test-grid-background.jpg"}')`;
                     gridContainer.style.backgroundSize = "cover";
                     gridContainer.style.backgroundPosition = "center";
                 }
