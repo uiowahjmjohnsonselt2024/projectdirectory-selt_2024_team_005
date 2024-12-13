@@ -267,58 +267,81 @@ export default class extends Controller {
         }
     }
 
-    updateGridBackground(cellId){
-
+    updateGridBackground(cellId) {
         fetch(`/cells/${cellId}`)
             .then(response => response.json())
             .then(data => {
+                // Set new grid details
                 this.detailsTarget.innerHTML = `
-          <p><strong>Weather:</strong> ${data.weather}</p>
-          <p><strong>Terrain:</strong> ${data.terrain}</p>
-           <button class="teleport-btn" data-cell-id="${cellId}">Teleport</button>
-           <p><strong>NOTE:</storng> Teleporting costs 5 shards.</p>
-           <div id="generated-image-container">
-            <p>Loading image...</p>
-          </div>
-        `;
-                document.addEventListener("keydown", (e) => this.moveCharacter(e));
+                <p><strong>Weather:</strong> ${data.weather}</p>
+                <p><strong>Terrain:</strong> ${data.terrain}</p>
+                <button class="teleport-btn" data-cell-id="${cellId}">Teleport</button>
+                <p><strong>NOTE:</strong> Teleporting costs 5 shards.</p>
+                <div id="generated-image-container">
+                    <p>Loading image...</p>
+                </div>
+            `;
 
                 // Fetch the generated image for the cell
                 fetch(`/cells/${cellId}/generate_image`)
                     .then(imageResponse => imageResponse.json())
                     .then(imageData => {
+                        console.log(document.getElementById("grid-container"));
+
                         const imageContainer = this.detailsTarget.querySelector("#grid-container");
+
                         if (imageData.image_url) {
                             imageContainer.innerHTML = `<img src="${imageData.image_url}" alt="Generated Cell Image">`;
+                            this.updateGridBackgroundImage(imageData.image_url);
                         } else {
                             imageContainer.innerHTML = `<p>Image could not be generated.</p>`;
                         }
                     })
                     .catch((error) => {
                         console.error("Error generating image:", error);
-                        const imageContainer = this.detailsTarget.querySelector("#generated-image-container");
+                        const imageContainer = this.detailsTarget.querySelector("#grid-container");
                         imageContainer.innerHTML = `<p>Error generating image.</p>`;
                     });
-            })
 
-        /*fetch(`/cells/${cellId}/generate_image`)
-            .then(response => response.json())
-            .then(data => {
-                console.log("Response data: ", data);
-
-                const gridContainer = document.getElementById("grid-container");
-                if (data.image_url) {
-                    gridContainer.style.backgroundImage = `url('${data.image_url}')`;
-                    gridContainer.style.backgroundSize = "cover";
-                    gridContainer.style.backgroundPosition = "center";
-
-                } else {
-                    console.error("No image url provided", data);
-                }
             })
             .catch((error) => {
-                console.error("Error generating image:", error);
-            });*/
+                console.error("Failed to fetch grid details:", error);
+                this.detailsTarget.innerHTML = `<p>Error loading cell details.</p>`;
+            });
+    }
+
+    updateGridBackgroundImage(imageUrl) {
+
+        const gridContainer = document.getElementById("grid-container");
+
+        if (gridContainer) {
+            gridContainer.style.backgroundImage = `url('${imageUrl}')`;
+            gridContainer.style.backgroundSize = "cover";
+            gridContainer.style.backgroundPosition = "center";
+        } else {
+            console.error("Grid container not found for background update.");
+        }
+    }
+
+
+    /*fetch(`/cells/${cellId}/generate_image`)
+        .then(response => response.json())
+        .then(data => {
+            console.log("Response data: ", data);
+
+            const gridContainer = document.getElementById("grid-container");
+            if (data.image_url) {
+                gridContainer.style.backgroundImage = `url('${data.image_url}')`;
+                gridContainer.style.backgroundSize = "cover";
+                gridContainer.style.backgroundPosition = "center";
+
+            } else {
+                console.error("No image url provided", data);
+            }
+        })
+        .catch((error) => {
+            console.error("Error generating image:", error);
+        });*/
 
 
         /*fetch(`/cells/${cellId}/generate_image`)
@@ -336,7 +359,6 @@ export default class extends Controller {
                 }
             })
             .catch(error => console.error("Failed to fetch background image:", error));*/
-    }
 
     addCharacterToGrid(character) {
         const { character_name, cell_id, hp, exp, level } = character;
