@@ -1,7 +1,13 @@
 class Potion < ApplicationRecord
   has_one :item, as: :itemable
 
-  after_initialize :set_default_description, if: :new_record?
+  before_save :set_default_description, if: :new_record?
+
+  def update_hp_regen
+    self.hp_regen *= item.level * item.rarity
+    self.description = "HP +#{self.hp_regen}"
+    save!
+  end
 
   private
 
