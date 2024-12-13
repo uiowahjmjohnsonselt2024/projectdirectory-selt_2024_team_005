@@ -129,10 +129,10 @@ class CharactersController < ApplicationController
         level_ups += 1
       end
       # Possible shards given to player after a winning battle
-      @user.shard_balance += shard_reward
+      #@user.shard_balance += shard_reward
       @character.current_hp = character_hp
       @character.save
-      @user.save
+      #@user.save
     elsif character_hp <= 0 && monster_hp > 0
       outcome = "lose"
       @character.current_hp = 0
@@ -151,7 +151,7 @@ class CharactersController < ApplicationController
       outcome: outcome,
       battle_log: battle_log,
       exp_gain: exp_gain,
-      shard_reward: shard_reward,
+      #shard_reward: shard_reward,
       level_ups: level_ups,
       current_exp: @character.current_exp,
       exp_to_level: @character.exp_to_level,
