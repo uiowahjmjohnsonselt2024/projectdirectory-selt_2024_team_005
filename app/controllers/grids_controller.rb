@@ -25,6 +25,7 @@ class GridsController < ApplicationController
     end
   end
 
+
   def destroy
     @grid = Grid.find_by(grid_id: params[:id])
     flash[:notice] = "Wait for codes"
@@ -53,6 +54,8 @@ class GridsController < ApplicationController
       @weapon = Item.find_by(item_id: @character.weapon_item_id)
       @armor = Item.find_by(item_id: @character.armor_item_id)
       @inventory = Inventory.find_by(inv_id: @character.inv_id)
+
+      @background_image_url = helpers.asset_url("test-grid-background.jpg")
     end
   end
 

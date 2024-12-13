@@ -35,6 +35,8 @@ class CharactersController < ApplicationController
 
     # Call an internal method that uses ChatGPT API to generate ASCII
     ascii = generate_monster_ascii(weather, terrain)
+
+
     print(ascii)
 
     if ascii
@@ -108,6 +110,8 @@ class CharactersController < ApplicationController
     # Initialize variables
     exp_gain = 0
     level_ups = 0
+    shard_reward = 0
+
 
     # Determine outcome and update character's stats accordingly
     if character_hp > 0 && monster_hp <= 0
@@ -115,6 +119,8 @@ class CharactersController < ApplicationController
       # Calculate EXP gain
       exp_gain = monster_atk * monster_def
       @character.current_exp += exp_gain
+      shard_reward = 1 + (monster_atk + monster_def) / 15
+
       # Level up if necessary
       while @character.current_exp >= @character.exp_to_level
         @character.current_exp -= @character.exp_to_level
@@ -122,8 +128,11 @@ class CharactersController < ApplicationController
         @character.exp_to_level = calculate_new_exp_to_level(@character.level)
         level_ups += 1
       end
+      # Possible shards given to player after a winning battle
+      @user.shard_balance += shard_reward
       @character.current_hp = character_hp
       @character.save
+      @user.save
     elsif character_hp <= 0 && monster_hp > 0
       outcome = "lose"
       @character.current_hp = 0
@@ -142,6 +151,7 @@ class CharactersController < ApplicationController
       outcome: outcome,
       battle_log: battle_log,
       exp_gain: exp_gain,
+      shard_reward: shard_reward,
       level_ups: level_ups,
       current_exp: @character.current_exp,
       exp_to_level: @character.exp_to_level,
@@ -213,47 +223,49 @@ class CharactersController < ApplicationController
   end
 
   def generate_monster_ascii(weather, terrain)
-    # This method should call the ChatGPT API and return ASCII monster based on weather and terrain.
-    # prompt = "Given a weather condition '#{weather}' and terrain '#{terrain}', generate a single ASCII art monster..."
-    # response = ChatGPTApi.call(prompt)
-    # return response.ascii_monster
-    #
-    # For demonstration, returning a static ASCII:
-    askai("Returns ONLY the ASCII code (15 lines at most) to draw an RPG monster with #{terrain} and #{weather} weather. No explanations necessary.")
-    #     ascii = "
-    #            ___
-    #          .-'   `-.
-    #         /         \
-    #        |           |
-    #        |   O   O   |
-    #        |     ^     |
-    #        |    '-'    |
-    #         \         /
-    #          `._   _.'
-    #             `-'
-    #            /   \
-    #        ___|_____|___
-    #      /    \   /    \
-    #     /      \ /      \
-    #    |   ____|____    |
-    #    |  /          \   |
-    #    | /            \  |
-    #    |/______________\_|
-    #    /  |  |    |  |  \
-    #   /   |  |    |  |   \
-    #  /____|__|____|__|____\
-    #
-    #    ~~~~~~~~~~~~~~~
-    #    ~   ~ ~ ~ ~ ~ ~ ~
-    #     ~ ~ ~ ~ ~ ~ ~ ~ ~
-    #        ~ ~ ~ ~ ~ ~
-    #
-    # "
+        # This method should call the ChatGPT API and return ASCII monster based on weather and terrain.
+        # prompt = "Given a weather condition '#{weather}' and terrain '#{terrain}', generate a single ASCII art monster..."
+        # response = ChatGPTApi.call(prompt)
+        # return response.ascii_monster
+        #
+        # For demonstration, returning a static ASCII:
+        # ascii = askai("Returns ONLY the ASCII code (15 lines at most) to draw an RPG monster with #{terrain} and #{weather} weather. No explanations necessary.")
+        ascii = "
+               ___
+             .-'   `-.
+            /         \
+           |           |
+           |   O   O   |
+           |     ^     |
+           |    '-'    |
+            \         /
+             `._   _.'
+                `-'
+               /   \
+           ___|_____|___
+         /    \   /    \
+        /      \ /      \
+       |   ____|____    |
+       |  /          \   |
+       | /            \  |
+       |/______________\_|
+       /  |  |    |  |  \
+      /   |  |    |  |   \
+     /____|__|____|__|____\
+
+       ~~~~~~~~~~~~~~~
+       ~   ~ ~ ~ ~ ~ ~ ~
+        ~ ~ ~ ~ ~ ~ ~ ~ ~
+           ~ ~ ~ ~ ~ ~
+
+    "
+    ascii
   end
 
   def askai(prompt)
+    api_key=" "
     client = OpenAI::Client.new(
-      access_token: ENV["OPENAI_KEY"],
+      access_token: api_key,
       log_errors: true # Highly recommended in development, so you can see what errors OpenAI is returning. Not recommended in production because it could leak private data to your logs.
     )
     print("MODEL LIST:", client.models.list)

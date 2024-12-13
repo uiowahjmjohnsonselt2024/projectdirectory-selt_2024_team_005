@@ -44,6 +44,9 @@
     display: grid;
     gap: 1px;
     padding: 10px;
+    background-size: cover;  /* Ensures image covers the entire grid */
+    background-position: center;  /* Center the image */
+    background-repeat: no-repeat;  /* Avoid repeating the image */
 }
 
 

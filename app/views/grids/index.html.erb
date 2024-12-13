@@ -8,6 +8,7 @@
   <div class="flash-alert"><%= flash[:alert] %></div>
 <% end %>
 
+
 <div class="grid-container">
   <% @grids.each do |grid| %>
     <div class="grid-card">
@@ -148,4 +149,13 @@
     .note {
         text-align: center;
     }
+
+    #generated-image-container img {
+        max-width: 100%;
+        height: auto;
+        border: 2px solid #ccc;
+        margin-top: 10px;
+    }
+
+
 </style>

@@ -145,11 +145,31 @@ export default class extends Controller {
           <p><strong>Terrain:</strong> ${data.terrain}</p>
            <button class="teleport-btn" data-cell-id="${cellId}">Teleport</button>
            <p><strong>NOTE:</storng> Teleporting costs 5 shards.</p>
+           <div id="generated-image-container">
+            <p>Loading image...</p>
+          </div>
         `;
 
                 // Add event listener for teleport button
                 const teleportButton = this.detailsTarget.querySelector(".teleport-btn");
                 teleportButton.addEventListener("click", (e) => this.handleTeleport(e, cell));
+
+                // Fetch the generated image for the cell
+                fetch(`/cells/${cellId}/generate_image`)
+                    .then(imageResponse => imageResponse.json())
+                    .then(imageData => {
+                        const imageContainer = this.detailsTarget.querySelector("#generated-image-container");
+                        if (imageData.image_url) {
+                            imageContainer.innerHTML = `<img src="${imageData.image_url}" alt="Generated Cell Image">`;
+                        } else {
+                            imageContainer.innerHTML = `<p>Image could not be generated.</p>`;
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error generating image:", error);
+                        const imageContainer = this.detailsTarget.querySelector("#generated-image-container");
+                        imageContainer.innerHTML = `<p>Error generating image.</p>`;
+                    });
 
                 // Call the "highlightSelectedCell" method to highlight the selected cell
                 this.highlightSelectedCell(cell);
@@ -221,8 +241,10 @@ export default class extends Controller {
                 return;
         }
 
+
         const newCellId = gridId * 10000 + row * 100 + col;
         const newCell = document.querySelector(`[data-cell-id='${newCellId}']`);
+
 
         // Check
         if (newCellId === currentCellId) {
@@ -240,7 +262,55 @@ export default class extends Controller {
             if (this.isOnlineMode && this.multiplayerChannel) {
                 this.multiplayerChannel.perform("update_position", { cell_id: newCellId });
             }
+            this.updateGridBackground(newCellId);
+
         }
+    }
+
+    updateGridBackground(cellId) {
+        fetch(`/cells/${cellId}`)
+            .then(response => response.json())
+            .then(data => {
+                const gridElement = document.querySelector(".grid");  // Get the grid element
+
+                if (gridElement) {
+                    // Set the background image of the grid element correctly
+                    gridElement.style.backgroundImage = `url('${data.image_url}')`;
+                }
+
+                // Update the UI with other cell information
+                this.detailsTarget.innerHTML = `
+                <p><strong>Weather:</strong> ${data.weather}</p>
+                <p><strong>Terrain:</strong> ${data.terrain}</p>
+                <button class="teleport-btn" data-cell-id="${cellId}">Teleport</button>
+                <p><strong>NOTE:</strong> Teleporting costs 5 shards.</p>
+                <div id="generated-image-container">
+                    <p>Loading image...</p>
+                </div>
+            `;
+
+                // Fetch the generated image for the cell
+                fetch(`/cells/${cellId}/generate_image`)
+                    .then(imageResponse => imageResponse.json())
+                    .then(imageData => {
+                        const imageContainer = this.detailsTarget.querySelector("#generated-image-container");
+
+                        if (imageData.image_url) {
+                            // Insert the generated image into the container (for displaying the image elsewhere)
+                            imageContainer.innerHTML = `<img src="${imageData.image_url}" alt="Generated Cell Image">`;
+                        } else {
+                            imageContainer.innerHTML = `<p>Image could not be generated.</p>`;
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error generating image:", error);
+                        const imageContainer = this.detailsTarget.querySelector("#generated-image-container");
+                        imageContainer.innerHTML = `<p>Error generating image.</p>`;
+                    });
+            })
+            .catch((error) => {
+                console.error("Failed to fetch cell data:", error);
+            });
     }
 
     addCharacterToGrid(character) {
@@ -515,7 +585,7 @@ export default class extends Controller {
                         document.body.removeChild(monsterPrompt);
                         // Reset the flag when the prompt is dismissed
                         this.isMonsterPromptActive = false;
-                        this.updateShardBalance(-10);
+                        this.updateShardBalanceTeleport(-10);
                     } else {
                         // Display error message
                         const errorMessageDiv = document.getElementById("monster-error-message");
@@ -568,7 +638,7 @@ export default class extends Controller {
             .then((response) => response.json())
             .then((data) => {
                 if (data.status === "ok") {
-                    this.updateShardBalance(data.shard_balance);
+                    // this.updateShardBalanceTeleport(-10);
                     return data;
                 } else {
                     throw new Error("Failed to bribe the monster");
@@ -580,17 +650,18 @@ export default class extends Controller {
             });
     }
 
-    updateShardBalance(newBalance) {
-        console.log("updateShardBalance called with:", newBalance);
-        const shardBalanceElement = document.getElementById("shard-balance");
-        if (shardBalanceElement) {
-            shardBalanceElement.textContent = newBalance;
-            console.log("Shard balance updated without reloading the page.");
-        } else {
-            console.error("No shard-balance element found!");
-        }
-        window.location.reload();
-    }
+    // unused currently but keeping because had been in functionality
+    // updateShardBalance(newBalance) {
+    //     console.log("updateShardBalance called with:", newBalance);
+    //     const shardBalanceElement = document.getElementById("shard-balance");
+    //     if (shardBalanceElement) {
+    //         shardBalanceElement.textContent = newBalance;
+    //         console.log("Shard balance updated without reloading the page.");
+    //     } else {
+    //         console.error("No shard-balance element found!");
+    //     }
+    //     // window.location.reload();
+    // }
 
     // app/javascript/controllers/grid_controller.js
     fightMonster() {
@@ -743,15 +814,15 @@ export default class extends Controller {
             .then((data) => {
                 if (data.status === "ok") {
                     // Successfully teleported, update the shard balance
-                    this.updateShardBalance(-5);
+                    this.updateShardBalanceTeleport(-5);
 
                     // Move the user to the new position on the grid (visually)
-                    this.moveToCell(selectedCell);
-
+                    // this.moveToCell(selectedCell);
+                    this.updateUIAfterTeleport(data.new_cell_id);
 
                     // Optionally, you could show a success message or alert
-                    alert(`Teleportation successful! You have moved to cell ${data.new_cell_id}. Shards deducted.`);
-
+                    // alert(`Teleportation successful! You have moved to cell ${data.new_cell_id}. Shards deducted.`);
+                    //
                     return data
                 } else {
                     throw new Error("Teleportation failed");
@@ -760,29 +831,73 @@ export default class extends Controller {
             })
             .finally(() => {
                 // After everything is done, reload the page
-                window.location.reload();
+                // window.location.reload();
             })
-            // .catch((error) => {
-            //     console.error("Error teleporting:", error);
-            //     alert("Teleportation failed. Please try again later.");
-            // });
 
     }
 
-    moveToCell(selectedCell) {
-        // Assuming the user’s current position is indicated by a special element (e.g., a user icon or a marker)
-        const user = document.querySelector(".user-icon"); // Example user element
 
-        // Get the target cell's position
-        const targetRect = selectedCell.getBoundingClientRect();
-        const userRect = user.getBoundingClientRect();
+    // moveToCell(selectedCell) {
+    //     // Assuming the user’s current position is indicated by a special element (e.g., a user icon or a marker)
+    //     const user = document.querySelector(".user-icon"); // Example user element
+    //
+    //     // Get the target cell's position
+    //     const targetRect = selectedCell.getBoundingClientRect();
+    //     const userRect = user.getBoundingClientRect();
+    //
+    //     // Animate or immediately move the user to the target position
+    //     user.style.transition = "transform 0.5s ease";
+    //     user.style.transform = `translate(${targetRect.left - userRect.left}px, ${targetRect.top - userRect.top}px)`;
+    //
+    //     // You might also want to update the user's grid position in your game state
+    //     user.dataset.cellId = selectedCell.getAttribute("data-cell-id");
+    // }
 
-        // Animate or immediately move the user to the target position
-        user.style.transition = "transform 0.5s ease";
-        user.style.transform = `translate(${targetRect.left - userRect.left}px, ${targetRect.top - userRect.top}px)`;
+    updateUIAfterTeleport(newCellId) {
+        const characterElement = document.querySelector('.character');
 
-        // You might also want to update the user's grid position in your game state
-        user.dataset.cellId = selectedCell.getAttribute("data-cell-id");
+        if (characterElement) {
+            // Update the character's position visually by moving to the new cell
+            const newCellElement = document.querySelector(`[data-cell-id="${newCellId}"]`);
+
+            if (newCellElement) {
+                // Move the character element to the new cell
+                newCellElement.appendChild(characterElement);
+
+                // Update the character's data attribute to reflect the new cell location
+                characterElement.setAttribute('data-current-cell', newCellId);
+
+                console.log(`Character successfully moved to cell ${newCellId}`);
+            } else {
+                console.error(`Cell with id ${newCellId} not found!`);
+            }
+        } else {
+            console.error("Character element not found!");
+        }
+    }
+
+    updateShardBalanceTeleport(delta) {
+        console.log("updateShardBalance called with delta:", delta);
+
+        const shardBalanceElement = document.getElementById("shard-balance");
+
+        if (shardBalanceElement) {
+            // Parse the current shard balance and apply the delta
+            let currentBalance = parseInt(shardBalanceElement.textContent, 10);
+
+            if (isNaN(currentBalance)) {
+                console.error("Current shard balance is invalid.");
+                return;
+            }
+
+            // Update the balance
+            const newBalance = currentBalance + delta;
+            shardBalanceElement.textContent = newBalance;
+
+            console.log(`Shard balance updated to ${newBalance} without reloading the page.`);
+        } else {
+            console.error("No shard-balance element found!");
+        }
     }
 
 }

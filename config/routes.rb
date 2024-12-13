@@ -73,7 +73,13 @@ Rails.application.routes.draw do
       end
     end
   end
-  resources :cells, only: [ :show ]
+
+  resources :cells, only: [ :show ] do
+    member do
+      get "generate_image"
+    end
+  end
+
 
   # Inventory routes
   resources :inventory, only: [] do

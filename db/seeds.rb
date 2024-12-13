@@ -53,6 +53,7 @@ end
 @item12 = FactoryBot.create(:item, :potion)
 @weapon1 = Weapon.create!(name: 'OP Sword', atk_bonus: 10)
 @item13 = Item.create(itemable: @weapon1, level: 50, rarity: 5)
+@item14 = Item.find_or_create_by!(itemable: Armor.create!(name: 'Catastrophe Armor', def_bonus: 8), cost: 450)
 
 unless @item13.persisted?
   puts @item13.errors.full_messages
