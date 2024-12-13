@@ -143,7 +143,7 @@ export default class extends Controller {
                 this.detailsTarget.innerHTML = `
           <p><strong>Weather:</strong> ${data.weather}</p>
           <p><strong>Terrain:</strong> ${data.terrain}</p>
-           <button class="shards-button" data-cell-id="${cellId}">Teleport</button>
+           <button class="teleport-btn" data-cell-id="${cellId}">Teleport</button>
            <p><strong>NOTE:</storng> Teleporting costs 5 shards.</p>
         `;
 
