@@ -13,7 +13,6 @@ class CharactersController < ApplicationController
         # Monster encountered
         monster = generate_monster
         session[:current_monster] = monster  # Store monster stats in session
-        puts "session the current monster"
         render json: {
           status: "ok",
           cell_id: @character.cell_id,
@@ -55,7 +54,6 @@ class CharactersController < ApplicationController
       @user.shard_balance -= 10
       if @user.save
         session.delete(:current_monster)  # Remove monster from session
-        puts "delete the current monster _bribe"
         render json: { status: "ok", shard_balance: @user.shard_balance, message: "Bribe successful" }, status: :ok
       else
         render json: { status: "error", message: "Unable to update shard balance" }, status: :unprocessable_entity
@@ -147,7 +145,6 @@ class CharactersController < ApplicationController
 
     # Remove monster from session
     session.delete(:current_monster)
-    puts "session the current monster _fight"
 
     render json: {
       status: "ok",
