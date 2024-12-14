@@ -3,6 +3,9 @@
 ## SELT 2024 Group 5 Final Project: Shards of the Grid with SaaS principles
 Shards of the Grid is a multiplayer game where players can interact with their friends, fight monster, encounter disasters, teleport worlds, and improve their weaponry and skills. It utilizes AI to generate imaging for the playing grids. 
 
+# Ruby Version: 
+rbenv 3.3.0 
+
 # How to Run:
 1. `rake db:reset db:migrate db:schema:load db:seed ` to set up the database
 2. Uncomment out this line `access_token: api_key,` in cells_controller.rb and characters_controller.rb and comment out `access_token: ENV["OPENAI_KEY"],` to be able to see/fight monsters
