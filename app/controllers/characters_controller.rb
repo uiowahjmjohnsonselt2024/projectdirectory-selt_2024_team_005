@@ -117,9 +117,10 @@ class CharactersController < ApplicationController
     if character_hp > 0 && monster_hp <= 0
       outcome = "win"
       # Calculate EXP gain
-      exp_gain = monster_atk * monster_def
+      # exp_gain = (monster_atk * monster_def) / @character.level // Calculated based on character level
+      exp_gain = (monster_atk * monster_def)
+
       @character.current_exp += exp_gain
-      shard_reward = 1 + (monster_atk + monster_def) / 15
 
       # Level up if necessary
       while @character.current_exp >= @character.exp_to_level
@@ -213,9 +214,12 @@ class CharactersController < ApplicationController
   end
 
   def generate_monster
-    atk = rand(5..15)   # Random attack between 5 and 15
-    def_stat = rand(5..15)  # Random defense between 5 and 15
-    hp = rand(10..20)  # Random HP between 10 and 20
+    atk = rand(5..15) # Random attack between 5 and 15
+    # atk = rand(5..15) * @character.level / 2   # Random attack between 5 and 15 and scales with player level
+    def_stat = rand(5..15) # Random defense between 5 and 15
+    # def_stat = rand(5..15)  * @character.level / 2 # Random defense between 5 and 15 and scales with player level
+    hp = rand(10..20) # Random HP between 10 and 20
+    # hp = rand(10..20) * @character.level / 2 # Random HP between 10 and 20 and scales with player level
     { atk: atk, def: def_stat, hp: hp }
   end
 
