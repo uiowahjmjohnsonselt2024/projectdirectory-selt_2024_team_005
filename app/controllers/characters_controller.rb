@@ -231,9 +231,9 @@ class CharactersController < ApplicationController
     hp = (@character.level+rand(1..50)) * 20
 
     # Ensure minimum stats to avoid extremely weak monsters
-    atk = [atk, 5].max
-    def_stat = [def_stat, 5].max
-    hp = [hp, 20].max
+    atk = [ atk, 5 ].max
+    def_stat = [ def_stat, 5 ].max
+    hp = [ hp, 20 ].max
     print("stats", atk, def_stat, hp)
 
     { atk: atk, def: def_stat, hp: hp }

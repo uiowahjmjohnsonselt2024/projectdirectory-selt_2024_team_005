@@ -108,7 +108,7 @@ Given(/^I have an account and logged in$/) do
   @item2 = Item.create!(itemable: @shield, cost: 1, rarity: 1, level: 1)
 
   # Inventories require: inv_id, items (array)
-  @inventory = Inventory.create!(inv_id: 1, items: [@item1.item_id, @item2.item_id])
+  @inventory = Inventory.create!(inv_id: 1, items: [ @item1.item_id, @item2.item_id ])
 
   # Characters require: username, character_name, current_hp, current_exp, level, grid_id, cell_id, inv_id, max_hp, exp_to_level, weapon_item_id, armor_item_id
   # Set some defaults (e.g. current_hp = 100, current_exp = 0, level = 1, max_hp = 100, exp_to_level = 100, weapon_item_id, armor_item_id)
@@ -171,5 +171,3 @@ end
 When(/^I delete my account$/) do
   click_button('Delete account')
 end
-
-
