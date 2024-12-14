@@ -735,6 +735,8 @@ export default class extends Controller {
                         if (levelUps > 0) {
                             document.getElementById("character-level").textContent = newLevel;
                         }
+                        // Update Shard Balance after winning a fight
+                        this.updateShardBalanceTeleport(1 + newLevel);
                         // Allow movement again
                         this.isMonsterPromptActive = false;
                     }, 500); // 500 milliseconds
