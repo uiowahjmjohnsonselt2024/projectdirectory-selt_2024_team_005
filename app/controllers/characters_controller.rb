@@ -216,10 +216,35 @@ class CharactersController < ApplicationController
   end
 
   def generate_monster
-    atk = rand(5..15)   # Random attack between 5 and 15
-    def_stat = rand(5..15)  # Random defense between 5 and 15
-    hp = rand(10..20)  # Random HP between 10 and 20
+    character_level = @character.level
+    character_atk = calculate_character_attack
+    character_def = calculate_character_defense
+
+    # Base scaling logic
+    atk = (character_atk * 0.5 + rand(1..10) * (1 + character_level * 0.1)).round
+    def_stat = (character_def * 0.5 + rand(1..10) * (1 + character_level * 0.1)).round
+    hp = (character_level * 10 + rand(20..40)).round
+
+    # Ensure minimum stats to avoid extremely weak monsters
+    atk = [atk, 5].max
+    def_stat = [def_stat, 5].max
+    hp = [hp, 20].max
+
     { atk: atk, def: def_stat, hp: hp }
+  end
+
+  def calculate_character_attack
+    weapon_item = Item.find_by(item_id: @character.weapon_item_id)
+    weapon = weapon_item&.itemable
+    base_attack = weapon ? weapon.atk_bonus : 10 # Default base attack if no weapon
+    base_attack + @character.level * 2
+  end
+
+  def calculate_character_defense
+    armor_item = Item.find_by(item_id: @character.armor_item_id)
+    armor = armor_item&.itemable
+    base_defense = armor ? armor.def_bonus : 5 # Default base defense if no armor
+    base_defense + @character.level
   end
 
   def generate_monster_ascii(weather, terrain)
