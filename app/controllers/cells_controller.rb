@@ -38,7 +38,7 @@ class CellsController < ApplicationController
   def generate_cell_image(cell)
     # Insert api key here when not pushing
     client = OpenAI::Client.new(
-      access_token: api_key,
+      access_token: ENV["OPENAI_KEY"],
       log_errors: true # Highly recommended in development, so you can see what errors OpenAI is returning. Not recommended in production because it could leak private data to your logs.
     )
     prompt = "A detailed fantasy setting of a location with #{cell.terrain} terrain and #{cell.weather} weather from a wide first person perspective."

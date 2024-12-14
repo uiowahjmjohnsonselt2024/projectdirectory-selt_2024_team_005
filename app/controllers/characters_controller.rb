@@ -280,9 +280,8 @@ class CharactersController < ApplicationController
   end
 
   def askai(prompt)
-    api_key=" "
     client = OpenAI::Client.new(
-      access_token: api_key,
+      access_token: ENV["OPENAI_KEY"],
       log_errors: true # Highly recommended in development, so you can see what errors OpenAI is returning. Not recommended in production because it could leak private data to your logs.
     )
     print("MODEL LIST:", client.models.list)
