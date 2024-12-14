@@ -117,9 +117,10 @@ class CharactersController < ApplicationController
     if character_hp > 0 && monster_hp <= 0
       outcome = "win"
       # Calculate EXP gain
-      exp_gain = monster_atk * monster_def
+      # exp_gain = (monster_atk * monster_def) / @character.level // Calculated based on character level
+      exp_gain = (monster_atk * monster_def)
+
       @character.current_exp += exp_gain
-      shard_reward = 1 + (monster_atk + monster_def) / 15
 
       # Level up if necessary
       while @character.current_exp >= @character.exp_to_level

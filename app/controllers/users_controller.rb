@@ -1,5 +1,6 @@
 # app/controllers/users_controller.rb
 class UsersController < ApplicationController
+  skip_before_action :authenticate_user!, only: [ :new, :create ]
   def show
     @user = User.find_by!(username: params[:username])
     @character = Character.find_by(username: params[:username])
