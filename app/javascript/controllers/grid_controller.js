@@ -469,7 +469,7 @@ export default class extends Controller {
             <div class="disaster-popup">
               <h2>Disaster Strikes!</h2>
               <p><strong>${disasterMessage}</strong></p>
-              <p><strong>Damage Taken:</strong> ${damage} HP</p>
+<!--              <p><strong>Damage Taken:</strong> ${damage} HP</p>-->
               <p><strong>Better luck next time!</strong></p>
               <button id="acknowledge-button">Accept</button>
               <div id="disaster-error-message" style="color: red;"></div>
