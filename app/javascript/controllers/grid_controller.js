@@ -27,6 +27,7 @@ export default class extends Controller {
 
         this.isMonsterPromptActive = false; // Initialize the flag
         this.isDisasterPromptActive = false;
+        this.isMoving = false;
 
         // Remove previous event listener
         document.removeEventListener("keydown", this.moveCharacterBound);
@@ -189,6 +190,11 @@ export default class extends Controller {
     }
 
     moveCharacter(event) {
+        if (this.isMoving) {
+            console.log("Character is currently moving, please wait.");
+            return; // Prevent further movement while already moving
+        }
+
         if (!this.currentCharacter) {
             console.error("Current character not found for movement!");
             return;
@@ -253,12 +259,20 @@ export default class extends Controller {
         }
 
         if (newCell) {
+            this.isMoving = true;
             newCell.appendChild(characterElement);
             // Removed the disaster check from here, so we don't immediately trigger it.
             // This line was previously: this.checkForDisaster(newCellId);
-            this.updateCharacterPosition(characterElement.getAttribute("data-character-id"), newCellId);
-
+            // Ensure updateCharacterPosition resolves before unlocking movement
+            this.updateCharacterPosition(characterElement.getAttribute("data-character-id"), newCellId)
+                .then(() => {
+                    this.isMoving = false; // Unlock movement
+                })
+                .catch((error) => {
+                    this.isMoving = false; // Unlock movement even on error
+                });
             // Broadcast the player's new location if under multiplayer mode
+
             if (this.isOnlineMode && this.multiplayerChannel) {
                 this.multiplayerChannel.perform("update_position", { cell_id: newCellId });
             }
@@ -375,7 +389,7 @@ export default class extends Controller {
     updateCharacterPosition(characterName, newCellId) {
         const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 
-        fetch(`/characters/${characterName}`, {
+        return fetch(`/characters/${characterName}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -391,9 +405,12 @@ export default class extends Controller {
                 return response.json();
             })
             .then((data) => {
+                console.log("finish to update")
                 console.log("Character position updated successfully", data);
                 if (data.monster) {
                     // Monster encountered. Now we also expect weather and terrain in data
+                    console.log("There is a monster in current cell")
+                    console.log(data)
                     this.showMonsterPrompt(data.monster, data.weather, data.terrain);
                     this.checkForDisaster(newCellId)
                 }
@@ -401,9 +418,11 @@ export default class extends Controller {
                     // No monster encountered: now we can safely check for a disaster.
                     this.checkForDisaster(newCellId);
                 }
+                return data; // Return data for further chaining if needed
             })
             .catch((error) => {
                 console.error("Error updating character position:", error);
+                throw error; // Propagate the error for handling outside
             });
     }
 
@@ -630,7 +649,7 @@ export default class extends Controller {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json",
+                "Accept": "application/json",
                 "X-CSRF-Token": csrfToken,
             },
             body: JSON.stringify({}),
