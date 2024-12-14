@@ -1,4 +1,4 @@
-# app/controllers/characters_controller.rb
+g# app/controllers/characters_controller.rb
 require "openai"
 class CharactersController < ApplicationController
   before_action :set_character
@@ -281,7 +281,7 @@ class CharactersController < ApplicationController
 
   def askai(prompt)
     client = OpenAI::Client.new(
-      access_token: ENV["OPENAI_KEY"],
+      access_token: api_key,
       log_errors: true # Highly recommended in development, so you can see what errors OpenAI is returning. Not recommended in production because it could leak private data to your logs.
     )
     print("MODEL LIST:", client.models.list)
