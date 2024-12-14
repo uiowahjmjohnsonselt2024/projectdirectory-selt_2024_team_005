@@ -214,12 +214,26 @@ class CharactersController < ApplicationController
   end
 
   def generate_monster
-    atk = rand(5..15) # Random attack between 5 and 15
-    # atk = rand(5..15) * @character.level / 2   # Random attack between 5 and 15 and scales with player level
-    def_stat = rand(5..15) # Random defense between 5 and 15
-    # def_stat = rand(5..15)  * @character.level / 2 # Random defense between 5 and 15 and scales with player level
-    hp = rand(10..20) # Random HP between 10 and 20
-    # hp = rand(10..20) * @character.level / 2 # Random HP between 10 and 20 and scales with player level
+    weapon_item = Item.find_by(item_id: @character.weapon_item_id)
+    armor_item = Item.find_by(item_id: @character.armor_item_id)
+
+    weapon = weapon_item&.itemable
+    armor = armor_item&.itemable
+
+    character_atk = (weapon ? weapon.atk_bonus : 10)
+    character_def = (armor ? armor.def_bonus : 5)
+
+    # Base scaling logic
+    atk = (character_atk * 0.5).round + rand(1..50)
+    def_stat = (character_def * 0.5).round + rand(1..50)
+    hp = (@character.level+rand(1..50)) * 20
+
+    # Ensure minimum stats to avoid extremely weak monsters
+    atk = [ atk, 5 ].max
+    def_stat = [ def_stat, 5 ].max
+    hp = [ hp, 20 ].max
+    print("stats", atk, def_stat, hp)
+
     { atk: atk, def: def_stat, hp: hp }
   end
 
@@ -230,43 +244,43 @@ class CharactersController < ApplicationController
         # return response.ascii_monster
         #
         # For demonstration, returning a static ASCII:
-        # ascii = askai("Returns ONLY the ASCII code (15 lines at most) to draw an RPG monster with #{terrain} and #{weather} weather. No explanations necessary.")
-        ascii = "
-               ___
-             .-'   `-.
-            /         \
-           |           |
-           |   O   O   |
-           |     ^     |
-           |    '-'    |
-            \         /
-             `._   _.'
-                `-'
-               /   \
-           ___|_____|___
-         /    \   /    \
-        /      \ /      \
-       |   ____|____    |
-       |  /          \   |
-       | /            \  |
-       |/______________\_|
-       /  |  |    |  |  \
-      /   |  |    |  |   \
-     /____|__|____|__|____\
-
-       ~~~~~~~~~~~~~~~
-       ~   ~ ~ ~ ~ ~ ~ ~
-        ~ ~ ~ ~ ~ ~ ~ ~ ~
-           ~ ~ ~ ~ ~ ~
-
-    "
-    ascii
+        askai("Returns ONLY the ASCII code (15 lines at most) to draw an RPG monster with #{terrain} and #{weather} weather. No explanations necessary.")
+    #     ascii = "
+    #            ___
+    #          .-'   `-.
+    #         /         \
+    #        |           |
+    #        |   O   O   |
+    #        |     ^     |
+    #        |    '-'    |
+    #         \         /
+    #          `._   _.'
+    #             `-'
+    #            /   \
+    #        ___|_____|___
+    #      /    \   /    \
+    #     /      \ /      \
+    #    |   ____|____    |
+    #    |  /          \   |
+    #    | /            \  |
+    #    |/______________\_|
+    #    /  |  |    |  |  \
+    #   /   |  |    |  |   \
+    #  /____|__|____|__|____\
+    #
+    #    ~~~~~~~~~~~~~~~
+    #    ~   ~ ~ ~ ~ ~ ~ ~
+    #     ~ ~ ~ ~ ~ ~ ~ ~ ~
+    #        ~ ~ ~ ~ ~ ~
+    #
+    # "
+    # ascii
   end
 
   def askai(prompt)
-    api_key=" "
     client = OpenAI::Client.new(
-      access_token: api_key,
+      # access_token: api_key, # Use this when developing locally
+      access_token: ENV["OPENAI_KEY"], # Use this for deployment to Heroku
       log_errors: true # Highly recommended in development, so you can see what errors OpenAI is returning. Not recommended in production because it could leak private data to your logs.
     )
     print("MODEL LIST:", client.models.list)

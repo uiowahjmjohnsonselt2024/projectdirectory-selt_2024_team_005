@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/config/environment.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/config/environment.rb": {
         "lines": [
           null,
           1,
@@ -10,7 +10,7 @@
           1
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/config/application.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/config/application.rb": {
         "lines": [
           1,
           null,
@@ -41,7 +41,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/config/boot.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/config/boot.rb": {
         "lines": [
           1,
           null,
@@ -49,7 +49,7 @@
           1
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/config/environments/test.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/config/environments/test.rb": {
         "lines": [
           1,
           null,
@@ -124,7 +124,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/config/initializers/assets.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/config/initializers/assets.rb": {
         "lines": [
           null,
           null,
@@ -140,7 +140,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/config/initializers/content_security_policy.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/config/initializers/content_security_policy.rb": {
         "lines": [
           null,
           null,
@@ -151,38 +151,6 @@
           null,
           null,
           null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/config/initializers/filter_parameter_logging.rb": {
-        "lines": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          1,
-          null,
-          null
-        ]
-      },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/config/initializers/inflections.rb": {
-        "lines": [
           null,
           null,
           null,
@@ -201,7 +169,39 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/config/initializers/permissions_policy.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/config/initializers/filter_parameter_logging.rb": {
+        "lines": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null
+        ]
+      },
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/config/initializers/inflections.rb": {
+        "lines": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/config/initializers/permissions_policy.rb": {
         "lines": [
           null,
           null,
@@ -218,7 +218,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/factories/armors.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/factories/armors.rb": {
         "lines": [
           1,
           1,
@@ -228,25 +228,11 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/factories/cells.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/factories/cells.rb": {
         "lines": [
           1,
           1,
           1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          null,
-          null
-        ]
-      },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/factories/characters.rb": {
-        "lines": [
           1,
           1,
           1,
@@ -259,30 +245,44 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/factories/grids.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/factories/characters.rb": {
         "lines": [
           1,
           1,
           1,
-          8,
-          8,
-          8,
+          1,
+          1,
+          1,
+          1,
+          1,
           null,
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/factories/inventories.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/factories/grids.rb": {
         "lines": [
           1,
           1,
           1,
           8,
           8,
+          8,
           null,
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/factories/items.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/factories/inventories.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          8,
+          8,
+          null,
+          null
+        ]
+      },
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/factories/items.rb": {
         "lines": [
           1,
           1,
@@ -305,7 +305,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/factories/potions.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/factories/potions.rb": {
         "lines": [
           1,
           1,
@@ -315,21 +315,21 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/factories/users.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/factories/users.rb": {
         "lines": [
           1,
           1,
           1,
           1,
-          16,
-          16,
-          16,
-          16,
+          15,
+          15,
+          15,
+          15,
           null,
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/factories/weapons.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/factories/weapons.rb": {
         "lines": [
           1,
           1,
@@ -339,7 +339,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/config/routes.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/config/routes.rb": {
         "lines": [
           null,
           1,
@@ -416,7 +416,13 @@
           null,
           null,
           null,
+          null,
           1,
+          1,
+          1,
+          null,
+          null,
+          null,
           null,
           null,
           1,
@@ -444,49 +450,49 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/helpers/application_helper.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/helpers/application_helper.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/helpers/cell_helper.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/helpers/cell_helper.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/helpers/characters_helper.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/helpers/characters_helper.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/helpers/grid_helper.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/helpers/grid_helper.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/helpers/home_helper.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/helpers/home_helper.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/helpers/multiplayer_helper.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/helpers/multiplayer_helper.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/helpers/users_helper.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/helpers/users_helper.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/channels/chat_channel.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/channels/chat_channel.rb": {
         "lines": [
           1,
           1,
@@ -549,7 +555,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/channels/application_cable/channel.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/channels/application_cable/channel.rb": {
         "lines": [
           1,
           1,
@@ -557,7 +563,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/channels/multiplayer_channel_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/channels/multiplayer_channel_spec.rb": {
         "lines": [
           1,
           null,
@@ -632,7 +638,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/channels/multiplayer_channel.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/channels/multiplayer_channel.rb": {
         "lines": [
           1,
           1,
@@ -685,7 +691,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/controllers/grids_controller_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/controllers/grids_controller_spec.rb": {
         "lines": [
           1,
           null,
@@ -783,7 +789,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/controllers/grids_controller.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/controllers/grids_controller.rb": {
         "lines": [
           null,
           1,
@@ -812,11 +818,6 @@
           null,
           null,
           null,
-          1,
-          0,
-          0,
-          0,
-          null,
           null,
           1,
           0,
@@ -825,6 +826,12 @@
           null,
           null,
           1,
+          0,
+          0,
+          0,
+          null,
+          null,
+          1,
           1,
           1,
           0,
@@ -839,6 +846,8 @@
           1,
           1,
           1,
+          1,
+          null,
           1,
           null,
           null,
@@ -917,7 +926,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/controllers/application_controller.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/controllers/application_controller.rb": {
         "lines": [
           1,
           null,
@@ -932,7 +941,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/controllers/inventory_controller_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/controllers/inventory_controller_spec.rb": {
         "lines": [
           1,
           1,
@@ -1025,7 +1034,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/controllers/inventory_controller.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/controllers/inventory_controller.rb": {
         "lines": [
           1,
           1,
@@ -1101,7 +1110,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/controllers/password_resets_controller_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/controllers/password_resets_controller_spec.rb": {
         "lines": [
           1,
           1,
@@ -1168,7 +1177,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/controllers/password_resets_controller.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/controllers/password_resets_controller.rb": {
         "lines": [
           1,
           1,
@@ -1215,7 +1224,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/controllers/store_controller_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/controllers/store_controller_spec.rb": {
         "lines": [
           1,
           null,
@@ -1274,7 +1283,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/controllers/store_controller.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/controllers/store_controller.rb": {
         "lines": [
           1,
           1,
@@ -1355,7 +1364,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/controllers/users_controller_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/controllers/users_controller_spec.rb": {
         "lines": [
           1,
           null,
@@ -1626,7 +1635,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/controllers/users_controller.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/controllers/users_controller.rb": {
         "lines": [
           null,
           1,
@@ -1759,7 +1768,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/helpers/cell_helper_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/helpers/cell_helper_spec.rb": {
         "lines": [
           1,
           null,
@@ -1778,7 +1787,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/helpers/characters_helper_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/helpers/characters_helper_spec.rb": {
         "lines": [
           1,
           null,
@@ -1797,7 +1806,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/helpers/grid_helper_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/helpers/grid_helper_spec.rb": {
         "lines": [
           1,
           null,
@@ -1816,7 +1825,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/helpers/home_helper_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/helpers/home_helper_spec.rb": {
         "lines": [
           1,
           null,
@@ -1835,7 +1844,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/helpers/multiplayer_helper_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/helpers/multiplayer_helper_spec.rb": {
         "lines": [
           1,
           null,
@@ -1854,7 +1863,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/helpers/users_helper_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/helpers/users_helper_spec.rb": {
         "lines": [
           1,
           null,
@@ -1873,57 +1882,57 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/mailers/password_mailer_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/mailers/password_mailer_spec.rb": {
         "lines": [
           1,
           null,
           1,
-          1,
-          3,
-          1,
-          3,
-          null,
-          1,
-          1,
-          1,
-          1,
-          null,
-          null,
-          1,
-          null,
-          1,
-          null,
-          null,
-          1,
-          1,
-          1,
-          1,
-          1,
-          null,
-          null,
-          null
-        ]
-      },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/mailers/password_mailer.rb": {
-        "lines": [
-          1,
-          null,
-          null,
-          null,
-          null,
-          null,
           1,
           2,
-          null,
+          1,
           2,
           null,
           null,
           null,
           null,
+          null,
+          null,
+          null,
+          1,
+          null,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/mailers/application_mailer.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/mailers/password_mailer.rb": {
+        "lines": [
+          1,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/mailers/application_mailer.rb": {
         "lines": [
           1,
           1,
@@ -1931,7 +1940,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/models/cell_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/models/cell_spec.rb": {
         "lines": [
           1,
           null,
@@ -1940,7 +1949,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/models/cell.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/models/cell.rb": {
         "lines": [
           1,
           1,
@@ -1952,23 +1961,14 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/models/application_record.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/models/application_record.rb": {
         "lines": [
           1,
           1,
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/models/cells_spec.rb": {
-        "lines": [
-          1,
-          null,
-          1,
-          1,
-          null
-        ]
-      },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/models/character_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/models/cells_spec.rb": {
         "lines": [
           1,
           null,
@@ -1977,7 +1977,16 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/models/character.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/models/character_spec.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          1,
+          null
+        ]
+      },
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/models/character.rb": {
         "lines": [
           1,
           1,
@@ -2033,7 +2042,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/models/grid_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/models/grid_spec.rb": {
         "lines": [
           1,
           null,
@@ -2085,7 +2094,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/models/grid.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/models/grid.rb": {
         "lines": [
           1,
           1,
@@ -2144,7 +2153,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/models/grids_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/models/grids_spec.rb": {
         "lines": [
           1,
           null,
@@ -2153,7 +2162,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/models/inventory_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/models/inventory_spec.rb": {
         "lines": [
           1,
           null,
@@ -2162,7 +2171,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/models/inventory.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/models/inventory.rb": {
         "lines": [
           1,
           1,
@@ -2202,7 +2211,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/models/item_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/models/item_spec.rb": {
         "lines": [
           1,
           null,
@@ -2211,7 +2220,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/models/item.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/models/item.rb": {
         "lines": [
           1,
           1,
@@ -2269,7 +2278,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/models/message_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/models/message_spec.rb": {
         "lines": [
           1,
           null,
@@ -2278,7 +2287,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/models/message.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/models/message.rb": {
         "lines": [
           1,
           1,
@@ -2298,7 +2307,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/models/user_grid_visibility_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/models/user_grid_visibility_spec.rb": {
         "lines": [
           1,
           null,
@@ -2307,7 +2316,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/models/user_grid_visibility.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/models/user_grid_visibility.rb": {
         "lines": [
           1,
           1,
@@ -2316,7 +2325,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/models/user_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/models/user_spec.rb": {
         "lines": [
           1,
           null,
@@ -2430,7 +2439,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/models/user.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/models/user.rb": {
         "lines": [
           null,
           1,
@@ -2469,7 +2478,7 @@
           1,
           null,
           1,
-          25,
+          24,
           2,
           2,
           null,
@@ -2477,7 +2486,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/requests/cell_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/requests/cell_spec.rb": {
         "lines": [
           1,
           null,
@@ -2488,7 +2497,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/requests/characters_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/requests/characters_spec.rb": {
         "lines": [
           1,
           null,
@@ -2499,7 +2508,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/requests/grid_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/requests/grid_spec.rb": {
         "lines": [
           1,
           null,
@@ -2510,7 +2519,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/requests/home_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/requests/home_spec.rb": {
         "lines": [
           1,
           null,
@@ -2521,7 +2530,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/requests/multiplayer_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/requests/multiplayer_spec.rb": {
         "lines": [
           1,
           null,
@@ -2532,7 +2541,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/requests/users_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/requests/users_spec.rb": {
         "lines": [
           1,
           1,
@@ -2551,7 +2560,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/views/users/create.html.erb_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/views/users/create.html.erb_spec.rb": {
         "lines": [
           1,
           1,
@@ -2559,24 +2568,7 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/views/users/destroy.html.erb_spec.rb": {
-        "lines": [
-          1,
-          null,
-          1,
-          1,
-          null
-        ]
-      },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/views/users/new.html.erb_spec.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          null
-        ]
-      },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/spec/views/users/show.html.erb_spec.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/views/users/destroy.html.erb_spec.rb": {
         "lines": [
           1,
           null,
@@ -2585,30 +2577,24 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/models/weapon.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/views/users/new.html.erb_spec.rb": {
         "lines": [
           1,
           1,
-          null,
           1,
-          null,
-          1,
-          14,
-          14,
-          14,
-          null,
-          null,
-          1,
-          null,
-          1,
-          14,
-          null,
-          14,
-          null,
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/models/armor.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/spec/views/users/show.html.erb_spec.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          1,
+          null
+        ]
+      },
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/models/weapon.rb": {
         "lines": [
           1,
           1,
@@ -2631,7 +2617,30 @@
           null
         ]
       },
-      "/mnt/c/Users/theic/Documents/ece5820/projectdirectory-selt_2024_team_005/app/models/potion.rb": {
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/models/armor.rb": {
+        "lines": [
+          1,
+          1,
+          null,
+          1,
+          null,
+          1,
+          14,
+          14,
+          14,
+          null,
+          null,
+          1,
+          null,
+          1,
+          14,
+          null,
+          14,
+          null,
+          null
+        ]
+      },
+      "/Users/yiyang/SELT_REPOS/shards-of-the-grid-with-saas-principles/app/models/potion.rb": {
         "lines": [
           1,
           1,
@@ -2655,6 +2664,6 @@
         ]
       }
     },
-    "timestamp": 1734059823
+    "timestamp": 1734187912
   }
 }

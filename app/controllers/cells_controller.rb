@@ -38,7 +38,8 @@ class CellsController < ApplicationController
   def generate_cell_image(cell)
     # Insert api key here when not pushing
     client = OpenAI::Client.new(
-      access_token: api_key,
+      # access_token: api_key, # Use this when developing locally
+      access_token: ENV["OPENAI_KEY"], # Use this for deployment to Heroku
       log_errors: true # Highly recommended in development, so you can see what errors OpenAI is returning. Not recommended in production because it could leak private data to your logs.
     )
     prompt = "A detailed fantasy setting of a location with #{cell.terrain} terrain and #{cell.weather} weather from a wide first person perspective."
@@ -81,7 +82,7 @@ class CellsController < ApplicationController
       disaster_threshold = disaster_threshold / 2.0
     end
     if rand < disaster_threshold
-      damage = 15
+      damage = (@character.current_hp * 1/3).round
       @character = Character.find_by(username: @user.username)
       @character.send(:take_disaster_damage, damage)
       @character.save

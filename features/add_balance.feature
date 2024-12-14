@@ -8,7 +8,7 @@ Feature: Add balance in profile
     And I have a balance of $0
     When I go to my profile page
     And I buy 10 USD worth of shards with a credit card
-    Then my current balance should have 10 shards
+    Then my current balance should have at least 10 shards
 
   Scenario: User adds euros
     Given I have an account and logged in

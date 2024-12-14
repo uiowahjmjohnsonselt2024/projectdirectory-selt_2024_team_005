@@ -25,7 +25,7 @@ class User < ApplicationRecord
   end
 
   OpenExchangeRates.configure do |config|
-    config.app_id = "b18f902551cc4ef9af757b0ab10b39b5"
+    config.app_id = ENV["OER_KEY"]
   end
   def get_exchange_rate(currency)
     fx = OpenExchangeRates::Rates.new
