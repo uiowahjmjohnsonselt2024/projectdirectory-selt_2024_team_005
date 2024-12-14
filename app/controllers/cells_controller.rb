@@ -81,7 +81,7 @@ class CellsController < ApplicationController
       disaster_threshold = disaster_threshold / 2.0
     end
     if rand < disaster_threshold
-      damage = 15
+      damage = (@character.current_hp * 1/3).round
       @character = Character.find_by(username: @user.username)
       @character.send(:take_disaster_damage, damage)
       @character.save
