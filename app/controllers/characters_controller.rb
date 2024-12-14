@@ -246,37 +246,37 @@ class CharactersController < ApplicationController
         # return response.ascii_monster
         #
         # For demonstration, returning a static ASCII:
-        # ascii = askai("Returns ONLY the ASCII code (15 lines at most) to draw an RPG monster with #{terrain} and #{weather} weather. No explanations necessary.")
-        ascii = "
-               ___
-             .-'   `-.
-            /         \
-           |           |
-           |   O   O   |
-           |     ^     |
-           |    '-'    |
-            \         /
-             `._   _.'
-                `-'
-               /   \
-           ___|_____|___
-         /    \   /    \
-        /      \ /      \
-       |   ____|____    |
-       |  /          \   |
-       | /            \  |
-       |/______________\_|
-       /  |  |    |  |  \
-      /   |  |    |  |   \
-     /____|__|____|__|____\
-
-       ~~~~~~~~~~~~~~~
-       ~   ~ ~ ~ ~ ~ ~ ~
-        ~ ~ ~ ~ ~ ~ ~ ~ ~
-           ~ ~ ~ ~ ~ ~
-
-    "
-    ascii
+        askai("Returns ONLY the ASCII code (15 lines at most) to draw an RPG monster with #{terrain} and #{weather} weather. No explanations necessary.")
+    #     ascii = "
+    #            ___
+    #          .-'   `-.
+    #         /         \
+    #        |           |
+    #        |   O   O   |
+    #        |     ^     |
+    #        |    '-'    |
+    #         \         /
+    #          `._   _.'
+    #             `-'
+    #            /   \
+    #        ___|_____|___
+    #      /    \   /    \
+    #     /      \ /      \
+    #    |   ____|____    |
+    #    |  /          \   |
+    #    | /            \  |
+    #    |/______________\_|
+    #    /  |  |    |  |  \
+    #   /   |  |    |  |   \
+    #  /____|__|____|__|____\
+    #
+    #    ~~~~~~~~~~~~~~~
+    #    ~   ~ ~ ~ ~ ~ ~ ~
+    #     ~ ~ ~ ~ ~ ~ ~ ~ ~
+    #        ~ ~ ~ ~ ~ ~
+    #
+    # "
+    # ascii
   end
 
   def askai(prompt)
