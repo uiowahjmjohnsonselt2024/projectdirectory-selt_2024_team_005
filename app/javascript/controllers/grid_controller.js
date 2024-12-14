@@ -267,6 +267,50 @@ export default class extends Controller {
         }
     }
 
+    gridExpansion(){
+        document.addEventListener("DOMContentLoaded", () => {
+            const expandButton = document.getElementById("expand-grid-button");
+
+            if (expandButton) {
+                expandButton.addEventListener("click", async (event) => {
+                    event.preventDefault();
+                    const gridId = expandButton.dataset.gridId;
+
+                    try {
+                        const response = await fetch(`/grids/${gridId}/expand`, {
+                            method: "PATCH",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content,
+                            },
+                        });
+
+                        if (!response.ok) {
+                            const errorText = await response.text();
+                            throw new Error(`Request failed: ${errorText}`);
+                        }
+
+                        const data = await response.json();
+
+                        if (data.success) {
+                            alert(data.message || "Grid expanded successfully!");
+                            // Dynamically update shard balance and grid visibility
+                            document.getElementById("shard-balance").textContent = data.shard_balance;
+                            document.getElementById("grid-visibility").textContent = data.visibility;
+                        } else {
+                            alert(data.message || "Failed to expand the grid.");
+                        }
+                    } catch (error) {
+                        console.error("Error expanding the grid:", error);
+                        alert("An unexpected error occurred.");
+                    }
+                });
+            }
+        });
+
+
+    }
+
     updateGridBackground(cellId) {
         fetch(`/cells/${cellId}`)
             .then(response => response.json())

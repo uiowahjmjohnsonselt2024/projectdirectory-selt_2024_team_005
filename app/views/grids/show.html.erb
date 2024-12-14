@@ -71,11 +71,34 @@
         <% end %>
       </div>
 
+<!--      <%# if @visibility < Grid::GRID_SIZE %>
+        <button
+            id="expand-grid-button"
+            class="shards-button"
+            data-grid-id="<%#= @grid.id %>">
+          Expand (costs 10 shards)
+        </button>
+      <%# else %>
+        <p id="grid-status">Maximum grid size reached.</p>
+      <%# end %>-->
+
+      <p>Grid Visibility: <span id="grid-visibility"><%= @visibility %></span></p>
       <% if @visibility < Grid::GRID_SIZE %>
-        <%= button_to 'Expand (costs 10 shards)', expand_grid_path(@grid), method: :patch, class: 'shards-button' %>
+        <button
+            id="expand-grid-button"
+            class="shards-button"
+            data-grid-id="<%= @grid.id %>">
+          Expand (costs 10 shards)
+        </button>
       <% else %>
         <p>Maximum grid size reached.</p>
       <% end %>
+
+<!--      <%# if @visibility < Grid::GRID_SIZE %>
+        <%#= button_to 'Expand (costs 10 shards)', expand_grid_path(@grid), method: :patch, class: 'shards-button', data: {turbo: false} %>
+      <%# else %>
+        <p>Maximum grid size reached.</p>
+      <%# end %>-->
 
     </div>
 

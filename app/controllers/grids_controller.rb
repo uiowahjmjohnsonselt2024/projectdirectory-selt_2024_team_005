@@ -62,9 +62,9 @@ class GridsController < ApplicationController
   def expand
     @grid = Grid.find_by(grid_id: params[:id])
     if @grid.nil?
-      #flash[:error] = "Grid not found"
-      #redirect_to grids_path
-      render json: { error: "Grid not found" }, status: :not_found
+      flash[:error] = "Grid not found"
+      redirect_to grids_path
+      #render json: { error: "Grid not found" }, status: :not_found
     else
       current_visibility = @user.visibility_for(@grid)
       if current_visibility < Grid::GRID_SIZE
@@ -73,17 +73,33 @@ class GridsController < ApplicationController
           @user.save
           new_visibility = current_visibility + 1
           @user.set_visibility_for(@grid, new_visibility)
-          # flash[:notice] = "Grid expanded successfully"
-          render json: { message: "Grid expanded successfully", visibility: new_visibility, shard_balance: @user.shard_balance }, status: :ok
+          @success_message = "Grid expanded successfully"
+          # flash[:alert] = "Grid expanded successfully"
+          # render json: { message: "Grid expanded successfully", visibility: new_visibility, shard_balance: @user.shard_balance }, status: :ok
         else
+          @error_message = "Not enough shards to expand the grid"
           # flash[:alert] = "Not enough shards to expand the grid"
-          render json: { error: "Not enough shards to expand the grid" }, status: :unprocessable_entity
+          # render json: { error: "Not enough shards to expand the grid" }, status: :unprocessable_entity
         end
       else
+        @error_message = "Maximum grid size reached"
         # flash[:alert] = "Maximum grid size reached"
-        render json: { error: "Maximum grid size reached" }, status: :unprocessable_entity
+        # render json: { error: "Maximum grid size reached" }, status: :unprocessable_entity
       end
       # redirect_to @grid
+      respond_to do |format|
+        format.html do
+          redirect_to @grid, notice: @success_message, alert: @error_message
+        end
+        format.json do
+          render json: {
+            success: @success_message.present?,
+            message: @success_message || @error_message,
+            visibility: @user.visibility_for(@grid),
+            shard_balance: @user.shard_balance
+          }
+        end
+      end
     end
   end
 
