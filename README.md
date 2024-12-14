@@ -13,6 +13,10 @@ rbenv 3.3.0
 4. Run rails server -p 3000 -b 0.0.0.0 to launch server
 5. Login using the given login for classes or username: abcd and password: 54321
 
+# Running Test Suite
+Run tests using rspec to run all tests and add route if want to run specific
+Also have cucumber tests which can be run with normal commands 
+
 # Features 
 - Users can buy shards and use currency conversions to be able to do so
 - Users can buy weapons, armor, and potions to better defend their character when on the grid
