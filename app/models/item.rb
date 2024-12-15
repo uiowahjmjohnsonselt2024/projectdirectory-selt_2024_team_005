@@ -5,6 +5,19 @@ class Item < ApplicationRecord
   before_save :set_defaults, if: :new_record?
   after_save :update_itemable_attributes
 
+  scope :ordered_by_type_level_rarity, -> {
+    order(
+      Arel.sql("CASE
+                 WHEN itemable_type = 'Weapon' THEN 1
+                 WHEN itemable_type = 'Armor' THEN 2
+                 WHEN itemable_type = 'Potion' THEN 3
+                 ELSE 4
+               END"),
+      :level,
+      :rarity
+    )
+  }
+
   RARITY_NAMES = {
     1 => "Common",
     2 => "Uncommon",
