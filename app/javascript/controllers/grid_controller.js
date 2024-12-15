@@ -285,11 +285,33 @@ export default class extends Controller {
         fetch(`/cells/${cellId}`)
             .then(response => response.json())
             .then(data => {
-                const gridElement = document.querySelector(".grid");  // Get the grid element
+                const gridElement = document.querySelector(".grid"); // Get the grid element
+                const currentTime = new Date();
+                const expiresAt = new Date(data.expires_at);
 
-                if (gridElement) {
-                    // Set the background image of the grid element correctly
-                    gridElement.style.backgroundImage = `url('${data.image_url}')`;
+                // Ensure the background-container exists
+                let backgroundContainer = gridElement.querySelector(".background-container");
+                if (!backgroundContainer) {
+                    backgroundContainer = document.createElement("div");
+                    backgroundContainer.classList.add("background-container");
+                    gridElement.appendChild(backgroundContainer);
+                }
+
+                if (data.image_url && expiresAt > currentTime) {
+                    // Use the existing image if it hasn't expired
+                    backgroundContainer.style.setProperty("--background-image", `url('${data.image_url}')`);
+                } else {
+                    // Generate a new image if missing or expired
+                    fetch(`/cells/${cellId}/generate_image`)
+                        .then(imageResponse => imageResponse.json())
+                        .then(imageData => {
+                            if (imageData.image_url) {
+                                backgroundContainer.style.setProperty("--background-image", `url('${imageData.image_url}')`);
+                            } else {
+                                console.error("Image generation failed.");
+                            }
+                        })
+                        .catch(error => console.error("Error generating image:", error));
                 }
 
                 // Update the UI with other cell information
@@ -299,18 +321,16 @@ export default class extends Controller {
                 <button class="teleport-btn" data-cell-id="${cellId}">Teleport</button>
                 <p><strong>NOTE:</strong> Teleporting costs 5 shards.</p>
                 <div id="generated-image-container">
-                    <p>Loading image...</p>
+                    <p>Exploring area...</p>
                 </div>
             `;
 
-                // Fetch the generated image for the cell
                 fetch(`/cells/${cellId}/generate_image`)
                     .then(imageResponse => imageResponse.json())
                     .then(imageData => {
                         const imageContainer = this.detailsTarget.querySelector("#generated-image-container");
 
                         if (imageData.image_url) {
-                            // Insert the generated image into the container (for displaying the image elsewhere)
                             imageContainer.innerHTML = `<img src="${imageData.image_url}" alt="Generated Cell Image">`;
                         } else {
                             imageContainer.innerHTML = `<p>Image could not be generated.</p>`;
@@ -326,6 +346,8 @@ export default class extends Controller {
                 console.error("Failed to fetch cell data:", error);
             });
     }
+
+
 
     addCharacterToGrid(character) {
         const { character_name, cell_id, hp, exp, level } = character;
