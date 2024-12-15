@@ -39,9 +39,9 @@ end
 
 
 @first_cell = @grid.cells.order(:cell_id).first
-@item1 = Item.find_or_create_by!(itemable: Weapon.create!(name: 'Wooden Sword', atk_bonus: 10), cost: 1) # default weapon
-@item2 = Item.find_or_create_by!(itemable: Armor.create!(name: 'Leather Armor', def_bonus: 5), cost: 1) # default armor
-@item3 = Item.find_or_create_by!(itemable: Potion.create!(name: 'Health Potion XS', hp_regen: 100), cost: 1) # basic potion
+@item1 = Item.find_or_create_by!(itemable: Weapon.create!(name: 'Wooden Sword', atk_bonus: 50), cost: 1) # default weapon
+@item2 = Item.find_or_create_by!(itemable: Armor.create!(name: 'Leather Armor', def_bonus: 25), cost: 1) # default armor
+@item3 = Item.find_or_create_by!(itemable: Potion.create!(name: 'Health Potion XS', hp_regen: 150), cost: 0) # basic potion
 @item4 = FactoryBot.create(:item, :weapon)
 @item5 = FactoryBot.create(:item, :weapon)
 @item6 = FactoryBot.create(:item, :weapon)
