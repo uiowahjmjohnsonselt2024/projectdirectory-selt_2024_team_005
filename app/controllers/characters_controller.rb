@@ -217,8 +217,8 @@ class CharactersController < ApplicationController
     character_level = @character.level
 
     # Base scaling logic
-    atk = (character_level * 0.5).round + rand(1..50)
-    def_stat = (character_level * 0.5).round + rand(1..50)
+    atk = (character_level * 0.5).round + rand(15..50)
+    def_stat = (character_level * 0.5).round + rand(15..50)
     hp = (character_level+rand(1..50)) * 20
 
     # Ensure minimum stats to avoid extremely weak monsters
