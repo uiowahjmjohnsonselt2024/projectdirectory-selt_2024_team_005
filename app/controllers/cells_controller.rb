@@ -24,14 +24,27 @@ class CellsController < ApplicationController
   def generate_image
     @cell = Cell.find(params[:id])
 
+    # Check if the image exists and is still valid
+    if @cell.image_url.present? && @cell.expires_at.present? && Time.current <= @cell.expires_at
+      render json: { image_url: @cell.image_url }
+      return
+    end
+
+    # Otherwise, generate a new image
     image_url = generate_cell_image(@cell)
 
     if image_url
+      # Update the cell with the new image URL and reset the expiry time
+      @cell.update(
+        image_url: image_url,
+        expires_at: 58.minutes.from_now # Set expiry time to 58 minutes from now
+      )
       render json: { image_url: image_url }
     else
       render json: { error: "Image generation failed" }, status: :unprocessable_entity
     end
   end
+
 
   private
 
