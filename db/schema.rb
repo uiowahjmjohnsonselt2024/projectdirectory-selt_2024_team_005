@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_13_021902) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_15_001008) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -33,6 +33,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_13_021902) do
     t.integer "grid_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image_url"
+    t.datetime "expires_at"
     t.index ["cell_id"], name: "index_cells_on_cell_id", unique: true
   end
 

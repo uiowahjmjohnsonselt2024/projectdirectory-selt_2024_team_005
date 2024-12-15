@@ -2,7 +2,7 @@ class StoreController < ApplicationController
   def shards_store
     @user = User.find_by!(username: params[:username])
     @character = Character.find_by(username: params[:username])
-    @items = Item.all
+    @items = Item.ordered_by_type_level_rarity
     @grid = Grid.find_by(grid_id: params[:id])
     @grids = Grid.all
   end

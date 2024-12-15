@@ -5,8 +5,13 @@
 <div class="store-items">
   <% @items.each do |item| %>
     <div class="item">
-      <h2><%= item.itemable.name %></h2>
-      <p><%= item.category %></p>
+      <p style="color: <%= item&.rarity_color %>; background-color: rgba(0, 0, 0, 0.5); padding: 2px 5px; border-radius: 3px;">
+        <%= item.rarity_name %>
+      </p>
+      <p style="font-weight: bold;"><%= item.category %></p>
+      <h2><%= item.name %></h2>
+      <p style="font-weight: bold;">Lv <%= item.level %></p>
+      <p><%= item.description %></p>
       <p>Price: <%= item.cost%> shards</p>
       <%= form_with(url: buy_item_path(@user.username, item.id), method: :post, local: true) do |form| %>
         <%= form.submit 'Buy Now', class: 'shards-button' %>

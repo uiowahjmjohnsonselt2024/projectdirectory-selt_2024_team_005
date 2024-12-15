@@ -214,19 +214,12 @@ class CharactersController < ApplicationController
   end
 
   def generate_monster
-    weapon_item = Item.find_by(item_id: @character.weapon_item_id)
-    armor_item = Item.find_by(item_id: @character.armor_item_id)
-
-    weapon = weapon_item&.itemable
-    armor = armor_item&.itemable
-
-    character_atk = (weapon ? weapon.atk_bonus : 10)
-    character_def = (armor ? armor.def_bonus : 5)
+    character_level = @character.level
 
     # Base scaling logic
-    atk = (character_atk * 0.5).round + rand(1..50)
-    def_stat = (character_def * 0.5).round + rand(1..50)
-    hp = (@character.level+rand(1..50)) * 20
+    atk = (character_level * 0.5).round + rand(15..50)
+    def_stat = (character_level * 0.5).round + rand(15..50)
+    hp = (character_level+rand(1..50)) * 20
 
     # Ensure minimum stats to avoid extremely weak monsters
     atk = [ atk, 5 ].max
